@@ -1,15 +1,48 @@
+import { otpsApi } from "@/api/otps";
 import { AuthHeader } from "@/components/AuthHeader";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { useStyleThemed } from "@/theme";
-import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useMutation } from "@tanstack/react-query";
+import { Href, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
 export default function LoginScreen() {
   const router = useRouter();
   const [value, setValue] = useState("");
+
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: (value: string) => {
+      return otpsApi.create(
+        value.includes("@") ? { email: value } : { phoneNumber: value }
+      );
+    },
+    async onSuccess(data) {
+      try {
+        const res = await otpsApi.custom<{
+          jwt: string;
+          user: {
+            role: any;
+          };
+        }>("/otps/verify", {
+          method: "POST",
+          body: { code: data.code },
+        });
+
+        await AsyncStorage.setItem("token", res.jwt);
+        const href: Href =
+          res.user.role.name === "Player" ? "/player" : "/club";
+
+        router.navigate(href);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
   const styles = useStyleThemed((t) => ({
     container: {
       flex: 1,
@@ -28,6 +61,14 @@ export default function LoginScreen() {
     },
   }));
 
+  const onSend = () => {
+    console.log(value);
+
+    mutate(value);
+  };
+
+  console.log(error, isPending);
+
   return (
     <View style={styles.container}>
       <AuthHeader
@@ -44,7 +85,7 @@ export default function LoginScreen() {
       />
       <ThemedButton
         title="Send OTP"
-        onPress={() => {}}
+        onPress={onSend}
         variant="primary"
         style={{ marginTop: 12 }}
       />

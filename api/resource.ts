@@ -7,24 +7,23 @@ export function createResource<T>(prefix: string) {
 
     get: (id: number | string) => api<T>(`${prefix}/${id}`),
 
-    create: (data: Partial<T>, token?: string) =>
+    create: (data: Partial<T>) =>
       api<T>(prefix, {
         method: "POST",
-        body: { data },
-        token,
+        body: data,
       }),
 
-    update: (id: number | string, data: Partial<T>, token?: string) =>
+    update: (id: number | string, data: Partial<T>) =>
       api<T>(`${prefix}/${id}`, {
         method: "PUT",
         body: { data },
-        token,
       }),
 
-    remove: (id: number | string, token?: string) =>
+    remove: (id: number | string) =>
       api<void>(`${prefix}/${id}`, {
         method: "DELETE",
-        token,
       }),
+
+    custom: <R>(url: string, options?: any) => api<R>(url, options),
   };
 }

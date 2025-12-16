@@ -1,28 +1,19 @@
 import Splash from "@/components/Splash";
+import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { Redirect } from "expo-router";
-import { useEffect, useState } from "react";
 
 const AppIndex = () => {
-  const [loggedIn] = useState(false);
-  const [isClub, setIsClub] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading } = useGetCurrentUser();
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsClub(false);
-      setLoading(false);
-    }, 3000);
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <Splash />;
   }
 
-  if (!loggedIn) {
+  if (!data) {
     return <Redirect href="/auth/login" />;
   }
 
-  if (isClub) {
+  if (data?.role?.name === "Club") {
     return <Redirect href="/club/(tabs)" />;
   }
 
