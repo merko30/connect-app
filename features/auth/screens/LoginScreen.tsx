@@ -4,9 +4,8 @@ import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { useStyleThemed } from "@/theme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation } from "@tanstack/react-query";
-import { Href, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 
@@ -20,26 +19,8 @@ export default function LoginScreen() {
         value.includes("@") ? { email: value } : { phoneNumber: value }
       );
     },
-    async onSuccess(data) {
-      try {
-        const res = await otpsApi.custom<{
-          jwt: string;
-          user: {
-            role: any;
-          };
-        }>("/otps/verify", {
-          method: "POST",
-          body: { code: data.code },
-        });
-
-        await AsyncStorage.setItem("token", res.jwt);
-        const href: Href =
-          res.user.role.name === "Player" ? "/player" : "/club";
-
-        router.navigate(href);
-      } catch (error) {
-        console.log(error);
-      }
+    async onSuccess() {
+      router.navigate("/auth/verify");
     },
   });
 
@@ -67,8 +48,6 @@ export default function LoginScreen() {
     mutate(value);
   };
 
-  console.log(error, isPending);
-
   return (
     <View style={styles.container}>
       <AuthHeader
@@ -88,6 +67,8 @@ export default function LoginScreen() {
         onPress={onSend}
         variant="primary"
         style={{ marginTop: 12 }}
+        loading={isPending}
+        disabled={value.length === 0 || isPending}
       />
       <ThemedText variant="caption" style={styles.caption}>
         Secure login with OTP. We never share your information.
