@@ -5,8 +5,6 @@ import { Redirect } from "expo-router";
 const AppIndex = () => {
   const { data, isLoading } = useGetCurrentUser();
 
-  // AsyncStorage.removeItem("token");
-
   if (isLoading) {
     return <Splash />;
   }

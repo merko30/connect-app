@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation } from "@tanstack/react-query";
 import { Href, useRouter } from "expo-router";
 import React, { Ref, useRef, useState } from "react";
-import { TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, TextInput, View } from "react-native";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -60,10 +60,11 @@ export default function LoginScreen() {
     link: { alignItems: "center" },
     linkText: { color: t.colors.secondary, fontSize: 15, fontWeight: "500" },
     caption: {
-      color: t.colors.surface,
+      color: "#333",
       fontSize: 12,
       opacity: 0.7,
       maxWidth: 320,
+      marginBottom: 12,
     },
   }));
 
@@ -96,7 +97,10 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
       <AuthHeader
         title="Verify OTP"
         caption="Enter the 6-digit code sent to your email or phone number."
@@ -136,6 +140,6 @@ export default function LoginScreen() {
         loading={isPending}
         disabled={code.replace(/\s/g, "").length < 6 || isPending}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 }

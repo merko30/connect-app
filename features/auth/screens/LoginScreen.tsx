@@ -7,7 +7,7 @@ import { useStyleThemed } from "@/theme";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -35,10 +35,11 @@ export default function LoginScreen() {
     link: { alignItems: "center" },
     linkText: { color: t.colors.secondary, fontSize: 15, fontWeight: "500" },
     caption: {
-      color: t.colors.surface,
+      color: "#333",
       fontSize: 12,
       opacity: 0.7,
       maxWidth: 320,
+      marginBottom: 12,
     },
   }));
 
@@ -49,7 +50,10 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
       <AuthHeader
         title="Sign In"
         caption="Sign in to your account to access your profile and connect with the community."
@@ -81,6 +85,6 @@ export default function LoginScreen() {
           Dont have an account? Register
         </ThemedText>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
