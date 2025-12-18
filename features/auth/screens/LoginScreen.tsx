@@ -1,5 +1,6 @@
 import { usersApi } from "@/api/auth";
 import { AuthHeader } from "@/components/AuthHeader";
+import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
@@ -10,7 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import Toast from "react-native-toast-message";
 
 export default function LoginScreen() {
@@ -92,10 +93,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.container}
-    >
+    <KeyboardAvoid style={styles.container}>
       <AuthHeader
         title={t("auth.signIn")}
         caption={t("auth.signInDescription")}
@@ -131,6 +129,6 @@ export default function LoginScreen() {
       >
         <ThemedText style={styles.linkText}>{t("auth.noAccount")}</ThemedText>
       </TouchableOpacity>
-    </KeyboardAvoidingView>
+    </KeyboardAvoid>
   );
 }

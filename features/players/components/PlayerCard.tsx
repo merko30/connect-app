@@ -14,13 +14,14 @@ export function PlayerCard({ player, onPress }: Props) {
       borderRadius: 14,
       padding: 14,
       marginBottom: 12,
-      shadowColor: "#000",
+      shadowColor: "#999",
       shadowOpacity: 0.08,
-      shadowRadius: 8,
-      shadowOffset: { width: 0, height: 4 },
-      elevation: 4,
+      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 2 },
+      elevation: 2,
       flexDirection: "row",
       alignItems: "center",
+      marginHorizontal: 0.5,
     },
     avatar: {
       width: 56,
@@ -63,7 +64,7 @@ export function PlayerCard({ player, onPress }: Props) {
         source={{
           uri:
             imageUrl ??
-            "https://ui-avatars.com/api/?name=Player&background=ddd",
+            `https://ui-avatars.com/api/?name=${name}&background=ddd`,
         }}
         style={styles.avatar}
       />

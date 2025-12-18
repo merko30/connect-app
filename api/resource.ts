@@ -1,16 +1,23 @@
+import { StrapiQuery } from "@/types/strapi";
+import { toStrapiQueryString } from "@/utils/strapi-query";
 import { api } from "./client";
 
 export function createResource<T>(prefix: string) {
   return {
-    list: (params?: string) =>
-      api<{ data: T[] }>(`${prefix}${params ? `?${params}` : ""}`),
+    list: (query?: StrapiQuery<T>) => {
+      const qs = toStrapiQueryString(query);
+      return api<{ data: T[] }>(`${prefix}${qs ? `?${qs}` : ""}`);
+    },
 
-    get: (id: number | string) => api<T>(`${prefix}/${id}`),
+    get: (id: number | string, query?: StrapiQuery<T>) => {
+      const qs = toStrapiQueryString(query);
+      return api<T>(`${prefix}/${id}${qs ? `?${qs}` : ""}`);
+    },
 
     create: (data: Partial<T>) =>
       api<T>(prefix, {
         method: "POST",
-        body: data,
+        body: { data },
       }),
 
     update: (id: number | string, data: Partial<T>) =>
