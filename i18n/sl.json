@@ -1,4 +1,12 @@
 {
+  "search": "Iskanje",
+  "profile": {
+    "title": "Profil",
+    "editProfile": "Uredi profil",
+    "viewProfile": "Ogled profila",
+    "settings": "Nastavitve",
+    "logout": "Odjava"
+  },
   "auth": {
     "signIn": "Prijava",
     "signInDescription": "Prijavite se v svoj račun za dostop do svojega profila in povezovanje s skupnostjo.",
@@ -8,6 +16,7 @@
     "wrongCredentials": "Napačni poverilnice. Poskusite znova."
   },
   "home": {
+    "title": "Domača stran",
     "welcome": "Dobrodošli, {{user}}",
     "findAndRecruit": "Poiščite in rekrutirajte nove igralce",
     "findYourNextClub": "Poiščite svoj naslednji klub",

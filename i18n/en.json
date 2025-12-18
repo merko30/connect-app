@@ -1,4 +1,12 @@
 {
+  "search": "Search",
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "viewProfile": "View Profile",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
   "auth": {
     "signIn": "Sign In",
     "signInDescription": "Sign in to your account to access your profile and connect with the community.",
@@ -8,6 +16,7 @@
     "wrongCredentials": "Wrong credentials. Please try again."
   },
   "home": {
+    "title": "Home",
     "welcome": "Welcome, {user}",
     "findAndRecruit": "Find and recruit new players",
     "findYourNextClub": "Find your next club",
