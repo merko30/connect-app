@@ -7,11 +7,13 @@ import { useStyleThemed } from "@/theme";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 
 export default function LoginScreen() {
   const router = useRouter();
   const [value, setValue] = useState("");
+  const { t } = useTranslation();
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: (value: string) => {
@@ -38,8 +40,9 @@ export default function LoginScreen() {
       color: "#333",
       fontSize: 12,
       opacity: 0.7,
-      maxWidth: 320,
       marginBottom: 12,
+      marginTop: 3,
+      textAlign: "center",
     },
   }));
 
@@ -55,8 +58,8 @@ export default function LoginScreen() {
       style={styles.container}
     >
       <AuthHeader
-        title="Sign In"
-        caption="Sign in to your account to access your profile and connect with the community."
+        title={t("auth.signIn")}
+        caption={t("auth.signInDescription")}
       />
       <ThemedTextInput
         placeholder="Enter phone or email"
