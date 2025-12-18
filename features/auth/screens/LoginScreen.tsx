@@ -1,10 +1,12 @@
-import { otpsApi } from "@/api/otps";
+import { usersApi } from "@/api/auth";
 import { AuthHeader } from "@/components/AuthHeader";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { useStyleThemed } from "@/theme";
-import { useMutation } from "@tanstack/react-query";
+import { LoginResponse, LoginValues, Role, User } from "@/types/users";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,17 +14,41 @@ import { KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 
 export default function LoginScreen() {
   const router = useRouter();
-  const [value, setValue] = useState("");
+  const [values, setValues] = useState<LoginValues>({
+    email: "amir@example.com",
+    password: "password",
+  });
+  const queryClient = useQueryClient();
+
   const { t } = useTranslation();
 
-  const { mutate, isPending, error } = useMutation({
-    mutationFn: (value: string) => {
-      return otpsApi.create(
-        value.includes("@") ? { email: value } : { phoneNumber: value }
-      );
+  const { mutate, isPending } = useMutation({
+    mutationFn: (value: LoginValues) => {
+      return usersApi.custom<LoginResponse>("/auth/local", {
+        method: "POST",
+        body: {
+          identifier: value.email,
+          password: value.password,
+        },
+      });
     },
-    async onSuccess() {
-      router.navigate("/auth/verify");
+    async onSuccess(data: LoginResponse) {
+      AsyncStorage.setItem("token", data.jwt);
+      console.log(data);
+
+      const user = await usersApi.custom<User>("/users/me", {
+        headers: {
+          Authorization: `Bearer ${data.jwt}`,
+        },
+      });
+
+      queryClient.setQueryData(["current-user"], user);
+
+      router.replace(
+        user.role.name === Role.ClubStaff.toString()
+          ? "/club/(tabs)"
+          : "/player/(tabs)"
+      );
     },
   });
 
@@ -35,21 +61,27 @@ export default function LoginScreen() {
     },
     buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
     link: { alignItems: "center" },
-    linkText: { color: t.colors.secondary, fontSize: 15, fontWeight: "500" },
-    caption: {
-      color: "#333",
-      fontSize: 12,
-      opacity: 0.7,
-      marginBottom: 12,
-      marginTop: 3,
-      textAlign: "center",
+    linkText: {
+      color: t.colors.secondary,
+      fontSize: 15,
+      fontWeight: "500",
+      marginTop: 4,
     },
   }));
 
-  const onSend = () => {
-    console.log(value);
+  const onSubmit = () => {
+    if (!values.email || !values.password) {
+      return;
+    }
 
-    mutate(value);
+    mutate(values);
+  };
+
+  const onChange = (name: string) => (value: string) => {
+    setValues((old) => ({
+      ...old,
+      [name]: value,
+    }));
   };
 
   return (
@@ -63,30 +95,34 @@ export default function LoginScreen() {
       />
       <ThemedTextInput
         placeholder="Enter phone or email"
-        value={value}
-        onChangeText={setValue}
+        value={values.email}
+        onChangeText={onChange("email")}
         keyboardType="default"
         autoCapitalize="none"
         autoCorrect={false}
       />
+      <ThemedTextInput
+        placeholder="Enter password"
+        value={values.password}
+        onChangeText={onChange("password")}
+        keyboardType="default"
+        secureTextEntry
+        autoCapitalize="none"
+        autoCorrect={false}
+      />
       <ThemedButton
-        title="Send OTP"
-        onPress={onSend}
+        title={t("auth.signIn")}
+        onPress={onSubmit}
         variant="primary"
         style={{ marginTop: 12 }}
         loading={isPending}
-        disabled={value.length === 0 || isPending}
+        disabled={isPending}
       />
-      <ThemedText variant="caption" style={styles.caption}>
-        Secure login with OTP. We never share your information.
-      </ThemedText>
       <TouchableOpacity
         style={styles.link}
         onPress={() => router.navigate("/auth/register")}
       >
-        <ThemedText style={styles.linkText}>
-          Dont have an account? Register
-        </ThemedText>
+        <ThemedText style={styles.linkText}>{t("auth.noAccount")}</ThemedText>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   );

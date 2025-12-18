@@ -1,6 +1,7 @@
 {
   "auth": {
     "signIn": "Sign In",
-    "signInDescription": "Sign in to your account to access your profile and connect with the community."
+    "signInDescription": "Sign in to your account to access your profile and connect with the community.",
+    "noAccount": "Don't have an account? Register"
   }
 }

@@ -1,6 +1,7 @@
 {
   "auth": {
     "signIn": "Prijava",
-    "signInDescription": "Prijavite se v svoj račun za dostop do svojega profila in povezovanje s skupnostjo."
+    "signInDescription": "Prijavite se v svoj račun za dostop do svojega profila in povezovanje s skupnostjo.",
+    "noAccount": "Nimate računa? Registrirajte se"
   }
 }
