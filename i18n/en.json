@@ -2,6 +2,16 @@
   "auth": {
     "signIn": "Sign In",
     "signInDescription": "Sign in to your account to access your profile and connect with the community.",
-    "noAccount": "Don't have an account? Register"
+    "noAccount": "Don't have an account? Register",
+    "passwordPlaceholder": "Enter your password",
+    "emailPlaceholder": "Enter your email address",
+    "wrongCredentials": "Wrong credentials. Please try again."
+  },
+  "home": {
+    "welcome": "Welcome, {user}",
+    "findAndRecruit": "Find and recruit new players",
+    "findYourNextClub": "Find your next club",
+    "featuredClubs": "Featured Clubs",
+    "featuredPlayers": "Featured Players"
   }
 }

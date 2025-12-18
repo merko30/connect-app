@@ -2,6 +2,16 @@
   "auth": {
     "signIn": "Prijava",
     "signInDescription": "Prijavite se v svoj račun za dostop do svojega profila in povezovanje s skupnostjo.",
-    "noAccount": "Nimate računa? Registrirajte se"
+    "noAccount": "Nimate računa? Registrirajte se",
+    "emailPlaceholder": "Vnesite svoj e-poštni naslov",
+    "passwordPlaceholder": "Vnesite svoje geslo",
+    "wrongCredentials": "Napačni poverilnice. Poskusite znova."
+  },
+  "home": {
+    "welcome": "Dobrodošli, {{user}}",
+    "findAndRecruit": "Poiščite in rekrutirajte nove igralce",
+    "findYourNextClub": "Poiščite svoj naslednji klub",
+    "featuredClubs": "Priporočeni klubi",
+    "featuredPlayers": "Priporočeni igralci"
   }
 }

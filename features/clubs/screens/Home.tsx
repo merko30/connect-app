@@ -1,14 +1,18 @@
 import { playersApi } from "@/api/players";
 import { ThemedText } from "@/components/ThemedText";
 import Welcome from "@/components/Welcome";
+import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { PlayerCard } from "@/features/players/components/PlayerCard";
 import { createStyle, useStyle } from "@/theme";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
 
 export function ClubHome() {
   const styles = useStyle(stylesheet);
+  const { t } = useTranslation();
+  const { data: me } = useGetCurrentUser();
   const { data } = useQuery({
     queryKey: ["players"],
     queryFn: () => playersApi.list(),
@@ -17,10 +21,13 @@ export function ClubHome() {
 
   return (
     <>
-      <Welcome title="Welcome, Amir" subtitle="Find and recruit new players" />
+      <Welcome
+        title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
+        subtitle={t("home.findAndRecruit")}
+      />
       <View style={styles.listContainer}>
         <ThemedText variant="subtitle" style={styles.title}>
-          Find your new star
+          {t("home.featuredPlayers")}
         </ThemedText>
         <FlatList
           data={players}

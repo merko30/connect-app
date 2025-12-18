@@ -11,6 +11,7 @@ import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
+import Toast from "react-native-toast-message";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -49,6 +50,12 @@ export default function LoginScreen() {
           ? "/club/(tabs)"
           : "/player/(tabs)"
       );
+    },
+    onError: () => {
+      Toast.show({
+        type: "error",
+        text1: t("auth.wrongCredentials"),
+      });
     },
   });
 
@@ -94,7 +101,7 @@ export default function LoginScreen() {
         caption={t("auth.signInDescription")}
       />
       <ThemedTextInput
-        placeholder="Enter phone or email"
+        placeholder={t("auth.emailPlaceholder")}
         value={values.email}
         onChangeText={onChange("email")}
         keyboardType="default"
@@ -102,7 +109,7 @@ export default function LoginScreen() {
         autoCorrect={false}
       />
       <ThemedTextInput
-        placeholder="Enter password"
+        placeholder={t("auth.passwordPlaceholder")}
         value={values.password}
         onChangeText={onChange("password")}
         keyboardType="default"

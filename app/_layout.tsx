@@ -5,6 +5,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { themes } from "@/theme";
 import { ThemeProvider } from "@pavelgric/react-native-theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Toast from "react-native-toast-message";
 
 import "@/i18n/index";
 
@@ -20,6 +21,7 @@ export default function RootLayout() {
         initialTheme={colorScheme as "light" | "dark"}
       >
         <Slot />
+        <Toast topOffset={70} />
       </ThemeProvider>
     </QueryClientProvider>
   );

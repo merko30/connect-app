@@ -1,13 +1,17 @@
 import { clubsApi } from "@/api/clubs";
 import Welcome from "@/components/Welcome";
+import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { ClubCard } from "@/features/clubs/components/ClubCard";
 import { createStyle, useStyle } from "@/theme";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, Text, View } from "react-native";
 
 export function PlayerHome() {
   const styles = useStyle(stylesheet);
+  const { t } = useTranslation();
+  const { data: me } = useGetCurrentUser();
   const { data, error } = useQuery({
     queryKey: ["clubs"],
     queryFn: () => clubsApi.list(),
@@ -19,12 +23,12 @@ export function PlayerHome() {
   return (
     <>
       <Welcome
-        title="Welcome, Merim"
-        subtitle="Find your next club"
+        title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
+        subtitle={t("home.findYourNextClub")}
         color="secondary"
       />
       <View style={styles.listContainer}>
-        <Text style={styles.title}>Find your new club</Text>
+        <Text style={styles.title}>{t("home.featuredClubs")}</Text>
         <FlatList
           data={clubs}
           keyExtractor={(item) => item.id.toString()}

@@ -1,5 +1,6 @@
 import Splash from "@/components/Splash";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
+import { Role } from "@/types/users";
 import { Redirect } from "expo-router";
 
 const AppIndex = () => {
@@ -13,7 +14,7 @@ const AppIndex = () => {
     return <Redirect href="/auth/login" />;
   }
 
-  if (data?.role?.name === "Club") {
+  if (data?.role?.name === Role.ClubStaff.toString()) {
     return <Redirect href="/club/(tabs)" />;
   }
 
