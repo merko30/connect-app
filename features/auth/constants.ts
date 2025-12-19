@@ -35,7 +35,7 @@ export const SECONDARY_POSITIONS = [
 export const playerRegisterSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
-  dateOfBirth: z.string().min(1, "Date of birth is required"),
+  dateOfBirth: z.instanceof(Date).nullable(),
   nationality: z.string().min(1, "Nationality is required"),
   heightCm: z.preprocess(
     (val) => (val === "" ? undefined : Number(val)),

@@ -4,6 +4,7 @@ import { AuthHeader } from "@/components/AuthHeader";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 
+import { FormDatePicker } from "@/components/FormDatepicker";
 import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
 import { useStyleThemed } from "@/theme";
@@ -68,6 +69,7 @@ export default function RegisterScreen() {
     resolver: zodResolver(playerRegisterSchema) as any, // type workaround for zodResolver
     defaultValues: {
       preferredFoot: "right",
+      dateOfBirth: new Date(),
       isFreeAgent: false,
     },
   });
@@ -107,10 +109,10 @@ export default function RegisterScreen() {
             placeholder="Last Name"
           />
 
-          {/* TODO: ADD PICKER */}
-          <FormInput
+          <FormDatePicker
             control={control}
             name="dateOfBirth"
+            label="Date of birth"
             placeholder="Date of Birth (YYYY-MM-DD)"
           />
 
@@ -140,12 +142,10 @@ export default function RegisterScreen() {
             />
           </View>
 
-          {/* Availability From */}
-          {/* TODO: ADD PICKER */}
-          <FormInput
+          <FormDatePicker
             control={control}
             name="availabilityFrom"
-            placeholder="Availability From (YYYY-MM-DD)"
+            label="Available from"
           />
 
           {/* Location */}
