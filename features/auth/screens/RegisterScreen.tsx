@@ -10,7 +10,7 @@ import { useStyleThemed } from "@/theme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import { ScrollView, Switch, TouchableOpacity, View } from "react-native";
 import {
   PlayerRegisterForm,
@@ -64,13 +64,14 @@ export default function RegisterScreen() {
     },
   }));
 
-  const { control, handleSubmit, getValues } = useForm<PlayerRegisterForm>({
+  const form = useForm<PlayerRegisterForm>({
     resolver: zodResolver(playerRegisterSchema) as any, // type workaround for zodResolver
     defaultValues: {
       preferredFoot: "right",
       isFreeAgent: false,
     },
   });
+  const { control, handleSubmit, getValues } = form;
 
   const onSubmit = (data: PlayerRegisterForm) => {
     setFormState(data);
@@ -81,176 +82,183 @@ export default function RegisterScreen() {
   console.log(getValues());
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        flexGrow: 1,
-        justifyContent: "center",
-      }}
-    >
-      <View style={styles.container}>
-        <AuthHeader
-          title="Player Registration"
-          caption="Create your player profile to join the community and connect with clubs."
-        />
+    <FormProvider {...form}>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "center",
+        }}
+      >
+        <View style={styles.container}>
+          <AuthHeader
+            title="Player Registration"
+            caption="Create your player profile to join the community and connect with clubs."
+          />
 
-        <FormInput
-          name="firstName"
-          control={control}
-          placeholder="First Name"
-        />
+          <FormInput
+            name="firstName"
+            control={control}
+            placeholder="First Name"
+          />
 
-        <FormInput control={control} name="lastName" placeholder="Last Name" />
-
-        {/* TODO: ADD PICKER */}
-        <FormInput
-          control={control}
-          name="dateOfBirth"
-          placeholder="Date of Birth (YYYY-MM-DD)"
-        />
-
-        {/* Nationality */}
-        {/* TODO: ADD PICKER */}
-        <FormInput
-          control={control}
-          name="nationality"
-          placeholder="Nationality"
-        />
-
-        {/* Height and Weight */}
-        <View style={styles.row}>
           <FormInput
             control={control}
-            name="heightCm"
-            placeholder="Height (cm)"
-            keyboardType="numeric"
-            style={{ flex: 1 }}
+            name="lastName"
+            placeholder="Last Name"
           />
+
+          {/* TODO: ADD PICKER */}
           <FormInput
             control={control}
-            name="weightKg"
-            placeholder="Weight (kg)"
-            keyboardType="numeric"
-            style={{ flex: 1 }}
+            name="dateOfBirth"
+            placeholder="Date of Birth (YYYY-MM-DD)"
           />
-        </View>
 
-        {/* Availability From */}
-        {/* TODO: ADD PICKER */}
-        <FormInput
-          control={control}
-          name="availabilityFrom"
-          placeholder="Availability From (YYYY-MM-DD)"
-        />
+          {/* Nationality */}
+          {/* TODO: ADD PICKER */}
+          <FormInput
+            control={control}
+            name="nationality"
+            placeholder="Nationality"
+          />
 
-        {/* Location */}
-        <FormInput
-          control={control}
-          name="location"
-          placeholder="Location (optional)"
-        />
+          {/* Height and Weight */}
+          <View style={styles.row}>
+            <FormInput
+              control={control}
+              name="heightCm"
+              placeholder="Height (cm)"
+              keyboardType="numeric"
+              style={{ flex: 1 }}
+            />
+            <FormInput
+              control={control}
+              name="weightKg"
+              placeholder="Weight (kg)"
+              keyboardType="numeric"
+              style={{ flex: 1 }}
+            />
+          </View>
 
-        {/* Current Club */}
-        <FormInput
-          control={control}
-          name="currentClub"
-          placeholder="Current Club (optional)"
-        />
+          {/* Availability From */}
+          {/* TODO: ADD PICKER */}
+          <FormInput
+            control={control}
+            name="availabilityFrom"
+            placeholder="Availability From (YYYY-MM-DD)"
+          />
 
-        {/* Preferred Foot */}
-        <FormPicker
-          control={control}
-          name="preferredFoot"
-          label="Prefered foot"
-          options={[
-            {
-              label: "Left",
-              value: "left",
-            },
-            {
-              label: "Right",
-              value: "right",
-            },
-          ]}
-        />
+          {/* Location */}
+          <FormInput
+            control={control}
+            name="location"
+            placeholder="Location (optional)"
+          />
 
-        {/* Primary Position */}
-        <FormPicker
-          control={control}
-          name="primaryPosition"
-          label="Primary position"
-          options={PRIMARY_POSITIONS.map((pos) => ({
-            label: pos,
-            value: pos,
-          }))}
-        />
+          {/* Current Club */}
+          <FormInput
+            control={control}
+            name="currentClub"
+            placeholder="Current Club (optional)"
+          />
 
-        {/* Secondary Positions (multi-select) */}
-        <FormPicker
-          control={control}
-          name="secondaryPositions"
-          label="Secondary position"
-          options={SECONDARY_POSITIONS.map((pos) => ({
-            label: pos,
-            value: pos,
-          }))}
-        />
+          {/* Preferred Foot */}
+          <FormPicker
+            control={control}
+            name="preferredFoot"
+            label="Prefered foot"
+            options={[
+              {
+                label: "Left",
+                value: "left",
+              },
+              {
+                label: "Right",
+                value: "right",
+              },
+            ]}
+          />
 
-        {/* Experience Level */}
-        <FormPicker
-          control={control}
-          name="experienceLevel"
-          label="Experience Level"
-          options={[
-            { label: "Beginner", value: "Beginner" },
-            { label: "Intermediate", value: "Intermediate" },
-            { label: "Advanced", value: "Advanced" },
-            { label: "Professional", value: "Professional" },
-          ]}
-        />
+          {/* Primary Position */}
+          <FormPicker
+            control={control}
+            name="primaryPosition"
+            label="Primary position"
+            options={PRIMARY_POSITIONS.map((pos) => ({
+              label: pos,
+              value: pos,
+            }))}
+          />
 
-        {/* Free Agent Checkbox */}
-        <Controller
-          control={control}
-          name="isFreeAgent"
-          render={({ field: { onChange, value } }) => (
-            <View style={styles.checkboxRow}>
-              <ThemedText>Is Free Agent</ThemedText>
-              <Switch
-                value={value}
-                onValueChange={(value) => onChange(value)}
-              />
+          {/* Secondary Positions (multi-select) */}
+          <FormPicker
+            control={control}
+            name="secondaryPositions"
+            label="Secondary position"
+            options={SECONDARY_POSITIONS.map((pos) => ({
+              label: pos,
+              value: pos,
+            }))}
+          />
+
+          {/* Experience Level */}
+          <FormPicker
+            control={control}
+            name="experienceLevel"
+            label="Experience Level"
+            options={[
+              { label: "Beginner", value: "Beginner" },
+              { label: "Intermediate", value: "Intermediate" },
+              { label: "Advanced", value: "Advanced" },
+              { label: "Professional", value: "Professional" },
+            ]}
+          />
+
+          {/* Free Agent Checkbox */}
+          <Controller
+            control={control}
+            name="isFreeAgent"
+            render={({ field: { onChange, value } }) => (
+              <View style={styles.checkboxRow}>
+                <ThemedText>Is Free Agent</ThemedText>
+                <Switch
+                  value={value}
+                  onValueChange={(value) => onChange(value)}
+                />
+              </View>
+            )}
+          />
+
+          <ThemedButton
+            title="Register"
+            onPress={handleSubmit(onSubmit)}
+            variant="primary"
+            style={{ marginTop: 12 }}
+          />
+
+          {/* Debug: Show saved form state */}
+          {formState && (
+            <View style={{ marginTop: 16 }}>
+              <ThemedText variant="caption">Saved form data:</ThemedText>
+              <ThemedText style={{ fontSize: 12, color: "#888" }}>
+                {JSON.stringify(formState, null, 2)}
+              </ThemedText>
             </View>
           )}
-        />
-
-        <ThemedButton
-          title="Register"
-          onPress={handleSubmit(onSubmit)}
-          variant="primary"
-          style={{ marginTop: 12 }}
-        />
-
-        {/* Debug: Show saved form state */}
-        {formState && (
-          <View style={{ marginTop: 16 }}>
-            <ThemedText variant="caption">Saved form data:</ThemedText>
-            <ThemedText style={{ fontSize: 12, color: "#888" }}>
-              {JSON.stringify(formState, null, 2)}
-            </ThemedText>
-          </View>
-        )}
-        <ThemedText variant="caption" style={styles.caption}>
-          By registering, you agree to our Terms of Service and Privacy Policy.
-        </ThemedText>
-        <TouchableOpacity
-          style={styles.link}
-          onPress={() => router.navigate("/auth/login")}
-        >
-          <ThemedText style={styles.linkText}>
-            Already have an account? Login
+          <ThemedText variant="caption" style={styles.caption}>
+            By registering, you agree to our Terms of Service and Privacy
+            Policy.
           </ThemedText>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          <TouchableOpacity
+            style={styles.link}
+            onPress={() => router.navigate("/auth/login")}
+          >
+            <ThemedText style={styles.linkText}>
+              Already have an account? Login
+            </ThemedText>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </FormProvider>
   );
 }

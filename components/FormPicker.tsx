@@ -1,8 +1,15 @@
 import { ThemedText } from "@/components/ThemedText";
+import { createStyle, useStyle } from "@/theme";
 import { Picker } from "@react-native-picker/picker";
 import React from "react";
-import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
-import { StyleSheet, View } from "react-native";
+import {
+  Control,
+  Controller,
+  FieldPath,
+  FieldValues,
+  useController,
+} from "react-hook-form";
+import { ActionSheetIOS, Platform, Pressable, View } from "react-native";
 
 export type FormPickerProps<T extends FieldValues> = {
   control: Control<T>;
@@ -23,6 +30,36 @@ export function FormPicker<T extends FieldValues>({
   style,
   pickerContainerStyle,
 }: FormPickerProps<T>) {
+  const { field } = useController({ name });
+  const styles = useStyle(stylesheet);
+
+  if (Platform.OS === "ios") {
+    return (
+      <>
+        {label && <ThemedText style={styles.label}>{label}</ThemedText>}
+        <Pressable
+          onPress={() =>
+            ActionSheetIOS.showActionSheetWithOptions(
+              {
+                options: [...options.map((option) => option.label), "Cancel"],
+                userInterfaceStyle: "dark",
+                cancelButtonIndex: options.length,
+              },
+              (buttonIndex) => {
+                field.onChange(
+                  options.find((_, index) => index === buttonIndex)?.value
+                );
+              }
+            )
+          }
+          style={styles.sheetButton}
+        >
+          <ThemedText>{field.value ?? placeholder}</ThemedText>
+        </Pressable>
+      </>
+    );
+  }
+
   return (
     <Controller
       control={control}
@@ -60,7 +97,7 @@ export function FormPicker<T extends FieldValues>({
   );
 }
 
-const styles = StyleSheet.create({
+const stylesheet = createStyle((t) => ({
   pickerContainer: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -71,4 +108,16 @@ const styles = StyleSheet.create({
     height: 50,
     width: "100%",
   },
-});
+  label: { marginBottom: 1.5 },
+  sheetButton: {
+    backgroundColor: t.colors.surface,
+    color: t.colors.text,
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: t.colors.text + "33",
+    marginBottom: 12,
+  },
+}));

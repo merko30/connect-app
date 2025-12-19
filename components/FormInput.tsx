@@ -20,26 +20,31 @@ export function FormInput<T extends FieldValues>({
   style,
 }: FormInputProps<T>) {
   return (
-    <Controller
-      control={control}
-      name={name}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <View style={style}>
-          <ThemedTextInput
-            placeholder={placeholder}
-            value={value}
-            onChangeText={onChange}
-            keyboardType={keyboardType}
-          />
-          {error && (
-            <ThemedText
-              style={{ color: "#ff5252", fontSize: 12, marginBottom: 4 }}
-            >
-              {error.message}
-            </ThemedText>
-          )}
-        </View>
+    <View style={{ flex: 1 }}>
+      {placeholder && (
+        <ThemedText style={{ marginBottom: 1.5 }}>{placeholder}</ThemedText>
       )}
-    />
+
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: { onChange, value }, fieldState: { error } }) => (
+          <View style={style}>
+            <ThemedTextInput
+              value={value}
+              onChangeText={onChange}
+              keyboardType={keyboardType}
+            />
+            {error && (
+              <ThemedText
+                style={{ color: "#ff5252", fontSize: 12, marginBottom: 4 }}
+              >
+                {error.message}
+              </ThemedText>
+            )}
+          </View>
+        )}
+      />
+    </View>
   );
 }
