@@ -2,6 +2,7 @@
   "search": "Iskanje",
   "club": "Klub",
   "player": "Igralec",
+  "select": "Izberi",
   "profile": {
     "title": "Profil",
     "editProfile": "Uredi profil",
@@ -27,5 +28,34 @@
     "findYourNextClub": "Poiščite svoj naslednji klub",
     "featuredClubs": "Priporočeni klubi",
     "featuredPlayers": "Priporočeni igralci"
+  },
+  "register": {
+    "title": "Registracija igralca",
+    "caption": "Ustvarite svoj igralni profil, da se pridružite skupnosti in povežete s klubi.",
+    "firstName": "Ime",
+    "lastName": "Priimek",
+    "dateOfBirth": "Datum rojstva",
+    "dateOfBirthPlaceholder": "Datum rojstva (LLLL-MM-DD)",
+    "nationality": "Državljanstvo",
+    "height": "Višina (cm)",
+    "weight": "Teža (kg)",
+    "availableFrom": "Na voljo od",
+    "location": "Lokacija (neobvezno)",
+    "currentClub": "Trenutni klub (neobvezno)",
+    "preferredFoot": "Prednostna noga",
+    "left": "Leva",
+    "right": "Desna",
+    "primaryPosition": "Primarni položaj",
+    "secondaryPosition": "Sekundarni položaj",
+    "experienceLevel": "Raven izkušenj",
+    "youth": "Mladinec",
+    "amateur": "Amater",
+    "semiPro": "Pol-profesionalec",
+    "pro": "Profesionalec",
+    "isFreeAgent": "Prosti igralec",
+    "register": "Registriraj se",
+    "savedFormData": "Shranjeni podatki obrazca:",
+    "terms": "Z registracijo se strinjate z našimi pogoji storitve in politiko zasebnosti.",
+    "alreadyHaveAccount": "Že imate račun? Prijava"
   }
 }

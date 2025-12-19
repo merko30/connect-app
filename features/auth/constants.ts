@@ -51,7 +51,7 @@ export const playerRegisterSchema = z.object({
   experienceLevel: z.string().min(1, "Experience level is required"),
   currentClub: z.string().optional(),
   isFreeAgent: z.boolean().optional(),
-  availabilityFrom: z.string().optional(),
+  availabilityFrom: z.instanceof(Date).nullable(),
   location: z.string().optional(),
 });
 

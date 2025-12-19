@@ -2,6 +2,7 @@
   "search": "Search",
   "club": "Club",
   "player": "Player",
+  "select": "Select",
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
@@ -27,5 +28,34 @@
     "findYourNextClub": "Find your next club",
     "featuredClubs": "Featured Clubs",
     "featuredPlayers": "Featured Players"
+  },
+  "register": {
+    "title": "Player Registration",
+    "caption": "Create your player profile to join the community and connect with clubs.",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "dateOfBirth": "Date of birth",
+    "dateOfBirthPlaceholder": "Date of Birth (YYYY-MM-DD)",
+    "nationality": "Nationality",
+    "height": "Height (cm)",
+    "weight": "Weight (kg)",
+    "availableFrom": "Available from",
+    "location": "Location (optional)",
+    "currentClub": "Current Club (optional)",
+    "preferredFoot": "Preferred foot",
+    "left": "Left",
+    "right": "Right",
+    "primaryPosition": "Primary position",
+    "secondaryPosition": "Secondary position",
+    "experienceLevel": "Experience Level",
+    "youth": "Youth",
+    "amateur": "Amateur",
+    "semiPro": "Semi-Pro",
+    "pro": "Pro",
+    "isFreeAgent": "Is Free Agent",
+    "register": "Register",
+    "savedFormData": "Saved form data:",
+    "terms": "By registering, you agree to our Terms of Service and Privacy Policy.",
+    "alreadyHaveAccount": "Already have an account? Login"
   }
 }

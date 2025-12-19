@@ -9,6 +9,7 @@ import {
   FieldValues,
   useController,
 } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { ActionSheetIOS, Platform, Pressable, View } from "react-native";
 
 export type FormPickerProps<T extends FieldValues> = {
@@ -26,13 +27,13 @@ export function FormPicker<T extends FieldValues>({
   name,
   label,
   options,
-  placeholder = "Select...",
   style,
   pickerContainerStyle,
 }: FormPickerProps<T>) {
   const { field } = useController({ name });
   const styles = useStyle(stylesheet);
   const { t } = useTheme();
+  const { t: translate } = useTranslation();
 
   if (Platform.OS === "ios") {
     return (
@@ -55,7 +56,7 @@ export function FormPicker<T extends FieldValues>({
           }
           style={styles.sheetButton}
         >
-          <ThemedText>{field.value ?? placeholder}</ThemedText>
+          <ThemedText>{field.value ?? translate("select")}</ThemedText>
         </Pressable>
       </>
     );
@@ -76,7 +77,7 @@ export function FormPicker<T extends FieldValues>({
               itemStyle={{ height: 50 }}
               dropdownIconColor={t.colors.text}
             >
-              <Picker.Item label={placeholder} value="" />
+              <Picker.Item label={translate("select")} value="" />
               {options.map((opt) => (
                 <Picker.Item
                   key={opt.value}

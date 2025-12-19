@@ -1,17 +1,18 @@
 // Simple reusable input for react-hook-form
 // Player position constants
 import { AuthHeader } from "@/components/AuthHeader";
-import { ThemedButton } from "@/components/ThemedButton";
-import { ThemedText } from "@/components/ThemedText";
-
 import { FormDatePicker } from "@/components/FormDatepicker";
 import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
+import KeyboardAvoid from "@/components/KeyboardAvoid";
+import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedText } from "@/components/ThemedText";
 import { useStyleThemed } from "@/theme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { ScrollView, Switch, TouchableOpacity, View } from "react-native";
 import {
   PlayerRegisterForm,
@@ -21,6 +22,7 @@ import {
 } from "../constants";
 
 export default function RegisterScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
   const [formState, setFormState] = useState<PlayerRegisterForm | null>(null);
   const styles = useStyleThemed((t) => ({
@@ -31,7 +33,7 @@ export default function RegisterScreen() {
       backgroundColor: t.colors.background,
     },
     buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
-    link: { alignItems: "center" },
+    link: { alignItems: "center", marginTop: 4, paddingBottom: 24 },
     linkText: { color: t.colors.secondary, fontSize: 15, fontWeight: "500" },
     caption: {
       color: t.colors.surface,
@@ -68,9 +70,8 @@ export default function RegisterScreen() {
   const form = useForm<PlayerRegisterForm>({
     resolver: zodResolver(playerRegisterSchema) as any, // type workaround for zodResolver
     defaultValues: {
-      preferredFoot: "right",
       dateOfBirth: new Date(),
-      isFreeAgent: false,
+      availabilityFrom: new Date(),
     },
   });
   const { control, handleSubmit, getValues } = form;
@@ -85,180 +86,180 @@ export default function RegisterScreen() {
 
   return (
     <FormProvider {...form}>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "center",
-        }}
-      >
-        <View style={styles.container}>
-          <AuthHeader
-            title="Player Registration"
-            caption="Create your player profile to join the community and connect with clubs."
-          />
+      <KeyboardAvoid>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: "center",
+          }}
+        >
+          <View style={styles.container}>
+            <AuthHeader
+              title={t("register.title")}
+              caption={t("register.caption")}
+            />
 
-          <FormInput
-            name="firstName"
-            control={control}
-            placeholder="First Name"
-          />
+            <FormInput
+              name="firstName"
+              control={control}
+              placeholder={t("register.firstName")}
+            />
 
-          <FormInput
-            control={control}
-            name="lastName"
-            placeholder="Last Name"
-          />
-
-          <FormDatePicker
-            control={control}
-            name="dateOfBirth"
-            label="Date of birth"
-            placeholder="Date of Birth (YYYY-MM-DD)"
-          />
-
-          {/* Nationality */}
-          {/* TODO: ADD PICKER */}
-          <FormInput
-            control={control}
-            name="nationality"
-            placeholder="Nationality"
-          />
-
-          {/* Height and Weight */}
-          <View style={styles.row}>
             <FormInput
               control={control}
-              name="heightCm"
-              placeholder="Height (cm)"
-              keyboardType="numeric"
-              style={{ flex: 1 }}
+              name="lastName"
+              placeholder={t("register.lastName")}
             />
+
+            <FormDatePicker
+              control={control}
+              name="dateOfBirth"
+              label={t("register.dateOfBirth")}
+              placeholder={t("register.dateOfBirthPlaceholder")}
+            />
+
+            {/* Nationality */}
+            {/* TODO: ADD PICKER */}
             <FormInput
               control={control}
-              name="weightKg"
-              placeholder="Weight (kg)"
-              keyboardType="numeric"
-              style={{ flex: 1 }}
+              name="nationality"
+              placeholder={t("register.nationality")}
             />
-          </View>
 
-          <FormDatePicker
-            control={control}
-            name="availabilityFrom"
-            label="Available from"
-          />
+            {/* Height and Weight */}
+            <View style={styles.row}>
+              <FormInput
+                control={control}
+                name="heightCm"
+                placeholder={t("register.height")}
+                keyboardType="numeric"
+                style={{ flex: 1 }}
+              />
+              <FormInput
+                control={control}
+                name="weightKg"
+                placeholder={t("register.weight")}
+                keyboardType="numeric"
+                style={{ flex: 1 }}
+              />
+            </View>
 
-          {/* Location */}
-          <FormInput
-            control={control}
-            name="location"
-            placeholder="Location (optional)"
-          />
+            <FormDatePicker
+              control={control}
+              name="availabilityFrom"
+              label={t("register.availableFrom")}
+            />
 
-          {/* Current Club */}
-          <FormInput
-            control={control}
-            name="currentClub"
-            placeholder="Current Club (optional)"
-          />
+            {/* Location */}
+            <FormInput
+              control={control}
+              name="location"
+              placeholder={t("register.location")}
+            />
 
-          {/* Preferred Foot */}
-          <FormPicker
-            control={control}
-            name="preferredFoot"
-            label="Prefered foot"
-            options={[
-              {
-                label: "Left",
-                value: "left",
-              },
-              {
-                label: "Right",
-                value: "right",
-              },
-            ]}
-          />
+            {/* Current Club */}
+            <FormInput
+              control={control}
+              name="currentClub"
+              placeholder={t("register.currentClub")}
+            />
 
-          {/* Primary Position */}
-          <FormPicker
-            control={control}
-            name="primaryPosition"
-            label="Primary position"
-            options={PRIMARY_POSITIONS.map((pos) => ({
-              label: pos,
-              value: pos,
-            }))}
-          />
+            {/* Preferred Foot */}
+            <FormPicker
+              control={control}
+              name="preferredFoot"
+              label={t("register.preferredFoot")}
+              options={[
+                {
+                  label: t("register.left"),
+                  value: "left",
+                },
+                {
+                  label: t("register.right"),
+                  value: "right",
+                },
+              ]}
+            />
 
-          {/* Secondary Positions (multi-select) */}
-          <FormPicker
-            control={control}
-            name="secondaryPositions"
-            label="Secondary position"
-            options={SECONDARY_POSITIONS.map((pos) => ({
-              label: pos,
-              value: pos,
-            }))}
-          />
+            {/* Primary Position */}
+            <FormPicker
+              control={control}
+              name="primaryPosition"
+              label={t("register.primaryPosition")}
+              options={PRIMARY_POSITIONS.map((pos) => ({
+                label: pos,
+                value: pos,
+              }))}
+            />
 
-          {/* Experience Level */}
-          <FormPicker
-            control={control}
-            name="experienceLevel"
-            label="Experience Level"
-            options={[
-              { label: "Beginner", value: "Beginner" },
-              { label: "Intermediate", value: "Intermediate" },
-              { label: "Advanced", value: "Advanced" },
-              { label: "Professional", value: "Professional" },
-            ]}
-          />
+            {/* Secondary Positions (multi-select) */}
+            <FormPicker
+              control={control}
+              name="secondaryPositions"
+              label={t("register.secondaryPosition")}
+              options={SECONDARY_POSITIONS.map((pos) => ({
+                label: pos,
+                value: pos,
+              }))}
+            />
 
-          {/* Free Agent Checkbox */}
-          <Controller
-            control={control}
-            name="isFreeAgent"
-            render={({ field: { onChange, value } }) => (
-              <View style={styles.checkboxRow}>
-                <ThemedText>Is Free Agent</ThemedText>
-                <Switch
-                  value={value}
-                  onValueChange={(value) => onChange(value)}
-                />
+            {/* Experience Level */}
+            <FormPicker
+              control={control}
+              name="experienceLevel"
+              label={t("register.experienceLevel")}
+              options={[
+                { label: t("register.youth"), value: "youth" },
+                { label: t("register.amateur"), value: "amateur" },
+                { label: t("register.semiPro"), value: "semi-pro" },
+                { label: t("register.pro"), value: "pro" },
+              ]}
+            />
+
+            {/* Free Agent Checkbox */}
+            <Controller
+              control={control}
+              name="isFreeAgent"
+              render={({ field: { onChange, value } }) => (
+                <View style={styles.checkboxRow}>
+                  <ThemedText>{t("register.isFreeAgent")}</ThemedText>
+                  <Switch
+                    value={value}
+                    onValueChange={(value) => onChange(value)}
+                  />
+                </View>
+              )}
+            />
+
+            <ThemedButton
+              title={t("register.register")}
+              onPress={handleSubmit(onSubmit)}
+              variant="primary"
+              style={{ marginTop: 12 }}
+            />
+
+            {/* Debug: Show saved form state */}
+            {formState && (
+              <View style={{ marginTop: 16 }}>
+                <ThemedText variant="caption">
+                  {t("register.savedFormData")}
+                </ThemedText>
+                <ThemedText style={{ fontSize: 12, color: "#888" }}>
+                  {JSON.stringify(formState, null, 2)}
+                </ThemedText>
               </View>
             )}
-          />
-
-          <ThemedButton
-            title="Register"
-            onPress={handleSubmit(onSubmit)}
-            variant="primary"
-            style={{ marginTop: 12 }}
-          />
-
-          {/* Debug: Show saved form state */}
-          {formState && (
-            <View style={{ marginTop: 16 }}>
-              <ThemedText variant="caption">Saved form data:</ThemedText>
-              <ThemedText style={{ fontSize: 12, color: "#888" }}>
-                {JSON.stringify(formState, null, 2)}
+            <TouchableOpacity
+              style={styles.link}
+              onPress={() => router.navigate("/auth/login")}
+            >
+              <ThemedText style={styles.linkText}>
+                {t("register.alreadyHaveAccount")}
               </ThemedText>
-            </View>
-          )}
-          <ThemedText variant="caption" style={styles.caption}>
-            By registering, you agree to our Terms of Service and Privacy
-            Policy.
-          </ThemedText>
-          <TouchableOpacity
-            style={styles.link}
-            onPress={() => router.navigate("/auth/login")}
-          >
-            <ThemedText style={styles.linkText}>
-              Already have an account? Login
-            </ThemedText>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoid>
     </FormProvider>
   );
 }
