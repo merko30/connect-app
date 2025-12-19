@@ -63,7 +63,7 @@ export function ClubHome() {
   };
 
   return (
-    <KeyboardAvoid>
+    <KeyboardAvoid style={styles.container}>
       <Welcome
         title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
         subtitle={t("home.findAndRecruit")}
@@ -91,6 +91,7 @@ export function ClubHome() {
 }
 
 const stylesheet = createStyle((t) => ({
+  container: { backgroundColor: t.colors.background, flex: 1 },
   listContainer: {
     paddingTop: t.spacing.md,
     paddingHorizontal: t.spacing.md,

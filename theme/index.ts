@@ -20,6 +20,19 @@ const RADIUS = {
   full: 9999,
 };
 
+const gray = {
+  0: "#fff",
+  100: "#E3E3E3",
+  200: "#C7C7C7",
+  300: "#AFAFAF",
+  400: "#7F7F7F",
+  500: "#5C5C5C",
+  600: "#3D3D3D",
+  700: "#2B2B2B",
+  800: "#1A1A1A",
+  900: "#0D0D0D",
+};
+
 /** Light theme: blue/green primary */
 const lightTheme = {
   colors: {
@@ -29,6 +42,7 @@ const lightTheme = {
     surface: "#F5F5F5",
     text: "#111111",
     accent: "#3BC27D", // Dark Turquoise
+    gray,
   },
   spacing: SPACING,
   radii: RADIUS,
@@ -43,6 +57,7 @@ const darkTheme = {
     surface: "#1E1E1E",
     text: "#EEEEEE",
     accent: "#3BC27D",
+    gray,
   },
   spacing: SPACING,
   radii: RADIUS,

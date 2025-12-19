@@ -1,5 +1,7 @@
 import { clubsApi } from "@/api/clubs";
+import KeyboardAvoid from "@/components/KeyboardAvoid";
 import Search from "@/components/Search";
+import { ThemedText } from "@/components/ThemedText";
 import Welcome from "@/components/Welcome";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { ClubCard } from "@/features/clubs/components/ClubCard";
@@ -10,7 +12,7 @@ import { StrapiListResponse } from "@/types/strapi";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, View } from "react-native";
 
 export function PlayerHome() {
   const styles = useStyle(stylesheet);
@@ -20,49 +22,44 @@ export function PlayerHome() {
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
 
-  const {
-    data,
-    fetchNextPage,
-    isFetchingNextPage,
-    refetch,
-    isPending,
-    hasNextPage,
-  } = useInfiniteQuery<StrapiListResponse<ClubProfile>>({
-    queryKey: ["players", debouncedSearch],
-    initialPageParam: 1,
-    queryFn: async ({ pageParam = 1 }) => {
-      const page =
-        typeof pageParam === "number" ? pageParam : Number(pageParam);
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+    useInfiniteQuery<StrapiListResponse<ClubProfile>>({
+      queryKey: ["players", debouncedSearch],
+      initialPageParam: 1,
+      queryFn: async ({ pageParam = 1 }) => {
+        const page =
+          typeof pageParam === "number" ? pageParam : Number(pageParam);
 
-      return clubsApi.list({
-        pagination: { page, pageSize: 20 },
-        filters: debouncedSearch
-          ? {
-              $or: [
-                { clubName: { $containsi: debouncedSearch } },
-                { city: { $containsi: debouncedSearch } },
-              ],
-            }
-          : undefined,
-      });
-    },
-    getNextPageParam: (lastPage) => {
-      const pagination = lastPage.meta?.pagination;
-      if (!pagination) return undefined;
+        return clubsApi.list({
+          pagination: { page, pageSize: 20 },
+          filters: debouncedSearch
+            ? {
+                $or: [
+                  { clubName: { $containsi: debouncedSearch } },
+                  { city: { $containsi: debouncedSearch } },
+                ],
+              }
+            : undefined,
+        });
+      },
+      getNextPageParam: (lastPage) => {
+        const pagination = lastPage.meta?.pagination;
+        if (!pagination) return undefined;
 
-      const { page, pageCount } = pagination;
-      return page < pageCount ? page + 1 : undefined;
-    },
-  });
+        const { page, pageCount } = pagination;
+        return page < pageCount ? page + 1 : undefined;
+      },
+    });
 
   const clubs = data?.pages.flatMap((page) => page.data) ?? [];
 
+  // TODO: implement onEndReachedThreshold and onMomentumScrollBegin to avoid multiple calls
   const onEndReached = () => {
     if (!isFetchingNextPage && hasNextPage) fetchNextPage();
   };
 
   return (
-    <>
+    <KeyboardAvoid style={styles.container}>
       <Welcome
         title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
         subtitle={t("home.findYourNextClub")}
@@ -71,18 +68,22 @@ export function PlayerHome() {
         <Search value={searchText} onChangeText={setSearchText} />
       </Welcome>
       <View style={styles.listContainer}>
-        <Text style={styles.title}>{t("home.featuredClubs")}</Text>
+        <ThemedText style={styles.title}>{t("home.featuredClubs")}</ThemedText>
         <FlatList
           data={clubs}
           keyExtractor={(item) => item.id.toString()}
           renderItem={(item) => <ClubCard club={item.item} />}
         />
       </View>
-    </>
+    </KeyboardAvoid>
   );
 }
 
 const stylesheet = createStyle((t) => ({
+  container: {
+    backgroundColor: t.colors.background,
+    flex: 1,
+  },
   listContainer: {
     paddingTop: t.spacing.xl,
     paddingHorizontal: t.spacing.lg,

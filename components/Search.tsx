@@ -32,6 +32,7 @@ const stylesheet = createStyle((t) => ({
     paddingVertical: t.spacing.md,
     paddingHorizontal: t.spacing.lg,
     borderColor: "transparent",
+    backgroundColor: t.colors.gray[0],
   },
 }));
 
