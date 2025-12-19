@@ -1,5 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
-import { createStyle, useStyle } from "@/theme";
+import { createStyle, useStyle, useTheme } from "@/theme";
 import { Picker } from "@react-native-picker/picker";
 import React from "react";
 import {
@@ -32,6 +32,7 @@ export function FormPicker<T extends FieldValues>({
 }: FormPickerProps<T>) {
   const { field } = useController({ name });
   const styles = useStyle(stylesheet);
+  const { t } = useTheme();
 
   if (Platform.OS === "ios") {
     return (
@@ -73,6 +74,7 @@ export function FormPicker<T extends FieldValues>({
               onValueChange={onChange}
               style={[styles.picker, style]}
               itemStyle={{ height: 50 }}
+              dropdownIconColor={t.colors.text}
             >
               <Picker.Item label={placeholder} value="" />
               {options.map((opt) => (
@@ -100,13 +102,14 @@ export function FormPicker<T extends FieldValues>({
 const stylesheet = createStyle((t) => ({
   pickerContainer: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: t.colors.text + "33",
     borderRadius: 8,
     marginTop: 4,
+    backgroundColor: t.colors.surface,
   },
   picker: {
-    height: 50,
     width: "100%",
+    color: t.colors.text,
   },
   label: { marginBottom: 1.5 },
   sheetButton: {
