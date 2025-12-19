@@ -1,5 +1,7 @@
 {
   "search": "Iskanje",
+  "club": "Klub",
+  "player": "Igralec",
   "profile": {
     "title": "Profil",
     "editProfile": "Uredi profil",
@@ -13,7 +15,10 @@
     "noAccount": "Nimate računa? Registrirajte se",
     "emailPlaceholder": "Vnesite svoj e-poštni naslov",
     "passwordPlaceholder": "Vnesite svoje geslo",
-    "wrongCredentials": "Napačni poverilnice. Poskusite znova."
+    "wrongCredentials": "Napačni poverilnice. Poskusite znova.",
+    "registerDescription": "Ustvarite račun, da se pridružite skupnosti in začnete povezovati s klubi in igralci.",
+    "haveAccount": "Že imate račun? Prijava",
+    "registerAs": "Registrirajte se kot"
   },
   "home": {
     "title": "Domača stran",

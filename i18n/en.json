@@ -1,5 +1,7 @@
 {
   "search": "Search",
+  "club": "Club",
+  "player": "Player",
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
@@ -13,7 +15,10 @@
     "noAccount": "Don't have an account? Register",
     "passwordPlaceholder": "Enter your password",
     "emailPlaceholder": "Enter your email address",
-    "wrongCredentials": "Wrong credentials. Please try again."
+    "wrongCredentials": "Wrong credentials. Please try again.",
+    "registerDescription": "Create an account to join the community and start connecting with clubs and players.",
+    "haveAccount": "Already have an account? Sign In",
+    "registerAs": "Register as"
   },
   "home": {
     "title": "Home",
