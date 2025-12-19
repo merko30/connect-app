@@ -131,7 +131,7 @@ export default function LoginScreen() {
               backgroundColor: theme.colors.secondary,
             },
           ]}
-          onPress={() => router.navigate("/auth/club-registration")}
+          onPress={() => router.navigate("/auth/player-registration")}
         >
           <ThemedText style={styles.linkText}>{t("player")}</ThemedText>
         </TouchableOpacity>
