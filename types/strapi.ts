@@ -64,3 +64,13 @@ export type StrapiQuery<T> = {
     pageSize?: number;
   };
 };
+
+export type StrapiListResponse<T> = {
+  data: T[];
+  meta: StrapiMeta;
+};
+
+export type StrapiInfiniteResponse<T> = {
+  pages: StrapiListResponse<T>[];
+  pageParams: number[];
+};

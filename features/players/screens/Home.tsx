@@ -1,10 +1,14 @@
 import { clubsApi } from "@/api/clubs";
+import Search from "@/components/Search";
 import Welcome from "@/components/Welcome";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { ClubCard } from "@/features/clubs/components/ClubCard";
+import { useDebounce } from "@/hooks/useDebounce";
 import { createStyle, useStyle } from "@/theme";
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import { ClubProfile } from "@/types/clubs";
+import { StrapiListResponse } from "@/types/strapi";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Text, View } from "react-native";
 
@@ -12,13 +16,50 @@ export function PlayerHome() {
   const styles = useStyle(stylesheet);
   const { t } = useTranslation();
   const { data: me } = useGetCurrentUser();
-  const { data, error } = useQuery({
-    queryKey: ["clubs"],
-    queryFn: () => clubsApi.list(),
-  });
-  const { data: clubs = [] } = data || {};
 
-  console.log(data, error);
+  const [searchText, setSearchText] = useState("");
+  const debouncedSearch = useDebounce(searchText, 500);
+
+  const {
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+    refetch,
+    isPending,
+    hasNextPage,
+  } = useInfiniteQuery<StrapiListResponse<ClubProfile>>({
+    queryKey: ["players", debouncedSearch],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam = 1 }) => {
+      const page =
+        typeof pageParam === "number" ? pageParam : Number(pageParam);
+
+      return clubsApi.list({
+        pagination: { page, pageSize: 20 },
+        filters: debouncedSearch
+          ? {
+              $or: [
+                { clubName: { $containsi: debouncedSearch } },
+                { city: { $containsi: debouncedSearch } },
+              ],
+            }
+          : undefined,
+      });
+    },
+    getNextPageParam: (lastPage) => {
+      const pagination = lastPage.meta?.pagination;
+      if (!pagination) return undefined;
+
+      const { page, pageCount } = pagination;
+      return page < pageCount ? page + 1 : undefined;
+    },
+  });
+
+  const clubs = data?.pages.flatMap((page) => page.data) ?? [];
+
+  const onEndReached = () => {
+    if (!isFetchingNextPage && hasNextPage) fetchNextPage();
+  };
 
   return (
     <>
@@ -26,7 +67,9 @@ export function PlayerHome() {
         title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
         subtitle={t("home.findYourNextClub")}
         color="secondary"
-      />
+      >
+        <Search value={searchText} onChangeText={setSearchText} />
+      </Welcome>
       <View style={styles.listContainer}>
         <Text style={styles.title}>{t("home.featuredClubs")}</Text>
         <FlatList

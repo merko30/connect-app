@@ -1,40 +1,66 @@
 import { playersApi } from "@/api/players";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
+import Search from "@/components/Search";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedTextInput } from "@/components/ThemedTextInput";
 import Welcome from "@/components/Welcome";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { PlayerCard } from "@/features/players/components/PlayerCard";
 import { useDebounce } from "@/hooks/useDebounce";
 import { createStyle, useStyle } from "@/theme";
-import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import { PlayerProfile } from "@/types/players";
+import { StrapiListResponse } from "@/types/strapi";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
 
 export function ClubHome() {
   const styles = useStyle(stylesheet);
-  const [searchText, setSearchText] = React.useState("");
   const { t } = useTranslation();
   const { data: me } = useGetCurrentUser();
+  const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
-  const { data } = useQuery({
+
+  const {
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+    refetch,
+    isPending,
+    hasNextPage,
+  } = useInfiniteQuery<StrapiListResponse<PlayerProfile>>({
     queryKey: ["players", debouncedSearch],
-    queryFn: () =>
-      playersApi.list({
-        filters: {
-          $or: [
-            {
-              firstName: { $containsi: debouncedSearch },
-            },
-            {
-              lastName: { $containsi: debouncedSearch },
-            },
-          ],
-        },
-      }),
+    initialPageParam: 1,
+    queryFn: async ({ pageParam = 1 }) => {
+      const page =
+        typeof pageParam === "number" ? pageParam : Number(pageParam);
+
+      return playersApi.list({
+        pagination: { page, pageSize: 20 },
+        filters: debouncedSearch
+          ? {
+              $or: [
+                { firstName: { $containsi: debouncedSearch } },
+                { lastName: { $containsi: debouncedSearch } },
+              ],
+            }
+          : undefined,
+      });
+    },
+    getNextPageParam: (lastPage) => {
+      const pagination = lastPage.meta?.pagination;
+      if (!pagination) return undefined;
+
+      const { page, pageCount } = pagination;
+      return page < pageCount ? page + 1 : undefined;
+    },
   });
-  const { data: players = [] } = data || {};
+
+  const players = data?.pages.flatMap((page) => page.data) ?? [];
+
+  const onEndReached = () => {
+    if (!isFetchingNextPage && hasNextPage) fetchNextPage();
+  };
 
   return (
     <KeyboardAvoid>
@@ -42,21 +68,22 @@ export function ClubHome() {
         title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
         subtitle={t("home.findAndRecruit")}
       >
-        <ThemedTextInput
-          placeholder={t("search")}
-          value={searchText}
-          onChangeText={setSearchText}
-          style={styles.search}
-        />
+        <Search value={searchText} onChangeText={setSearchText} />
       </Welcome>
+
       <View style={styles.listContainer}>
         <ThemedText variant="subtitle" style={styles.title}>
           {t("home.featuredPlayers")}
         </ThemedText>
+
         <FlatList
           data={players}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={(item) => <PlayerCard player={item.item} />}
+          renderItem={({ item }) => <PlayerCard player={item} />}
+          onRefresh={refetch}
+          refreshing={isPending}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.5}
         />
       </View>
     </KeyboardAvoid>

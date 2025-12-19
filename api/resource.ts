@@ -1,4 +1,4 @@
-import { StrapiQuery } from "@/types/strapi";
+import { StrapiListResponse, StrapiQuery } from "@/types/strapi";
 import { toStrapiQueryString } from "@/utils/strapi-query";
 import { api } from "./client";
 
@@ -6,7 +6,7 @@ export function createResource<T>(prefix: string) {
   return {
     list: (query?: StrapiQuery<T>) => {
       const qs = toStrapiQueryString(query);
-      return api<{ data: T[] }>(`${prefix}${qs ? `?${qs}` : ""}`);
+      return api<StrapiListResponse<T>>(`${prefix}${qs ? `?${qs}` : ""}`);
     },
 
     get: (id: number | string, query?: StrapiQuery<T>) => {
