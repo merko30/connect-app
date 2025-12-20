@@ -18,7 +18,6 @@ export function FormInput<T extends FieldValues>({
   name,
   placeholder,
   style,
-  keyboardType = "default",
   ...props
 }: FormInputProps<T> & TextInputProps) {
   return (
@@ -26,27 +25,29 @@ export function FormInput<T extends FieldValues>({
       {placeholder && (
         <ThemedText style={{ marginBottom: 1.5 }}>{placeholder}</ThemedText>
       )}
-
       <Controller
         control={control}
         name={name}
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <View style={style}>
-            <ThemedTextInput
-              value={value}
-              onChangeText={onChange}
-              keyboardType={keyboardType}
-              {...props}
-            />
-            {error && (
-              <ThemedText
-                style={{ color: "#ff5252", fontSize: 12, marginBottom: 4 }}
-              >
-                {error.message}
-              </ThemedText>
-            )}
-          </View>
-        )}
+        render={({ field: { onChange, value }, fieldState: { error } }) => {
+          console.log(name, value);
+
+          return (
+            <View style={style}>
+              <ThemedTextInput
+                value={value}
+                onChangeText={onChange}
+                {...props}
+              />
+              {error && (
+                <ThemedText
+                  style={{ color: "#ff5252", fontSize: 12, marginBottom: 4 }}
+                >
+                  {error.message}
+                </ThemedText>
+              )}
+            </View>
+          );
+        }}
       />
     </View>
   );

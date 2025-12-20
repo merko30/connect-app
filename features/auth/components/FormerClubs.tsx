@@ -57,7 +57,7 @@ export default function FormerClubsFieldArray({ control }: Props) {
           <FormInput
             control={control}
             objectKey="name"
-            name={`formerClubs.${index}`}
+            name={`formerClubs.${index}.name`}
             placeholder={`${t("register.formerClub")} ${index + 1}`}
           />
 

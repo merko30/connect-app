@@ -50,7 +50,7 @@ export default function RegisterScreen() {
       console.log({ data });
       AsyncStorage.setItem("token", data.jwt);
       queryClient.refetchQueries({ queryKey: ["current-user"] });
-      router.navigate("/auth/finish-registration");
+      router.navigate("/player/(tabs)");
     },
   });
 

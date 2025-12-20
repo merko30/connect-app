@@ -86,6 +86,8 @@ export default function RegisterScreen() {
         experienceLevel: data.experienceLevel as ExperienceLevel,
         dateOfBirth: data.dateOfBirth?.toISOString().split("T")[0],
         availabilityFrom: data.availabilityFrom?.toISOString().split("T")[0],
+        heightCm: Number(data.heightCm),
+        weightKg: Number(data.weightKg),
       });
     },
     onError: (error: { error: { details: { message: string } } }) => {
@@ -100,8 +102,8 @@ export default function RegisterScreen() {
     resolver: zodResolver(playerRegisterSchema) as any,
     defaultValues: {
       nationality: "Slovenian",
-      heightCm: 172,
-      weightKg: 65,
+      heightCm: "172",
+      weightKg: "65",
       dateOfBirth: new Date("2000-05-15"),
       availabilityFrom: new Date("2026-01-01"),
       location: "Ljubljana",

@@ -35,14 +35,30 @@ export const SECONDARY_POSITIONS = [
 export const playerRegisterSchema = z.object({
   dateOfBirth: z.instanceof(Date).nullable(),
   nationality: z.string().min(1, "Nationality is required"),
-  heightCm: z.preprocess(
-    (val) => (val === "" ? undefined : Number(val)),
-    z.number().min(140, "Min 140cm").max(220, "Max 220cm")
-  ),
-  weightKg: z.preprocess(
-    (val) => (val === "" ? undefined : Number(val)),
-    z.number().min(40, "Min 40kg").max(150, "Max 150kg")
-  ),
+  heightCm: z
+    .string()
+    .regex(/^\d+$/, "Height must be a number")
+    .superRefine((val, ctx) => {
+      const height = Number(val);
+      if (height < 140 || height > 220) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Height must be between 140 and 220 cm",
+        });
+      }
+    }),
+  weightKg: z
+    .string()
+    .regex(/^\d+$/, "Weight must be a number")
+    .superRefine((val, ctx) => {
+      const weight = Number(val);
+      if (weight < 40 || weight > 150) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Weight must be between 40 and 150 kg",
+        });
+      }
+    }),
   preferredFoot: z.enum(["left", "right", "both"]),
   primaryPosition: z.string().min(1, "Primary position is required"),
   secondaryPositions: z.string().optional(),
