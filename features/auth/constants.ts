@@ -1,3 +1,4 @@
+import { PlayerProfile } from "@/types/players";
 import * as z from "zod";
 
 export const PRIMARY_POSITIONS = [
@@ -66,8 +67,40 @@ export const playerRegisterSchema = z.object({
   currentClub: z.string().optional(),
   formerClubs: z.array(z.object({ name: z.string().min(1) })).optional(),
   isFreeAgent: z.boolean().optional(),
-  availabilityFrom: z.instanceof(Date),
+  availabilityFrom: z.instanceof(Date).nullable(),
   location: z.string().optional(),
 });
 
 export type PlayerRegisterForm = z.infer<typeof playerRegisterSchema>;
+
+export const getPlayerRegisterDefaults = (
+  player?: PlayerProfile | null
+): PlayerRegisterForm => ({
+  dateOfBirth: player?.dateOfBirth ? new Date(player.dateOfBirth) : null,
+
+  nationality: player?.nationality ?? "",
+
+  heightCm: player?.heightCm != null ? String(player.heightCm) : "",
+
+  weightKg: player?.weightKg != null ? String(player.weightKg) : "",
+
+  preferredFoot: player?.preferredFoot ?? "right",
+
+  primaryPosition: player?.primaryPosition ?? "",
+
+  secondaryPositions: player?.secondaryPositions ?? undefined,
+
+  experienceLevel: player?.experienceLevel ?? "",
+
+  currentClub: player?.currentClub ?? "",
+
+  formerClubs: [],
+
+  isFreeAgent: player?.isFreeAgent ?? false,
+
+  availabilityFrom: player?.availabilityFrom
+    ? new Date(player.availabilityFrom)
+    : null,
+
+  location: player?.location ?? "",
+});

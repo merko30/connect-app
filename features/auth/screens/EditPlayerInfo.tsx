@@ -1,7 +1,6 @@
 // Simple reusable input for react-hook-form
 // Player position constants
 import { playersApi } from "@/api/players";
-import { AuthHeader } from "@/components/AuthHeader";
 import { FormDatePicker } from "@/components/FormDatepicker";
 import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
@@ -9,7 +8,7 @@ import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import FormerClubsFieldArray from "@/features/auth/components/FormerClubs";
-import { useStyleThemed } from "@/theme";
+import { createStyle, useStyle } from "@/theme";
 import { ExperienceLevel, PlayerPosition } from "@/types/players";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -20,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, Switch, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
 import {
+  getPlayerRegisterDefaults,
   PlayerRegisterForm,
   playerRegisterSchema,
   PRIMARY_POSITIONS,
@@ -27,58 +27,16 @@ import {
 } from "../constants";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
 
-export default function RegisterScreen() {
+export default function EditPlayerInfo() {
   const { t } = useTranslation();
   const router = useRouter();
+  const styles = useStyle(stylesheet);
   const [formState] = useState<PlayerRegisterForm | null>(null);
-  const styles = useStyleThemed((t) => ({
-    container: {
-      flex: 1,
-      padding: 24,
-      paddingTop: 64,
-      backgroundColor: t.colors.background,
-    },
-    buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
-    link: { alignItems: "center", marginTop: 4, paddingBottom: 24 },
-    linkText: { color: t.colors.secondary, fontSize: 15, fontWeight: "500" },
-    caption: {
-      color: t.colors.surface,
-      fontSize: 12,
-      opacity: 0.7,
-      maxWidth: 320,
-    },
-    field: { marginBottom: 12 },
-    error: { color: "#ff5252", fontSize: 12, marginBottom: 4 },
-    row: { flexDirection: "row", gap: 8, flexWrap: "wrap" },
-    col: { flex: 1 },
-    select: {
-      color: t.colors.text,
-      borderRadius: 8,
-      fontSize: 16,
-    },
-    pickerContainer: {
-      borderWidth: 1,
-      borderColor: t.colors.text + "33",
-      borderRadius: 8,
-      marginTop: 4,
-    },
-    checkboxRow: {
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 8,
-      marginBottom: 12,
-    },
-    item: {
-      height: 50,
-    },
-  }));
 
   const { data: user } = useGetCurrentUser();
 
-  const { mutate: updatePlayer, error } = useMutation({
+  const { mutate: updatePlayer } = useMutation({
     mutationFn: async (data: PlayerRegisterForm) => {
-      console.log(data);
-
       await playersApi.update(user?.player?.documentId as string, {
         ...data,
         primaryPosition: data.primaryPosition as PlayerPosition,
@@ -101,19 +59,7 @@ export default function RegisterScreen() {
   const form = useForm<PlayerRegisterForm>({
     resolver: zodResolver(playerRegisterSchema) as any,
     defaultValues: {
-      nationality: "Slovenian",
-      heightCm: "172",
-      weightKg: "65",
-      dateOfBirth: new Date("2000-05-15"),
-      availabilityFrom: new Date("2026-01-01"),
-      location: "Ljubljana",
-      currentClub: undefined,
-      formerClubs: [{ name: "NK Maribor" }, { name: "NK Domžale" }],
-      preferredFoot: "right",
-      primaryPosition: PRIMARY_POSITIONS[0],
-      secondaryPositions: SECONDARY_POSITIONS[0],
-      experienceLevel: "pro",
-      isFreeAgent: true,
+      ...getPlayerRegisterDefaults(user?.player),
     },
   });
   const { control, handleSubmit } = form;
@@ -121,8 +67,6 @@ export default function RegisterScreen() {
   const onSubmit = (data: PlayerRegisterForm) => {
     updatePlayer(data);
   };
-
-  console.log(error);
 
   return (
     <FormProvider {...form}>
@@ -134,11 +78,6 @@ export default function RegisterScreen() {
           }}
         >
           <View style={styles.container}>
-            <AuthHeader
-              title={t("register.finishRegistration")}
-              caption={t("register.finishRegistrationDescription")}
-            />
-
             <FormDatePicker
               control={control}
               name="dateOfBirth"
@@ -292,3 +231,45 @@ export default function RegisterScreen() {
     </FormProvider>
   );
 }
+
+const stylesheet = createStyle((t) => ({
+  container: {
+    flex: 1,
+    padding: 24,
+    paddingTop: 64,
+    backgroundColor: t.colors.background,
+  },
+  buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
+  link: { alignItems: "center", marginTop: 4, paddingBottom: 24 },
+  linkText: { color: t.colors.secondary, fontSize: 15, fontWeight: "500" },
+  caption: {
+    color: t.colors.surface,
+    fontSize: 12,
+    opacity: 0.7,
+    maxWidth: 320,
+  },
+  field: { marginBottom: 12 },
+  error: { color: "#ff5252", fontSize: 12, marginBottom: 4 },
+  row: { flexDirection: "row", gap: 8, flexWrap: "wrap" },
+  col: { flex: 1 },
+  select: {
+    color: t.colors.text,
+    borderRadius: 8,
+    fontSize: 16,
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: t.colors.text + "33",
+    borderRadius: 8,
+    marginTop: 4,
+  },
+  checkboxRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 12,
+  },
+  item: {
+    height: 50,
+  },
+}));

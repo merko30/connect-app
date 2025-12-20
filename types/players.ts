@@ -22,22 +22,22 @@ export type PlayerProfile = {
   documentId: string;
   id: number;
   firstName: string;
-  lastName: string;
+  lastName: string | null;
   dateOfBirth: string | null;
-  nationality?: string;
-  location?: string;
+  nationality: string | null;
+  location?: string | null;
 
-  primaryPosition: PlayerPosition;
-  secondaryPositions?: PlayerPosition;
-  preferredFoot?: PreferredFoot;
+  primaryPosition: PlayerPosition | null;
+  secondaryPositions: PlayerPosition | null;
+  preferredFoot?: PreferredFoot | null;
 
-  heightCm?: number;
-  weightKg?: number;
+  heightCm: number | null;
+  weightKg: number | null;
 
-  currentClub?: string;
+  currentClub: string | null;
   isFreeAgent: boolean;
-  experienceLevel?: ExperienceLevel;
-  availabilityFrom?: string;
+  experienceLevel: ExperienceLevel | null;
+  availabilityFrom?: string | null;
 
   profileImage?: {
     data: StrapiMedia | null;
