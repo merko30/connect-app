@@ -18,7 +18,7 @@ const AppIndex = () => {
     return <Redirect href="/club/(tabs)" />;
   }
 
-  return <Redirect href="/player/(tabs)" />;
+  return <Redirect href="/auth/finish-registration" />;
 };
 
 export default AppIndex;

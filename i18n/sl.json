@@ -3,6 +3,7 @@
   "club": "Klub",
   "player": "Igralec",
   "select": "Izberi",
+  "remove": "Odstrani",
   "profile": {
     "title": "Profil",
     "editProfile": "Uredi profil",
@@ -56,6 +57,13 @@
     "register": "Registriraj se",
     "savedFormData": "Shranjeni podatki obrazca:",
     "terms": "Z registracijo se strinjate z našimi pogoji storitve in politiko zasebnosti.",
-    "alreadyHaveAccount": "Že imate račun? Prijava"
+    "alreadyHaveAccount": "Že imate račun? Prijava",
+    "email": "E-pošta",
+    "password": "Geslo",
+    "username": "Uporabniško ime",
+    "finishRegistration": "Dokončaj registracijo",
+    "finishRegistrationDescription": "Dokončajte svojo registracijo z izpolnitvijo manjkajočih podatkov o igralcu.",
+    "formerClubs": "Prejšnji klubi",
+    "formerClub": "Prejšnji klub"
   }
 }

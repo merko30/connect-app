@@ -33,8 +33,6 @@ export const SECONDARY_POSITIONS = [
 ];
 
 export const playerRegisterSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
   dateOfBirth: z.instanceof(Date).nullable(),
   nationality: z.string().min(1, "Nationality is required"),
   heightCm: z.preprocess(
@@ -47,11 +45,12 @@ export const playerRegisterSchema = z.object({
   ),
   preferredFoot: z.enum(["left", "right", "both"]),
   primaryPosition: z.string().min(1, "Primary position is required"),
-  secondaryPositions: z.array(z.string()).optional(),
+  secondaryPositions: z.string().optional(),
   experienceLevel: z.string().min(1, "Experience level is required"),
   currentClub: z.string().optional(),
+  formerClubs: z.array(z.object({ name: z.string().min(1) })).optional(),
   isFreeAgent: z.boolean().optional(),
-  availabilityFrom: z.instanceof(Date).nullable(),
+  availabilityFrom: z.instanceof(Date),
   location: z.string().optional(),
 });
 

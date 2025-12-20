@@ -19,7 +19,7 @@ export async function api<T>(
       "Content-Type": "application/json",
       ...(token && { Authorization: `Bearer ${token}` }),
     },
-    ...(method === "POST"
+    ...(["POST", "PUT"].includes(method)
       ? { body: body ? JSON.stringify(body) : undefined }
       : {}),
   });

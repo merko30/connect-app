@@ -19,15 +19,16 @@ export type ExperienceLevel = "youth" | "amateur" | "semi-pro" | "pro";
 export type PlayerVisibility = "public" | "clubs-only" | "private";
 
 export type PlayerProfile = {
+  documentId: string;
   id: number;
   firstName: string;
   lastName: string;
-  dateOfBirth?: string;
+  dateOfBirth: string | null;
   nationality?: string;
   location?: string;
 
   primaryPosition: PlayerPosition;
-  secondaryPositions?: PlayerPosition[];
+  secondaryPositions?: PlayerPosition;
   preferredFoot?: PreferredFoot;
 
   heightCm?: number;

@@ -2,7 +2,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import React from "react";
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
-import { View, ViewStyle } from "react-native";
+import { TextInputProps, View, ViewStyle } from "react-native";
 
 export type FormInputProps<T extends FieldValues> = {
   control: Control<T>;
@@ -10,15 +10,17 @@ export type FormInputProps<T extends FieldValues> = {
   placeholder: string;
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad";
   style?: ViewStyle;
+  objectKey?: string;
 };
 
 export function FormInput<T extends FieldValues>({
   control,
   name,
   placeholder,
-  keyboardType = "default",
   style,
-}: FormInputProps<T>) {
+  keyboardType = "default",
+  ...props
+}: FormInputProps<T> & TextInputProps) {
   return (
     <View style={{ flex: 1 }}>
       {placeholder && (
@@ -34,6 +36,7 @@ export function FormInput<T extends FieldValues>({
               value={value}
               onChangeText={onChange}
               keyboardType={keyboardType}
+              {...props}
             />
             {error && (
               <ThemedText

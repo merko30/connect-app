@@ -1,3 +1,6 @@
+import { ClubProfile } from "./clubs";
+import { PlayerProfile } from "./players";
+
 export interface User {
   email?: string;
   phoneNumber?: string;
@@ -6,6 +9,8 @@ export interface User {
   role: {
     name: string;
   };
+  player?: PlayerProfile;
+  club?: ClubProfile;
 }
 
 export enum Role {
@@ -22,3 +27,7 @@ export interface LoginResponse {
   user: User;
   jwt: string;
 }
+
+export const ROLE_IDS = {
+  player: 3,
+};
