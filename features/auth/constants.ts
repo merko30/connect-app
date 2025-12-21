@@ -35,7 +35,6 @@ export const SECONDARY_POSITIONS = [
 
 export const playerRegisterSchema = z.object({
   dateOfBirth: z.instanceof(Date).nullable(),
-  nationality: z.string().min(1, "Nationality is required"),
   heightCm: z
     .string()
     .regex(/^\d+$/, "Height must be a number")
@@ -68,7 +67,6 @@ export const playerRegisterSchema = z.object({
   formerClubs: z.array(z.object({ name: z.string().min(1) })).optional(),
   isFreeAgent: z.boolean().optional(),
   availabilityFrom: z.instanceof(Date).nullable(),
-  location: z.string().optional(),
 });
 
 export type PlayerRegisterForm = z.infer<typeof playerRegisterSchema>;
@@ -77,8 +75,6 @@ export const getPlayerRegisterDefaults = (
   player?: PlayerProfile | null
 ): PlayerRegisterForm => ({
   dateOfBirth: player?.dateOfBirth ? new Date(player.dateOfBirth) : null,
-
-  nationality: player?.nationality ?? "",
 
   heightCm: player?.heightCm != null ? String(player.heightCm) : "",
 
@@ -101,6 +97,4 @@ export const getPlayerRegisterDefaults = (
   availabilityFrom: player?.availabilityFrom
     ? new Date(player.availabilityFrom)
     : null,
-
-  location: player?.location ?? "",
 });

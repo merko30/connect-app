@@ -20,7 +20,8 @@
     "wrongCredentials": "Wrong credentials. Please try again.",
     "registerDescription": "Create an account to join the community and start connecting with clubs and players.",
     "haveAccount": "Already have an account? Sign In",
-    "registerAs": "Register as"
+    "registerAs": "Register as",
+    "editPlayerInfo": "Edit Player Information"
   },
   "home": {
     "title": "Home",

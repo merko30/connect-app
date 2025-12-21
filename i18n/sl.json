@@ -20,7 +20,8 @@
     "wrongCredentials": "Napačni poverilnice. Poskusite znova.",
     "registerDescription": "Ustvarite račun, da se pridružite skupnosti in začnete povezovati s klubi in igralci.",
     "haveAccount": "Že imate račun? Prijava",
-    "registerAs": "Registrirajte se kot"
+    "registerAs": "Registrirajte se kot",
+    "editPlayerInfo": "Uredi informacije o igralcu"
   },
   "home": {
     "title": "Domača stran",

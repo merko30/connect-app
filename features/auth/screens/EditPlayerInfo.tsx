@@ -4,6 +4,7 @@ import { playersApi } from "@/api/players";
 import { FormDatePicker } from "@/components/FormDatepicker";
 import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
+import Header from "@/components/Header";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
@@ -71,6 +72,7 @@ export default function EditPlayerInfo() {
   return (
     <FormProvider {...form}>
       <KeyboardAvoid>
+        <Header title={t("auth.editPlayerInfo")} />
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
@@ -83,14 +85,6 @@ export default function EditPlayerInfo() {
               name="dateOfBirth"
               label={t("register.dateOfBirth")}
               placeholder={t("register.dateOfBirthPlaceholder")}
-            />
-
-            {/* Nationality */}
-            {/* TODO: ADD PICKER */}
-            <FormInput
-              control={control}
-              name="nationality"
-              placeholder={t("register.nationality")}
             />
 
             {/* Height and Weight */}
@@ -115,13 +109,6 @@ export default function EditPlayerInfo() {
               control={control}
               name="availabilityFrom"
               label={t("register.availableFrom")}
-            />
-
-            {/* Location */}
-            <FormInput
-              control={control}
-              name="location"
-              placeholder={t("register.location")}
             />
 
             {/* Current Club */}

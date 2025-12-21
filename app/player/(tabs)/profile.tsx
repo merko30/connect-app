@@ -14,12 +14,17 @@ const PROFILE_MENU_ITEMS: {
   href: Href;
 }[] = [
   {
-    label: "Edit Profile",
-    href: "/auth/profile-edit",
+    label: "Edit user information",
+    href: "/auth/profile/edit",
     // icon: <YourIconComponent />
   },
   {
-    label: "Settings",
+    label: "Edit player information",
+    href: "/auth/profile/player",
+    // icon: <YourIconComponent />
+  },
+  {
+    label: "Security settings",
     href: "/",
   },
 ];

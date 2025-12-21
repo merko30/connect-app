@@ -9,6 +9,9 @@ export interface User {
   role: {
     name: string;
   };
+  location: string | null;
+  nationality: string | null;
+  citizenship: string | null;
   player?: PlayerProfile;
   club?: ClubProfile;
 }
