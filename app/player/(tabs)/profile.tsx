@@ -1,30 +1,39 @@
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
+import { IconSymbolName } from "@/components/ui/icon-symbol";
+import MenuSection from "@/features/auth/components/MenuSection";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
-import { Href, Link } from "expo-router";
+import { Href } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-// Menu item constant
-const PROFILE_MENU_ITEMS: {
+interface MenuItem {
   label: string;
+  icon: IconSymbolName;
   href: Href;
-}[] = [
+}
+
+// Menu item constant
+const PROFILE_MENU_ITEMS: MenuItem[] = [
   {
     label: "Edit user information",
+    icon: "person",
     href: "/auth/profile/edit",
-    // icon: <YourIconComponent />
   },
   {
     label: "Edit player information",
+    icon: "sportscourt",
     href: "/auth/profile/player",
-    // icon: <YourIconComponent />
   },
+];
+
+const SECURITY_SETTINGS_ITEMS: MenuItem[] = [
   {
-    label: "Security settings",
+    label: "Change Password",
+    icon: "lock.fill",
     href: "/",
   },
 ];
@@ -54,12 +63,11 @@ export default function ProfileScreen() {
         )}
       </View>
       <View style={styles.menuSection}>
-        {PROFILE_MENU_ITEMS.map((item) => (
-          <Link key={item.label} style={styles.menuItem} href={item.href}>
-            {/* {item.icon && <View style={styles.icon}>{item.icon}</View>} */}
-            <ThemedText style={styles.menuLabel}>{item.label}</ThemedText>
-          </Link>
-        ))}
+        <MenuSection title="Profile" items={PROFILE_MENU_ITEMS} />
+        <MenuSection
+          title="Security Settings"
+          items={SECURITY_SETTINGS_ITEMS}
+        />
         <ThemedButton
           title="Logout"
           variant="outline"
@@ -91,18 +99,24 @@ const styles = StyleSheet.create({
   menuSection: {
     width: "100%",
   },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: "600",
+    marginBottom: 12,
+    color: "#666",
+    textTransform: "uppercase",
+  },
   menuItem: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 16,
+    paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: "#f0f0f0",
-  },
-  icon: {
-    marginRight: 16,
+    gap: 12,
   },
   menuLabel: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "500",
   },
 });

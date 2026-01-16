@@ -94,6 +94,7 @@ export default function EditPlayerInfo() {
                 name="heightCm"
                 placeholder={t("register.height")}
                 keyboardType="numeric"
+                containerStyle={{ flex: 1 }}
                 style={{ flex: 1 }}
               />
               <FormInput
@@ -101,6 +102,7 @@ export default function EditPlayerInfo() {
                 name="weightKg"
                 placeholder={t("register.weight")}
                 keyboardType="numeric"
+                containerStyle={{ flex: 1 }}
                 style={{ flex: 1 }}
               />
             </View>
@@ -237,7 +239,12 @@ const stylesheet = createStyle((t) => ({
   },
   field: { marginBottom: 12 },
   error: { color: "#ff5252", fontSize: 12, marginBottom: 4 },
-  row: { flexDirection: "row", gap: 8, flexWrap: "wrap" },
+  row: {
+    flex: 1,
+    flexDirection: "row",
+    gap: 8,
+    flexWrap: "wrap",
+  },
   col: { flex: 1 },
   select: {
     color: t.colors.text,

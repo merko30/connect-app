@@ -4,12 +4,14 @@
   "player": "Player",
   "select": "Select",
   "remove": "Remove",
+  "save": "Save",
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
     "viewProfile": "View Profile",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "editUserInfo": "Edit User Information"
   },
   "auth": {
     "signIn": "Sign In",
@@ -65,6 +67,7 @@
     "finishRegistration": "Finish Registration",
     "finishRegistrationDescription": "Complete your registration by providing the necessary details to create your player profile.",
     "formerClubs": "Former Clubs",
-    "formerClub": "Former Club"
+    "formerClub": "Former Club",
+    "phoneNumber": "Phone number"
   }
 }

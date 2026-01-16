@@ -10,6 +10,7 @@ export type FormInputProps<T extends FieldValues> = {
   placeholder: string;
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad";
   style?: ViewStyle;
+  containerStyle?: ViewStyle;
   objectKey?: string;
 };
 
@@ -18,10 +19,11 @@ export function FormInput<T extends FieldValues>({
   name,
   placeholder,
   style,
+  containerStyle,
   ...props
 }: FormInputProps<T> & TextInputProps) {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={[{ marginBottom: 8 }, containerStyle]}>
       {placeholder && (
         <ThemedText style={{ marginBottom: 1.5 }}>{placeholder}</ThemedText>
       )}

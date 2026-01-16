@@ -9,7 +9,7 @@ type IconMapping = Record<
   SymbolViewProps["name"],
   ComponentProps<typeof MaterialIcons>["name"]
 >;
-type IconSymbolName = keyof typeof MAPPING;
+export type IconSymbolName = keyof typeof MAPPING;
 
 /**
  * Add your SF Symbols to Material Icons mappings here.
@@ -23,6 +23,7 @@ const MAPPING = {
   "chevron.right": "chevron-right",
   magnifyingglass: "search",
   "person.fill": "person",
+  "chevron.left": "chevron-left",
 } as IconMapping;
 
 /**

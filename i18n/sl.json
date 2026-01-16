@@ -4,12 +4,14 @@
   "player": "Igralec",
   "select": "Izberi",
   "remove": "Odstrani",
+  "save": "Shrani",
   "profile": {
     "title": "Profil",
     "editProfile": "Uredi profil",
     "viewProfile": "Ogled profila",
     "settings": "Nastavitve",
-    "logout": "Odjava"
+    "logout": "Odjava",
+    "editUserInfo": "Uredi uporabniške informacije"
   },
   "auth": {
     "signIn": "Prijava",
@@ -65,6 +67,7 @@
     "finishRegistration": "Dokončaj registracijo",
     "finishRegistrationDescription": "Dokončajte svojo registracijo z izpolnitvijo manjkajočih podatkov o igralcu.",
     "formerClubs": "Prejšnji klubi",
-    "formerClub": "Prejšnji klub"
+    "formerClub": "Prejšnji klub",
+    "phoneNumber": "Telefonska številka"
   }
 }
