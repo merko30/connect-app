@@ -18,7 +18,7 @@ export const ThemedTextInput = forwardRef<TextInput, ThemedTextInputProps>(
         fontSize: 16,
         borderWidth: 1,
         borderColor: error ? "#E53935" : t.colors.text + "33",
-        marginBottom: 8,
+        marginBottom: error ? 4 : 12,
       },
     }));
     return (
@@ -29,7 +29,7 @@ export const ThemedTextInput = forwardRef<TextInput, ThemedTextInputProps>(
         ref={ref}
       />
     );
-  }
+  },
 );
 
 ThemedTextInput.displayName = "ThemedTextInput";

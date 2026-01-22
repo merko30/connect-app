@@ -1,7 +1,9 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { TranslationKey } from "@/i18n";
 import React from "react";
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { TextInputProps, View, ViewStyle } from "react-native";
 
 export type FormInputProps<T extends FieldValues> = {
@@ -22,6 +24,7 @@ export function FormInput<T extends FieldValues>({
   containerStyle,
   ...props
 }: FormInputProps<T> & TextInputProps) {
+  const { t } = useTranslation();
   return (
     <View style={[{ marginBottom: 8 }, containerStyle]}>
       {placeholder && (
@@ -31,7 +34,7 @@ export function FormInput<T extends FieldValues>({
         control={control}
         name={name}
         render={({ field: { onChange, value }, fieldState: { error } }) => {
-          console.log(name, value);
+          console.log(error);
 
           return (
             <View style={style}>
@@ -42,9 +45,14 @@ export function FormInput<T extends FieldValues>({
               />
               {error && (
                 <ThemedText
-                  style={{ color: "#ff5252", fontSize: 12, marginBottom: 4 }}
+                  style={{
+                    color: "#ff5252",
+                    fontWeight: "500",
+                    fontSize: 12,
+                    marginBottom: 4,
+                  }}
                 >
-                  {error.message}
+                  {t(error.message as TranslationKey) ?? error.message}
                 </ThemedText>
               )}
             </View>

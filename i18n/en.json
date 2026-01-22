@@ -69,7 +69,17 @@
     "finishRegistration": "Finish Registration",
     "finishRegistrationDescription": "Complete your registration by providing the necessary details to create your player profile.",
     "formerClubs": "Former Clubs",
-    "formerClub": "Former Club",
-    "phoneNumber": "Phone number"
+    "clubName": "Club Name",
+    "contactPhone": "Contact Phone Number",
+    "phoneNumber": "Phone number",
+    "error": {
+      "firstName": "First name is required.",
+      "lastName": "Last name is required.",
+      "username": "Username must be at least 3 characters.",
+      "email": "Invalid email address.",
+      "password": "Password must be at least 6 characters.",
+      "clubName": "Club name is required.",
+      "contactPhone": "Invalid Slovenian phone number."
+    }
   }
 }

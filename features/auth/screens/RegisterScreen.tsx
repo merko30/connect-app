@@ -16,16 +16,60 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
+import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "../constants";
 
 // ---- STRAPI AUTH REGISTRATION SCHEMA ----
-const strapiRegisterSchema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  username: z.string().min(3),
-  email: z.email(),
-  password: z.string().min(6),
-});
+const strapiRegisterSchema = z
+  .object({
+    firstName: z.string().min(1, {
+      message: REGISTER_ERRORS.firstName,
+    }),
 
+    lastName: z.string().min(1, {
+      message: REGISTER_ERRORS.lastName,
+    }),
+
+    username: z.string().min(3, {
+      message: REGISTER_ERRORS.username,
+    }),
+
+    email: z.email({
+      message: REGISTER_ERRORS.email,
+    }),
+
+    password: z.string().min(6, {
+      message: REGISTER_ERRORS.password,
+    }),
+    isClubRegistration: z.boolean(),
+
+    clubName: z.string().optional(),
+
+    contactPhone: z
+      .string()
+      .regex(SLOVENIAN_PHONE_REGEX, {
+        message: REGISTER_ERRORS.contactPhone,
+      })
+      .optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.isClubRegistration) {
+      if (!data.clubName || data.clubName.trim().length === 0) {
+        ctx.addIssue({
+          path: ["clubName"],
+          message: REGISTER_ERRORS.clubName,
+          code: "custom",
+        });
+      }
+
+      if (!data.contactPhone) {
+        ctx.addIssue({
+          path: ["contactPhone"],
+          message: REGISTER_ERRORS.contactPhone,
+          code: "custom",
+        });
+      }
+    }
+  });
 type StrapiRegisterForm = z.infer<typeof strapiRegisterSchema>;
 
 export default function RegisterScreen() {
@@ -75,13 +119,26 @@ export default function RegisterScreen() {
 
   const form = useForm<StrapiRegisterForm>({
     resolver: zodResolver(strapiRegisterSchema) as any,
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      password: "",
+      clubName: "",
+      contactPhone: "",
+      isClubRegistration,
+    },
   });
   const { control, handleSubmit } = form;
 
   const onSubmit = async (data: StrapiRegisterForm) => {
     setError(null);
-
-    mutate(data);
+    // Only send clubName and contactPhone if club registration
+    const payload = isClubRegistration
+      ? data
+      : { ...data, clubName: undefined, contactPhone: undefined };
+    mutate(payload);
   };
 
   return (
@@ -140,6 +197,24 @@ export default function RegisterScreen() {
               secureTextEntry
               style={styles.field}
             />
+
+            {isClubRegistration && (
+              <>
+                <FormInput
+                  name="clubName"
+                  control={control}
+                  placeholder={t("register.clubName")}
+                  style={styles.field}
+                />
+                <FormInput
+                  name="contactPhone"
+                  control={control}
+                  placeholder={t("register.contactPhone")}
+                  keyboardType="phone-pad"
+                  style={styles.field}
+                />
+              </>
+            )}
 
             {error && <ThemedText style={styles.error}>{error}</ThemedText>}
 

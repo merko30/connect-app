@@ -70,6 +70,17 @@
     "finishRegistrationDescription": "Dokončajte svojo registracijo z izpolnitvijo manjkajočih podatkov o igralcu.",
     "formerClubs": "Prejšnji klubi",
     "formerClub": "Prejšnji klub",
-    "phoneNumber": "Telefonska številka"
+    "clubName": "Ime kluba",
+    "contactPhone": "Kontaktna telefonska številka",
+    "phoneNumber": "Telefonska številka",
+    "error": {
+      "firstName": "Ime je obvezno.",
+      "lastName": "Priimek je obvezen.",
+      "username": "Uporabniško ime mora imeti vsaj 3 znake.",
+      "email": "Neveljaven e-poštni naslov.",
+      "password": "Geslo mora imeti vsaj 6 znakov.",
+      "clubName": "Ime kluba je obvezno.",
+      "contactPhone": "Neveljavna slovenska telefonska številka."
+    }
   }
 }
