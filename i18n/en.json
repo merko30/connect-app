@@ -34,8 +34,10 @@
     "featuredPlayers": "Featured Players"
   },
   "register": {
-    "title": "Player Registration",
-    "caption": "Create your player profile to join the community and connect with clubs.",
+    "clubTitle": "Club staff registration",
+    "playerTitle": "Player registration",
+    "playerCaption": "Create your player profile to join the community and connect with clubs.",
+    "clubCaption": "Create your club staff profile to join the community and connect with players.",
     "firstName": "First Name",
     "lastName": "Last Name",
     "dateOfBirth": "Date of birth",

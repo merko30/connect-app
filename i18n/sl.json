@@ -34,8 +34,10 @@
     "featuredPlayers": "Priporočeni igralci"
   },
   "register": {
-    "title": "Registracija igralca",
-    "caption": "Ustvarite svoj igralni profil, da se pridružite skupnosti in povežete s klubi.",
+    "clubTitle": "Registracija osebja kluba",
+    "playerTitle": "Registracija igralca",
+    "playerCaption": "Ustvarite svoj igralčev profil, da se pridružite skupnosti in se povežete s klubi.",
+    "clubCaption": "Ustvarite svoj profil osebja kluba, da se pridružite skupnosti in se povežete z igralci.",
     "firstName": "Ime",
     "lastName": "Priimek",
     "dateOfBirth": "Datum rojstva",

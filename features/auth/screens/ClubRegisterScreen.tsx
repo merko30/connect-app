@@ -51,7 +51,7 @@ export default function ClubRegisterScreen() {
       router.replace(
         user.role.name === Role.ClubStaff.toString()
           ? "/club/(tabs)"
-          : "/player/(tabs)"
+          : "/player/(tabs)",
       );
     },
     onError: () => {
@@ -119,7 +119,14 @@ export default function ClubRegisterScreen() {
               backgroundColor: theme.colors.primary,
             },
           ]}
-          onPress={() => router.navigate("/auth/club-registration")}
+          onPress={() =>
+            router.navigate({
+              pathname: "/auth/club-registration",
+              params: {
+                type: "player",
+              },
+            })
+          }
         >
           <ThemedText style={styles.linkText}>{t("club")}</ThemedText>
         </TouchableOpacity>
@@ -131,7 +138,14 @@ export default function ClubRegisterScreen() {
               backgroundColor: theme.colors.secondary,
             },
           ]}
-          onPress={() => router.navigate("/auth/club-registration")}
+          onPress={() =>
+            router.navigate({
+              pathname: "/auth/player-registration",
+              params: {
+                type: "club",
+              },
+            })
+          }
         >
           <ThemedText style={styles.linkText}>{t("player")}</ThemedText>
         </TouchableOpacity>

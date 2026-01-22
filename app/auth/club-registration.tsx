@@ -1,1 +1,1 @@
-export { default } from "@/features/auth/screens/ClubRegisterScreen";
+export { default } from "@/features/auth/screens/RegisterScreen";

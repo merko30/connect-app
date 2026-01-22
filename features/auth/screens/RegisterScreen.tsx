@@ -9,7 +9,7 @@ import { ROLE_IDS } from "@/types/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -33,16 +33,20 @@ export default function RegisterScreen() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [error, setError] = useState<string | null>(null);
+  const { type } = useLocalSearchParams<{ type: "player" | "club" }>();
+
+  const isClubRegistration = type === "club";
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: StrapiRegisterForm) =>
       await usersApi.custom<{ jwt: string }>("/auth/local/register", {
-        body: { ...data, role: ROLE_IDS.player },
+        body: {
+          ...data,
+          role: isClubRegistration ? ROLE_IDS.CLUB_STAFF : ROLE_IDS.PLAYER,
+        },
         method: "POST",
       }),
     onError: (error: { error: { details: { message: string } } }) => {
-      console.log(error);
-
       const message = error.error?.details?.message;
       Toast.show({ type: "error", text1: message });
     },
@@ -50,7 +54,7 @@ export default function RegisterScreen() {
       console.log({ data });
       AsyncStorage.setItem("token", data.jwt);
       queryClient.refetchQueries({ queryKey: ["current-user"] });
-      router.navigate("/player/(tabs)");
+      router.navigate(isClubRegistration ? "/club/(tabs)" : "/player/(tabs)");
     },
   });
 
@@ -88,8 +92,16 @@ export default function RegisterScreen() {
         >
           <View style={styles.container}>
             <AuthHeader
-              title={t("register.title")}
-              caption={t("register.caption")}
+              title={t(
+                isClubRegistration
+                  ? "register.clubTitle"
+                  : "register.playerTitle",
+              )}
+              caption={t(
+                isClubRegistration
+                  ? "register.clubCaption"
+                  : "register.playerCaption",
+              )}
             />
 
             <FormInput

@@ -32,5 +32,6 @@ export interface LoginResponse {
 }
 
 export const ROLE_IDS = {
-  player: 3,
+  PLAYER: 3,
+  CLUB_STAFF: 4,
 };
