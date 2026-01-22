@@ -82,15 +82,25 @@ export default function RegisterScreen() {
   const isClubRegistration = type === "club";
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: StrapiRegisterForm) =>
-      await usersApi.custom<{ jwt: string }>("/auth/local/register", {
+    mutationFn: async (data: StrapiRegisterForm) => {
+      const {
+        contactPhone,
+        clubName,
+        isClubRegistration,
+        ...registrationData
+      } = data;
+      return await usersApi.custom<{ jwt: string }>("/auth/local/register", {
         body: {
-          ...data,
+          ...registrationData,
           role: isClubRegistration ? ROLE_IDS.CLUB_STAFF : ROLE_IDS.PLAYER,
+          ...(isClubRegistration ? { clubName, contactPhone } : {}),
         },
         method: "POST",
-      }),
+      });
+    },
     onError: (error: { error: { details: { message: string } } }) => {
+      console.log(error);
+
       const message = error.error?.details?.message;
       Toast.show({ type: "error", text1: message });
     },
@@ -120,13 +130,13 @@ export default function RegisterScreen() {
   const form = useForm<StrapiRegisterForm>({
     resolver: zodResolver(strapiRegisterSchema) as any,
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      username: "",
-      email: "",
-      password: "",
-      clubName: "",
-      contactPhone: "",
+      firstName: "Andrea",
+      lastName: "Galliani",
+      username: "andreagalliani",
+      email: "andrea@example.com",
+      password: "password",
+      clubName: "AC Milan",
+      contactPhone: "+38640123456",
       isClubRegistration,
     },
   });
@@ -134,11 +144,7 @@ export default function RegisterScreen() {
 
   const onSubmit = async (data: StrapiRegisterForm) => {
     setError(null);
-    // Only send clubName and contactPhone if club registration
-    const payload = isClubRegistration
-      ? data
-      : { ...data, clubName: undefined, contactPhone: undefined };
-    mutate(payload);
+    mutate(data);
   };
 
   return (
