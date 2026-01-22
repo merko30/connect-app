@@ -4,6 +4,7 @@ import { FormInput } from "@/components/FormInput";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
+import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "@/constants/validation";
 import { useStyleThemed } from "@/theme";
 import { ROLE_IDS } from "@/types/users";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +17,6 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
-import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "../constants";
 
 // ---- STRAPI AUTH REGISTRATION SCHEMA ----
 const strapiRegisterSchema = z
