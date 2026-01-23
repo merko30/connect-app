@@ -11,12 +11,12 @@ export const PLAYER_PROFILE_MENU_ITEMS: MenuItem[] = [
   {
     label: "Edit user information",
     icon: "person",
-    href: "/auth/profile/edit",
+    href: "/player/(tabs)/profile/edit",
   },
   {
     label: "Edit player information",
     icon: "sportscourt",
-    href: "/auth/profile/player",
+    href: "/player/(tabs)/profile/player",
   },
 ];
 
@@ -24,11 +24,11 @@ export const CLUB_PROFILE_MENU_ITEMS: MenuItem[] = [
   {
     label: "Edit user information",
     icon: "person",
-    href: "/auth/profile/edit",
+    href: "/club/profile/edit",
   },
   {
     label: "Edit club information",
     icon: "sportscourt",
-    href: "/auth/profile/club",
+    href: "/club/(tabs)/profile/club",
   },
 ];

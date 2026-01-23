@@ -15,7 +15,7 @@ const Header = (props: React.ComponentProps<typeof RNHeader>) => {
         <Pressable onPress={router.back} style={styles.left}>
           <IconSymbol
             name="chevron.left"
-            size={32}
+            size={24}
             color={t.colors.text}
             style={styles.chevron}
           />
