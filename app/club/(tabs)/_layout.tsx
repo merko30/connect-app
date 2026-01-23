@@ -14,14 +14,14 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: t.colors.primary,
         tabBarStyle: {
-          position: "absolute", // so we can float buttons
+          position: "absolute",
           height: 70,
           backgroundColor: t.colors.surface,
           borderTopLeftRadius: 20,
           borderTopWidth: 0,
           paddingTop: 10,
           borderTopRightRadius: 20,
-          overflow: "visible", // important for floating button
+          overflow: "visible",
           elevation: 10,
         },
         headerShown: false,

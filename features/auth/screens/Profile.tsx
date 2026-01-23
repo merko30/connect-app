@@ -9,7 +9,7 @@ import MenuSection from "@/features/auth/components/MenuSection";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePathname } from "expo-router";
+import { usePathname, useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,6 +24,7 @@ const SECURITY_SETTINGS_ITEMS: MenuItem[] = [
 
 export default function ProfileScreen() {
   const { data: user } = useGetCurrentUser();
+  const router = useRouter();
 
   const pathname = usePathname();
   const isClub = pathname.includes("club");
@@ -33,6 +34,7 @@ export default function ProfileScreen() {
   const handleLogout = () => {
     AsyncStorage.removeItem("token");
     queryClient.setQueryData(["current-user"], () => null);
+    router.navigate("/auth/login");
   };
 
   return (
