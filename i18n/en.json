@@ -24,7 +24,8 @@
     "haveAccount": "Already have an account? Sign In",
     "registerAs": "Register as",
     "editPlayerInfo": "Edit Player Information",
-    "editClubInfo": "Edit Club information"
+    "editClubInfo": "Edit Club information",
+    "profileUpdated": "You have successfully updated your profile"
   },
   "home": {
     "title": "Home",

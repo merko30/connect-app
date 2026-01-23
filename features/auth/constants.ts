@@ -1,6 +1,8 @@
 // Slovenian phone number regex
+import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "@/constants/validation";
 import { ClubProfile } from "@/types/clubs";
 import { PlayerProfile } from "@/types/players";
+import { User } from "@/types/users";
 import * as z from "zod";
 
 export const PRIMARY_POSITIONS = [
@@ -119,7 +121,12 @@ export const clubSchema = z.object({
     .email({ message: "register.error.contactEmail" })
     .optional()
     .or(z.literal("")),
-  contactPhone: z.string().optional().or(z.literal("")),
+  contactPhone: z
+    .string()
+    .regex(SLOVENIAN_PHONE_REGEX, {
+      message: REGISTER_ERRORS.contactPhone,
+    })
+    .optional(),
 });
 
 export type ClubForm = z.infer<typeof clubSchema>;
@@ -134,3 +141,17 @@ export const getClubFormDefaults = (club?: ClubProfile | null): ClubForm => ({
   contactEmail: club?.contactEmail ?? "",
   contactPhone: club?.contactPhone ?? "",
 });
+
+export const getUserFormDefaults = (user: User) => ({
+  firstName: user.firstName ?? "",
+  lastName: user.lastName ?? "",
+  phoneNumber: user.phoneNumber ?? "",
+  location: user.location ?? "",
+  nationality: user.nationality ?? "",
+  citizenship: user.citizenship ?? "",
+  email: user.email ?? "",
+});
+export type UserForm = Pick<
+  User,
+  "firstName" | "lastName" | "phoneNumber" | "location" | "email"
+>;

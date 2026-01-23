@@ -6,7 +6,7 @@ import {
 
 const KeyboardAvoid = ({ children, ...props }: KeyboardAvoidingViewProps) => (
   <KeyboardAvoidingView
-    style={[{ flex: 1 }, props.style]}
+    style={[{ flex: 1, paddingBottom: 20 }, props.style]}
     behavior={Platform.OS === "ios" ? "padding" : "height"}
     {...props}
   >

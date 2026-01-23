@@ -2,6 +2,8 @@ import { ClubProfile } from "./clubs";
 import { PlayerProfile } from "./players";
 
 export interface User {
+  id?: string;
+  documentId?: string;
   email?: string;
   phoneNumber?: string;
   firstName: string;

@@ -1,12 +1,17 @@
+import { usersApi } from "@/api/auth";
 import { FormInput } from "@/components/FormInput";
 import Header from "@/components/Header";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { createStyle, useStyle } from "@/theme";
 import { User } from "@/types/users";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
+import Toast from "react-native-toast-message";
+import { getUserFormDefaults, UserForm } from "../constants";
+import useGetCurrentUser from "../hooks/useGetCurrentUser";
 
 type FormValues = Pick<
   User,
@@ -21,21 +26,35 @@ type FormValues = Pick<
 export default function EditUserInfo() {
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
+  const { data: user } = useGetCurrentUser();
+
+  console.log(user?.location, user?.nationality, user?.citizenship);
+
   const form = useForm<FormValues>({
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      location: "",
-      nationality: "",
-      citizenship: "",
+      ...getUserFormDefaults(user as User),
     },
   });
   const { control, handleSubmit } = form;
 
+  const { mutate: updateUser } = useMutation({
+    mutationFn: async (data: UserForm) =>
+      await usersApi.custom(`/users/${user!.id}`, {
+        body: data,
+        method: "PUT",
+      }),
+    onError: (error: { error: { details: { message: string } } }) => {
+      const message = error.error?.details?.message;
+
+      Toast.show({ type: "error", text1: message });
+    },
+    onSuccess: () => {
+      Toast.show({ type: "success", text1: t("auth.profileUpdated") });
+    },
+  });
+
   const onSubmit = (data: FormValues) => {
-    // TODO: Implement update logic (API call)
-    console.log("Updated user info:", data);
+    updateUser(data);
   };
 
   return (

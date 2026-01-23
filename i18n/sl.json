@@ -24,7 +24,8 @@
     "haveAccount": "Že imate račun? Prijava",
     "registerAs": "Registrirajte se kot",
     "editPlayerInfo": "Uredi informacije o igralcu",
-    "editClubInfo": "Uredi informacije o klubu"
+    "editClubInfo": "Uredi informacije o klubu",
+    "profileUpdated": "Uspešno ste posodobili svoj profil"
   },
   "home": {
     "title": "Domača stran",
