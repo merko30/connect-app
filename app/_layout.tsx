@@ -1,3 +1,4 @@
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { Slot } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
@@ -16,16 +17,18 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <GestureHandlerRootView>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider
-          themes={themes}
-          initialTheme={colorScheme as "light" | "dark"}
-        >
-          <Slot />
-          <Toast topOffset={70} />
-        </ThemeProvider>
-      </QueryClientProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BottomSheetModalProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider
+            themes={themes}
+            initialTheme={colorScheme as "light" | "dark"}
+          >
+            <Slot />
+            <Toast topOffset={70} />
+          </ThemeProvider>
+        </QueryClientProvider>
+      </BottomSheetModalProvider>
     </GestureHandlerRootView>
   );
 }

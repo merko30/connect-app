@@ -1,15 +1,15 @@
 import { playersApi } from "@/api/players";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
-import { IconSymbol } from "@/components/ui/icon-symbol";
+import ClubFiltersSheet from "@/features/clubs/components/ClubFiltersSheet";
 import { PlayerCard } from "@/features/players/components/PlayerCard";
 import { useDebounce } from "@/hooks/useDebounce";
 import { PlayerProfile } from "@/types/players";
 import { StrapiListResponse } from "@/types/strapi";
-import BottomSheet from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PlayerSearchScreen() {
@@ -17,12 +17,7 @@ export default function PlayerSearchScreen() {
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
 
-  const bottomSheetRef = useRef<BottomSheet>(null);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
-  }, []);
+  const filtersSheetRef = useRef<BottomSheetModal>(null);
 
   const {
     data,
@@ -72,17 +67,7 @@ export default function PlayerSearchScreen() {
           placeholder={t("search")}
           style={styles.input}
         />
-        <TouchableOpacity
-          style={styles.iconButton}
-          onPress={() => {}}
-          accessibilityLabel="Filters"
-        >
-          <IconSymbol
-            name="line.3.horizontal.decrease.circle"
-            size={24}
-            color="#888"
-          />
-        </TouchableOpacity>
+        <ClubFiltersSheet filters={[]} />
       </View>
       <FlatList
         data={players}
