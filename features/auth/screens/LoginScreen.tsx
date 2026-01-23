@@ -17,7 +17,7 @@ import Toast from "react-native-toast-message";
 export default function LoginScreen() {
   const router = useRouter();
   const [values, setValues] = useState<LoginValues>({
-    email: "amir@example.com",
+    email: "andrea@example.com",
     password: "password",
   });
   const queryClient = useQueryClient();
