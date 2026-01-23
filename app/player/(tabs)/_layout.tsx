@@ -10,7 +10,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: t.colors.accent,
+        tabBarActiveTintColor: t.colors.secondary,
         tabBarStyle: {
           position: "absolute", // so we can float buttons
           height: 70,
@@ -43,7 +43,7 @@ export default function TabLayout() {
             <Pressable
               onPress={props.onPress}
               style={{
-                backgroundColor: t.colors.accent,
+                backgroundColor: t.colors.secondary,
                 top: -30, // float above tab bar
                 justifyContent: "center",
                 alignItems: "center",

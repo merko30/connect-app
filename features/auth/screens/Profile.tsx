@@ -26,6 +26,7 @@ export default function ProfileScreen() {
   const { data: user } = useGetCurrentUser();
 
   const pathname = usePathname();
+  const isClub = pathname.includes("club");
 
   const queryClient = useQueryClient();
 
@@ -51,11 +52,7 @@ export default function ProfileScreen() {
       <View style={styles.menuSection}>
         <MenuSection
           title="Profile"
-          items={
-            pathname.includes("club")
-              ? CLUB_PROFILE_MENU_ITEMS
-              : PLAYER_PROFILE_MENU_ITEMS
-          }
+          items={isClub ? CLUB_PROFILE_MENU_ITEMS : PLAYER_PROFILE_MENU_ITEMS}
         />
         <MenuSection
           title="Security Settings"
@@ -63,7 +60,7 @@ export default function ProfileScreen() {
         />
         <ThemedButton
           title="Logout"
-          variant="outline"
+          variant={!isClub ? "outlineSecondary" : "outline"}
           onPress={handleLogout}
           style={{ marginTop: 24 }}
         />

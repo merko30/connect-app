@@ -8,7 +8,11 @@ import {
 } from "react-native";
 import { useStyleThemed } from "../theme";
 
-export type ThemedButtonVariant = "primary" | "secondary" | "outline";
+export type ThemedButtonVariant =
+  | "primary"
+  | "secondary"
+  | "outline"
+  | "outlineSecondary";
 
 export interface ThemedButtonProps {
   title: string;
@@ -39,6 +43,10 @@ export const ThemedButton: React.FC<ThemedButtonProps> = ({
       flexDirection: "row",
       opacity: disabled ? 0.6 : 1,
     },
+    baseText: {
+      fontWeight: "600",
+      fontSize: 16,
+    },
     primary: {
       backgroundColor: t.colors.primary,
     },
@@ -50,20 +58,22 @@ export const ThemedButton: React.FC<ThemedButtonProps> = ({
       borderWidth: 1.5,
       borderColor: t.colors.primary,
     },
+    outlineSecondary: {
+      backgroundColor: "transparent",
+      borderWidth: 1.5,
+      borderColor: t.colors.secondary,
+    },
     textPrimary: {
       color: "#fff",
-      fontWeight: "600",
-      fontSize: 16,
     },
     textSecondary: {
       color: "#fff",
-      fontWeight: "600",
-      fontSize: 16,
     },
     textOutline: {
       color: t.colors.primary,
-      fontWeight: "600",
-      fontSize: 16,
+    },
+    textOutlineSecondary: {
+      color: t.colors.secondary,
     },
   }));
 
@@ -72,12 +82,15 @@ export const ThemedButton: React.FC<ThemedButtonProps> = ({
     variant === "primary" && themed.primary,
     variant === "secondary" && themed.secondary,
     variant === "outline" && themed.outline,
+    variant === "outlineSecondary" && themed.outlineSecondary,
     style,
   ];
   const textStyles = [
+    themed.baseText,
     variant === "primary" && themed.textPrimary,
     variant === "secondary" && themed.textSecondary,
     variant === "outline" && themed.textOutline,
+    variant === "outlineSecondary" && themed.textOutlineSecondary,
     textStyle,
   ];
 
