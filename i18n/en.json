@@ -80,7 +80,11 @@
       "email": "Invalid email address.",
       "password": "Password must be at least 6 characters.",
       "clubName": "Club name is required.",
-      "contactPhone": "Invalid Slovenian phone number."
+      "contactPhone": "Invalid Slovenian phone number.",
+      "country": "Country is required.",
+      "level": "Level is required.",
+      "website": "Invalid website URL.",
+      "contactEmail": "Invalid email address."
     },
     "country": "Country",
     "city": "City",

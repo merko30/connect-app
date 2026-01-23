@@ -81,7 +81,11 @@
       "email": "Neveljaven e-poštni naslov.",
       "password": "Geslo mora imeti vsaj 6 znakov.",
       "clubName": "Ime kluba je obvezno.",
-      "contactPhone": "Neveljavna slovenska telefonska številka."
+      "contactPhone": "Neveljavna slovenska telefonska številka.",
+      "country": "Država je obvezna.",
+      "level": "Raven je obvezna.",
+      "website": "Neveljaven URL spletne strani.",
+      "contactEmail": "Neveljaven e-poštni naslov."
     },
     "country": "Država",
     "city": "Mesto",

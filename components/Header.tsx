@@ -12,7 +12,7 @@ const Header = (props: React.ComponentProps<typeof RNHeader>) => {
     <RNHeader
       {...props}
       headerLeft={() => (
-        <Pressable onPress={router.back}>
+        <Pressable onPress={router.back} style={styles.left}>
           <IconSymbol
             name="chevron.left"
             size={20}
@@ -26,8 +26,9 @@ const Header = (props: React.ComponentProps<typeof RNHeader>) => {
 };
 
 const stylesheet = createStyle(() => ({
+  left: { marginRight: 40 },
   chevron: {
-    paddingLeft: 48,
+    paddingLeft: 20,
   },
 }));
 

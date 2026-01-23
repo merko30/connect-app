@@ -102,13 +102,23 @@ export const getPlayerRegisterDefaults = (
 });
 
 export const clubSchema = z.object({
-  clubName: z.string().min(1, "Club name is required"),
-  country: z.string().min(1, "Country is required"),
+  clubName: z.string().min(1, { message: "register.error.clubName" }),
+  country: z.string().min(1, { message: "register.error.country" }),
   city: z.string().optional(),
   league: z.string().optional(),
-  level: z.enum(["amateur", "semi-pro", "pro"]),
-  website: z.string().url("Invalid URL").optional().or(z.literal("")),
-  contactEmail: z.string().email("Invalid email").optional().or(z.literal("")),
+  level: z.enum(["amateur", "semi-pro", "pro"], {
+    message: "register.error.level",
+  }),
+  website: z
+    .string()
+    .url({ message: "register.error.website" })
+    .optional()
+    .or(z.literal("")),
+  contactEmail: z
+    .string()
+    .email({ message: "register.error.contactEmail" })
+    .optional()
+    .or(z.literal("")),
   contactPhone: z.string().optional().or(z.literal("")),
 });
 
