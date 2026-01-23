@@ -5,8 +5,9 @@ import { PlayerCard } from "@/features/players/components/PlayerCard";
 import { useDebounce } from "@/hooks/useDebounce";
 import { PlayerProfile } from "@/types/players";
 import { StrapiListResponse } from "@/types/strapi";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,6 +16,13 @@ export default function PlayerSearchScreen() {
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
 
   const {
     data,
@@ -69,7 +77,11 @@ export default function PlayerSearchScreen() {
           onPress={() => {}}
           accessibilityLabel="Filters"
         >
-          <IconSymbol name="magnifyingglass" size={24} color="#888" />
+          <IconSymbol
+            name="line.3.horizontal.decrease.circle"
+            size={24}
+            color="#888"
+          />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -90,6 +102,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 120,
+    alignItems: "center",
+    backgroundColor: "white",
+    zIndex: 100,
+    elevation: 10,
   },
   searchRow: {
     flexDirection: "row",

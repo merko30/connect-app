@@ -1,4 +1,5 @@
 import { Slot } from "expo-router";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -15,14 +16,16 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider
-        themes={themes}
-        initialTheme={colorScheme as "light" | "dark"}
-      >
-        <Slot />
-        <Toast topOffset={70} />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <GestureHandlerRootView>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider
+          themes={themes}
+          initialTheme={colorScheme as "light" | "dark"}
+        >
+          <Slot />
+          <Toast topOffset={70} />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 }
