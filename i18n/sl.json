@@ -23,7 +23,8 @@
     "registerDescription": "Ustvarite račun, da se pridružite skupnosti in začnete povezovati s klubi in igralci.",
     "haveAccount": "Že imate račun? Prijava",
     "registerAs": "Registrirajte se kot",
-    "editPlayerInfo": "Uredi informacije o igralcu"
+    "editPlayerInfo": "Uredi informacije o igralcu",
+    "editClubInfo": "Uredi informacije o klubu"
   },
   "home": {
     "title": "Domača stran",
@@ -81,6 +82,13 @@
       "password": "Geslo mora imeti vsaj 6 znakov.",
       "clubName": "Ime kluba je obvezno.",
       "contactPhone": "Neveljavna slovenska telefonska številka."
-    }
+    },
+    "country": "Država",
+    "city": "Mesto",
+    "league": "Liga",
+    "level": "Raven",
+    "website": "Spletna stran",
+    "contactEmail": "Kontaktni e-poštni naslov",
+    "verified": "Preverjeno"
   }
 }

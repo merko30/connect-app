@@ -26,16 +26,14 @@ export function FormInput<T extends FieldValues>({
 }: FormInputProps<T> & TextInputProps) {
   const { t } = useTranslation();
   return (
-    <View style={[{ marginBottom: 8 }, containerStyle]}>
+    <View style={[{ marginBottom: 4 }, containerStyle]}>
       {placeholder && (
-        <ThemedText style={{ marginBottom: 1.5 }}>{placeholder}</ThemedText>
+        <ThemedText style={{ marginBottom: 0 }}>{placeholder}</ThemedText>
       )}
       <Controller
         control={control}
         name={name}
         render={({ field: { onChange, value }, fieldState: { error } }) => {
-          console.log(error);
-
           return (
             <View style={style}>
               <ThemedTextInput

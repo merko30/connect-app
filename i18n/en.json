@@ -23,7 +23,8 @@
     "registerDescription": "Create an account to join the community and start connecting with clubs and players.",
     "haveAccount": "Already have an account? Sign In",
     "registerAs": "Register as",
-    "editPlayerInfo": "Edit Player Information"
+    "editPlayerInfo": "Edit Player Information",
+    "editClubInfo": "Edit Club information"
   },
   "home": {
     "title": "Home",
@@ -80,6 +81,13 @@
       "password": "Password must be at least 6 characters.",
       "clubName": "Club name is required.",
       "contactPhone": "Invalid Slovenian phone number."
-    }
+    },
+    "country": "Country",
+    "city": "City",
+    "league": "League",
+    "level": "Level",
+    "website": "Website",
+    "contactEmail": "Contact Email",
+    "verified": "Verified"
   }
 }

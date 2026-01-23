@@ -4,6 +4,7 @@ export type ClubLevel = "amateur" | "semi-pro" | "pro";
 
 export type ClubProfile = {
   id: number;
+  documentId?: string;
   clubName: string;
   country: string;
   city?: string;

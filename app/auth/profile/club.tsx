@@ -1,1 +1,1 @@
-export { default } from "@/features/auth/screens/EditPlayerInfo";
+export { default } from "@/features/auth/screens/EditClubInfo";

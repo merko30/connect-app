@@ -17,7 +17,7 @@ import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Switch, TouchableOpacity, View } from "react-native";
+import { ScrollView, Switch, View } from "react-native";
 import Toast from "react-native-toast-message";
 import {
   getPlayerRegisterDefaults,
@@ -189,31 +189,11 @@ export default function EditPlayerInfo() {
             />
 
             <ThemedButton
-              title={t("register.register")}
+              title={t("save")}
               onPress={handleSubmit(onSubmit)}
               variant="primary"
               style={{ marginTop: 12 }}
             />
-
-            {/* Debug: Show saved form state */}
-            {formState && (
-              <View style={{ marginTop: 16 }}>
-                <ThemedText variant="caption">
-                  {t("register.savedFormData")}
-                </ThemedText>
-                <ThemedText style={{ fontSize: 12, color: "#888" }}>
-                  {JSON.stringify(formState, null, 2)}
-                </ThemedText>
-              </View>
-            )}
-            <TouchableOpacity
-              style={styles.link}
-              onPress={() => router.navigate("/auth/login")}
-            >
-              <ThemedText style={styles.linkText}>
-                {t("register.alreadyHaveAccount")}
-              </ThemedText>
-            </TouchableOpacity>
           </View>
         </ScrollView>
       </KeyboardAvoid>

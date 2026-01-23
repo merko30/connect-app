@@ -1,4 +1,5 @@
 // Slovenian phone number regex
+import { ClubProfile } from "@/types/clubs";
 import { PlayerProfile } from "@/types/players";
 import * as z from "zod";
 
@@ -98,4 +99,28 @@ export const getPlayerRegisterDefaults = (
   availabilityFrom: player?.availabilityFrom
     ? new Date(player.availabilityFrom)
     : null,
+});
+
+export const clubSchema = z.object({
+  clubName: z.string().min(1, "Club name is required"),
+  country: z.string().min(1, "Country is required"),
+  city: z.string().optional(),
+  league: z.string().optional(),
+  level: z.enum(["amateur", "semi-pro", "pro"]),
+  website: z.string().url("Invalid URL").optional().or(z.literal("")),
+  contactEmail: z.string().email("Invalid email").optional().or(z.literal("")),
+  contactPhone: z.string().optional().or(z.literal("")),
+});
+
+export type ClubForm = z.infer<typeof clubSchema>;
+
+export const getClubFormDefaults = (club?: ClubProfile | null): ClubForm => ({
+  clubName: club?.clubName ?? "",
+  country: club?.country ?? "",
+  city: club?.city ?? "",
+  league: club?.league ?? "",
+  level: club?.level ?? "amateur",
+  website: club?.website ?? "",
+  contactEmail: club?.contactEmail ?? "",
+  contactPhone: club?.contactPhone ?? "",
 });

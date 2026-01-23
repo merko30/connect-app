@@ -49,9 +49,9 @@ export function FormPicker<T extends FieldValues>({
               },
               (buttonIndex) => {
                 field.onChange(
-                  options.find((_, index) => index === buttonIndex)?.value
+                  options.find((_, index) => index === buttonIndex)?.value,
                 );
-              }
+              },
             )
           }
           style={styles.sheetButton}
@@ -106,6 +106,8 @@ const stylesheet = createStyle((t) => ({
     borderColor: t.colors.text + "33",
     borderRadius: 8,
     marginTop: 4,
+    height: 55,
+    paddingLeft: 4,
     backgroundColor: t.colors.surface,
   },
   picker: {

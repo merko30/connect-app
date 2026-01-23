@@ -24,6 +24,9 @@ const MAPPING = {
   magnifyingglass: "search",
   "person.fill": "person",
   "chevron.left": "chevron-left",
+  "lock.fill": "lock",
+  person: "person",
+  sportscourt: "sports-soccer",
 } as IconMapping;
 
 /**
