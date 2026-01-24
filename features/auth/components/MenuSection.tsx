@@ -1,13 +1,9 @@
 import { ThemedText } from "@/components/ThemedText";
-import { IconSymbol, IconSymbolName } from "@/components/ui/icon-symbol";
-import { Href, Link } from "expo-router";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { MenuItem } from "@/constants/profile";
+import { Link } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-
-export interface MenuItem {
-  label: string;
-  icon: IconSymbolName;
-  href: Href;
-}
 
 interface MenuSectionProps {
   title: string;
@@ -15,6 +11,7 @@ interface MenuSectionProps {
 }
 
 export default function MenuSection({ title, items }: MenuSectionProps) {
+  const { t } = useTranslation();
   return (
     <View style={styles.section}>
       <ThemedText style={styles.sectionTitle}>{title}</ThemedText>
@@ -25,7 +22,7 @@ export default function MenuSection({ title, items }: MenuSectionProps) {
             {item.icon && (
               <IconSymbol name={item.icon} size={20} color="black" />
             )}
-            <ThemedText style={styles.menuLabel}>{item.label}</ThemedText>
+            <ThemedText style={styles.menuLabel}>{t(item.label)}</ThemedText>
           </View>
         </Link>
       ))}

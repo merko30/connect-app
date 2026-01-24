@@ -120,7 +120,7 @@ export const ClubFiltersSheet = ({
               return renderFilter(filter);
             })}
             <ThemedButton
-              title="Apply"
+              title={t("apply")}
               onPress={form.handleSubmit(handleApply)}
               style={{ marginTop: 16 }}
             />

@@ -11,18 +11,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const SECURITY_SETTINGS_ITEMS: MenuItem[] = [
   {
-    label: "Change Password",
+    label: "profile.changePassword",
     icon: "lock.fill",
     href: "/",
   },
 ];
 
 export default function ProfileScreen() {
+  const { t } = useTranslation();
   const { data: user } = useGetCurrentUser();
   const router = useRouter();
 
@@ -53,15 +55,15 @@ export default function ProfileScreen() {
       </View>
       <View style={styles.menuSection}>
         <MenuSection
-          title="Profile"
+          title={t("profile.title")}
           items={isClub ? CLUB_PROFILE_MENU_ITEMS : PLAYER_PROFILE_MENU_ITEMS}
         />
         <MenuSection
-          title="Security Settings"
+          title={t("profile.settings")}
           items={SECURITY_SETTINGS_ITEMS}
         />
         <ThemedButton
-          title="Logout"
+          title={t("profile.logout")}
           variant={!isClub ? "outlineSecondary" : "outline"}
           onPress={handleLogout}
           style={{ marginTop: 24 }}

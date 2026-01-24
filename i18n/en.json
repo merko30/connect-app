@@ -5,13 +5,17 @@
   "select": "Select",
   "remove": "Remove",
   "save": "Save",
+  "apply": "Apply",
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
     "viewProfile": "View Profile",
     "settings": "Settings",
     "logout": "Logout",
-    "editUserInfo": "Edit User Information"
+    "editUserInfo": "Edit User Information",
+    "editPlayerInfo": "Edit Player Information",
+    "editClubInfo": "Edit Club information",
+    "changePassword": "Change password"
   },
   "auth": {
     "signIn": "Sign In",

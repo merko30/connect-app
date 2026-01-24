@@ -5,13 +5,17 @@
   "select": "Izberi",
   "remove": "Odstrani",
   "save": "Shrani",
+  "apply": "Uporabi",
   "profile": {
     "title": "Profil",
     "editProfile": "Uredi profil",
     "viewProfile": "Ogled profila",
     "settings": "Nastavitve",
     "logout": "Odjava",
-    "editUserInfo": "Uredi uporabniške informacije"
+    "editUserInfo": "Uredi uporabniške informacije",
+    "editPlayerInfo": "Uredi informacije o igralcu",
+    "editClubInfo": "Uredi informacije o klubu",
+    "changePassword": "Spremeni geslo"
   },
   "auth": {
     "signIn": "Prijava",
