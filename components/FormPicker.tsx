@@ -1,4 +1,5 @@
 import { ThemedText } from "@/components/ThemedText";
+import { TranslationKey } from "@/i18n";
 import { createStyle, useStyle, useTheme } from "@/theme";
 import { Picker } from "@react-native-picker/picker";
 import React from "react";
@@ -43,7 +44,13 @@ export function FormPicker<T extends FieldValues>({
           onPress={() =>
             ActionSheetIOS.showActionSheetWithOptions(
               {
-                options: [...options.map((option) => option.label), "Cancel"],
+                options: [
+                  ...options.map(
+                    (option) =>
+                      translate(option.label as TranslationKey) ?? option.label,
+                  ),
+                  "Cancel",
+                ],
                 userInterfaceStyle: "dark",
                 cancelButtonIndex: options.length,
               },
@@ -56,7 +63,9 @@ export function FormPicker<T extends FieldValues>({
           }
           style={styles.sheetButton}
         >
-          <ThemedText>{field.value ?? translate("select")}</ThemedText>
+          <ThemedText>
+            {translate(field.value) ?? field.value ?? translate("select")}
+          </ThemedText>
         </Pressable>
       </>
     );

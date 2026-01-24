@@ -9,7 +9,7 @@ export const CLUB_FILTERS: FilterField[] = [
     label: "register.primaryPosition", // translation key
     type: "select",
     options: PRIMARY_POSITIONS.map((p) => ({
-      label: `register.primaryPosition.${p.toLowerCase()}`,
+      label: p,
       value: p,
     })),
     strapiOperator: "$eq",
@@ -22,7 +22,6 @@ export const CLUB_FILTERS: FilterField[] = [
     options: [
       { label: "register.left", value: "left" },
       { label: "register.right", value: "right" },
-      { label: "register.both", value: "both" }, // If "both" is not present, add to i18n
     ],
     strapiOperator: "$eq",
   },

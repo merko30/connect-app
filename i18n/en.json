@@ -23,13 +23,12 @@
     "registerDescription": "Create an account to join the community and start connecting with clubs and players.",
     "haveAccount": "Already have an account? Sign In",
     "registerAs": "Register as",
-    "both": "Both",
     "editClubInfo": "Edit Club information",
-    "common": {
-      "yes": "Yes",
-      "no": "No"
-    },
     "profileUpdated": "You have successfully updated your profile"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No"
   },
   "filters": {
     "minHeight": "Min Height",
@@ -101,6 +100,7 @@
     "level": "Level",
     "website": "Website",
     "contactEmail": "Contact Email",
-    "verified": "Verified"
+    "verified": "Verified",
+    "both": "Both"
   }
 }
