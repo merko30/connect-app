@@ -1,13 +1,15 @@
 import { PRIMARY_POSITIONS } from "@/features/auth/constants";
 import { FilterField } from "@/types/filters";
+// Translation keys for filters
+// Use these keys with your translation function (e.g., t(key)) in UI
 
 export const CLUB_FILTERS: FilterField[] = [
   {
     name: "primaryPosition",
-    label: "Position",
+    label: "register.primaryPosition", // translation key
     type: "select",
     options: PRIMARY_POSITIONS.map((p) => ({
-      label: p,
+      label: `register.primaryPosition.${p.toLowerCase()}`,
       value: p,
     })),
     strapiOperator: "$eq",
@@ -15,29 +17,29 @@ export const CLUB_FILTERS: FilterField[] = [
 
   {
     name: "preferredFoot",
-    label: "Preferred Foot",
+    label: "register.preferredFoot", // translation key
     type: "select",
     options: [
-      { label: "Left", value: "left" },
-      { label: "Right", value: "right" },
-      { label: "Both", value: "both" },
+      { label: "register.left", value: "left" },
+      { label: "register.right", value: "right" },
+      { label: "register.both", value: "both" }, // If "both" is not present, add to i18n
     ],
     strapiOperator: "$eq",
   },
 
   {
     name: "heightCm",
-    label: "Height",
+    label: "register.height", // translation key
     filters: [
       {
         name: "minHeightCm",
-        label: "Min Height",
+        label: "filters.minHeight", // Add to i18n if not present
         type: "number",
         strapiOperator: "$gte",
       },
       {
         name: "maxHeightCm",
-        label: "Max Height",
+        label: "filters.maxHeight", // Add to i18n if not present
         type: "number",
         strapiOperator: "$lte",
       },
@@ -45,18 +47,18 @@ export const CLUB_FILTERS: FilterField[] = [
   },
   {
     name: "availabilityFrom",
-    label: "Available from",
+    label: "register.availableFrom", // translation key
     type: "date",
     strapiOperator: "$lte",
   },
 
   {
     name: "isFreeAgent",
-    label: "Free Agent",
+    label: "register.isFreeAgent", // translation key
     type: "select",
     options: [
-      { label: "Yes", value: 1 },
-      { label: "No", value: 0 },
+      { label: "common.yes", value: 1 }, // Add "common.yes" to i18n if not present
+      { label: "common.no", value: 0 }, // Add "common.no" to i18n if not present
     ],
     strapiOperator: "$eq",
   },

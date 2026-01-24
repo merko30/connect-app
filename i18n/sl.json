@@ -23,9 +23,17 @@
     "registerDescription": "Ustvarite račun, da se pridružite skupnosti in začnete povezovati s klubi in igralci.",
     "haveAccount": "Že imate račun? Prijava",
     "registerAs": "Registrirajte se kot",
-    "editPlayerInfo": "Uredi informacije o igralcu",
+    "both": "Obe",
     "editClubInfo": "Uredi informacije o klubu",
+    "common": {
+      "yes": "Da",
+      "no": "Ne"
+    },
     "profileUpdated": "Uspešno ste posodobili svoj profil"
+  },
+  "filters": {
+    "minHeight": "Minimalna višina",
+    "maxHeight": "Maksimalna višina"
   },
   "home": {
     "title": "Domača stran",

@@ -8,6 +8,7 @@ import { FilterField } from "@/types/filters";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { TouchableOpacity, View } from "react-native";
 
 export type ClubFiltersSheetProps = {
@@ -25,6 +26,7 @@ export const ClubFiltersSheet = ({
 }: ClubFiltersSheetProps) => {
   const ref = useRef<BottomSheetModal>(null);
   const form = useForm({ defaultValues: initialValues });
+  const { t } = useTranslation();
 
   const handleOpen = () => {
     ref?.current?.present();
@@ -46,7 +48,7 @@ export const ClubFiltersSheet = ({
           control={form.control}
           keyboardType="numeric"
           name={filter.name}
-          placeholder={filter.label}
+          placeholder={t(filter.label)}
           containerStyle={{ flex: 1 }}
         />
       );
@@ -57,7 +59,7 @@ export const ClubFiltersSheet = ({
           key={filter.name}
           control={form.control}
           name={filter.name}
-          placeholder={filter.label}
+          placeholder={t(filter.label)}
         />
       );
     }
@@ -67,7 +69,7 @@ export const ClubFiltersSheet = ({
           key={filter.name}
           control={form.control}
           name={filter.name}
-          label={filter.label}
+          label={t(filter.label)}
           options={filter.options}
         />
       );
@@ -78,7 +80,7 @@ export const ClubFiltersSheet = ({
           key={filter.name}
           control={form.control}
           name={filter.name}
-          label={filter.label}
+          label={t(filter.label)}
         />
       );
     }

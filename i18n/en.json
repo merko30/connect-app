@@ -23,9 +23,17 @@
     "registerDescription": "Create an account to join the community and start connecting with clubs and players.",
     "haveAccount": "Already have an account? Sign In",
     "registerAs": "Register as",
-    "editPlayerInfo": "Edit Player Information",
+    "both": "Both",
     "editClubInfo": "Edit Club information",
+    "common": {
+      "yes": "Yes",
+      "no": "No"
+    },
     "profileUpdated": "You have successfully updated your profile"
+  },
+  "filters": {
+    "minHeight": "Min Height",
+    "maxHeight": "Max Height"
   },
   "home": {
     "title": "Home",
