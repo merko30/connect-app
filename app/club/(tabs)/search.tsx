@@ -1,13 +1,14 @@
 import { playersApi } from "@/api/players";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { CLUB_FILTERS } from "@/constants/clubFilters";
 import ClubFiltersSheet from "@/features/clubs/components/ClubFiltersSheet";
 import { PlayerCard } from "@/features/players/components/PlayerCard";
 import { useDebounce } from "@/hooks/useDebounce";
 import { PlayerProfile } from "@/types/players";
 import { StrapiListResponse } from "@/types/strapi";
-import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { buildStrapiFilters, toStrapiQueryString } from "@/utils/strapi-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -17,7 +18,34 @@ export default function PlayerSearchScreen() {
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
 
-  const filtersSheetRef = useRef<BottomSheetModal>(null);
+  const [filters, setFilters] = useState<Record<string, any>>({});
+
+  const onApplyFilters = (values: Record<string, any>) => {
+    setFilters(values);
+  };
+
+  const strapiFilters = useMemo(
+    () => buildStrapiFilters(filters, CLUB_FILTERS),
+    [filters],
+  );
+
+  const formattedFilters = useMemo(() => {
+    return {
+      $and: [
+        ...(debouncedSearch
+          ? [
+              {
+                $or: [
+                  { firstName: { $containsi: debouncedSearch } },
+                  { lastName: { $containsi: debouncedSearch } },
+                ],
+              },
+            ]
+          : []),
+        ...(Object.keys(strapiFilters).length ? [strapiFilters] : []),
+      ],
+    };
+  }, [strapiFilters, debouncedSearch]);
 
   const {
     data,
@@ -27,21 +55,14 @@ export default function PlayerSearchScreen() {
     isPending,
     hasNextPage,
   } = useInfiniteQuery<StrapiListResponse<PlayerProfile>>({
-    queryKey: ["players", debouncedSearch],
+    queryKey: ["players", debouncedSearch, toStrapiQueryString(strapiFilters)],
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
       const page =
         typeof pageParam === "number" ? pageParam : Number(pageParam);
       return playersApi.list({
         pagination: { page, pageSize: 20 },
-        filters: debouncedSearch
-          ? {
-              $or: [
-                { firstName: { $containsi: debouncedSearch } },
-                { lastName: { $containsi: debouncedSearch } },
-              ],
-            }
-          : undefined,
+        filters: formattedFilters,
       });
     },
     getNextPageParam: (lastPage) => {
@@ -67,7 +88,7 @@ export default function PlayerSearchScreen() {
           placeholder={t("search")}
           style={styles.input}
         />
-        <ClubFiltersSheet filters={[]} />
+        <ClubFiltersSheet filters={CLUB_FILTERS} onApply={onApplyFilters} />
       </View>
       <FlatList
         data={players}
@@ -102,17 +123,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
     marginBottom: 8,
+    gap: 12,
   },
   input: {
     flex: 1,
-    marginRight: 8,
-  },
-  iconButton: {
-    padding: 8,
-    borderRadius: 8,
-    backgroundColor: "#f2f2f2",
-    justifyContent: "center",
-    alignItems: "center",
+    marginBottom: 0,
   },
   listContent: {
     paddingHorizontal: 16,

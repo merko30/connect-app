@@ -18,17 +18,17 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <BottomSheetModalProvider>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider
-            themes={themes}
-            initialTheme={colorScheme as "light" | "dark"}
-          >
+      <ThemeProvider
+        themes={themes}
+        initialTheme={colorScheme as "light" | "dark"}
+      >
+        <BottomSheetModalProvider>
+          <QueryClientProvider client={queryClient}>
             <Slot />
             <Toast topOffset={70} />
-          </ThemeProvider>
-        </QueryClientProvider>
-      </BottomSheetModalProvider>
+          </QueryClientProvider>
+        </BottomSheetModalProvider>
+      </ThemeProvider>
     </GestureHandlerRootView>
   );
 }

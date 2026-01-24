@@ -59,7 +59,7 @@ export function FormDatePicker<T extends FieldValues>({
                 }}
               >
                 <Picker
-                  value={value}
+                  value={value || new Date()}
                   onChange={(_, date) => {
                     onChange(date);
                     setOpen(false);

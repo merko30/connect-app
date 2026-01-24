@@ -27,7 +27,7 @@ const MAPPING = {
   "lock.fill": "lock",
   person: "person",
   sportscourt: "sports-soccer",
-  "line.horizontal.3.decrease.circle": "filter",
+  "slider.horizontal.3": "tune",
 } as IconMapping;
 
 /**

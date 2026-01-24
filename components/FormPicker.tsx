@@ -16,7 +16,7 @@ export type FormPickerProps<T extends FieldValues> = {
   control: Control<T>;
   name: FieldPath<T>;
   label?: string;
-  options: { label: string; value: string }[];
+  options: { label: string; value: string | number }[];
   placeholder?: string;
   style?: any;
   pickerContainerStyle?: any;
