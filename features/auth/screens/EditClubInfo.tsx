@@ -11,7 +11,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import Toast from "react-native-toast-message";
 import { ClubForm, clubSchema, getClubFormDefaults } from "../constants";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
@@ -51,83 +51,83 @@ export default function EditPlayerInfo() {
 
   return (
     <FormProvider {...form}>
-      <KeyboardAvoid>
+      <KeyboardAvoid style={{ flex: 1 }}>
         <Header title={t("auth.editClubInfo")} />
         <ScrollView
           contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: "center",
+            paddingHorizontal: 24,
+            paddingTop: 12,
+            paddingBottom: 100,
+            backgroundColor: "white",
           }}
         >
-          <View style={styles.container}>
-            <FormInput
-              control={control}
-              name="clubName"
-              placeholder={t("register.clubName")}
-              style={styles.field}
-            />
+          <FormInput
+            control={control}
+            name="clubName"
+            placeholder={t("register.clubName")}
+            style={styles.field}
+          />
 
-            <FormInput
-              control={control}
-              name="country"
-              placeholder={t("register.country")}
-              style={styles.field}
-            />
+          <FormInput
+            control={control}
+            name="country"
+            placeholder={t("register.country")}
+            style={styles.field}
+          />
 
-            <FormInput
-              control={control}
-              name="city"
-              placeholder={t("register.city")}
-              style={styles.field}
-            />
+          <FormInput
+            control={control}
+            name="city"
+            placeholder={t("register.city")}
+            style={styles.field}
+          />
 
-            <FormInput
-              control={control}
-              name="league"
-              placeholder={t("register.league")}
-              style={styles.field}
-            />
+          <FormInput
+            control={control}
+            name="league"
+            placeholder={t("register.league")}
+            style={styles.field}
+          />
 
-            <FormPicker
-              control={control}
-              name="level"
-              placeholder={t("register.level")}
-              options={[
-                { label: t("register.amateur"), value: "amateur" },
-                { label: t("register.semiPro"), value: "semi-pro" },
-                { label: t("register.pro"), value: "pro" },
-              ]}
-              style={styles.field}
-            />
+          <FormPicker
+            control={control}
+            name="level"
+            placeholder={t("register.level")}
+            options={[
+              { label: t("register.amateur"), value: "amateur" },
+              { label: t("register.semiPro"), value: "semi-pro" },
+              { label: t("register.pro"), value: "pro" },
+            ]}
+            style={styles.field}
+          />
 
-            <FormInput
-              control={control}
-              name="website"
-              placeholder={t("register.website")}
-              style={styles.field}
-            />
+          <FormInput
+            control={control}
+            name="website"
+            placeholder={t("register.website")}
+            style={styles.field}
+          />
 
-            <FormInput
-              control={control}
-              name="contactEmail"
-              placeholder={t("register.contactEmail")}
-              style={styles.field}
-            />
+          <FormInput
+            control={control}
+            name="contactEmail"
+            placeholder={t("register.contactEmail")}
+            style={styles.field}
+          />
 
-            <FormInput
-              control={control}
-              name="contactPhone"
-              placeholder={t("register.contactPhone")}
-              style={styles.field}
-            />
+          <FormInput
+            control={control}
+            name="contactPhone"
+            placeholder={t("register.contactPhone")}
+            style={styles.field}
+          />
 
-            <ThemedButton
-              title={t("save")}
-              onPress={handleSubmit(onSubmit)}
-              variant="primary"
-              style={{ marginTop: 12 }}
-            />
-          </View>
+          <ThemedButton
+            title={t("save")}
+            onPress={handleSubmit(onSubmit)}
+            variant="primary"
+            style={{ marginTop: 12 }}
+          />
         </ScrollView>
       </KeyboardAvoid>
     </FormProvider>
@@ -138,7 +138,6 @@ const stylesheet = createStyle((t) => ({
   container: {
     flex: 1,
     padding: 24,
-    paddingTop: 64,
     backgroundColor: t.colors.background,
   },
   buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },

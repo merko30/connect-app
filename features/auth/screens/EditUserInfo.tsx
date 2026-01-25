@@ -97,7 +97,6 @@ const stylesheet = createStyle((t) => ({
   container: {
     flex: 1,
     padding: 24,
-    paddingTop: 64,
     backgroundColor: t.colors.background,
   },
 }));

@@ -1,7 +1,7 @@
 import { createStyle, useStyle, useTheme } from "@/theme";
 import { Header as RNHeader } from "@react-navigation/elements";
 import { useRouter } from "expo-router";
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
 import { IconSymbol } from "./ui/icon-symbol";
 
 const Header = (props: React.ComponentProps<typeof RNHeader>) => {
@@ -15,7 +15,7 @@ const Header = (props: React.ComponentProps<typeof RNHeader>) => {
         <Pressable onPress={router.back} style={styles.left}>
           <IconSymbol
             name="chevron.left"
-            size={24}
+            size={Platform.OS === "ios" ? 18 : 24}
             color={t.colors.text}
             style={styles.chevron}
           />
@@ -28,7 +28,7 @@ const Header = (props: React.ComponentProps<typeof RNHeader>) => {
 const stylesheet = createStyle(() => ({
   left: { marginRight: 40 },
   chevron: {
-    paddingLeft: 20,
+    paddingLeft: Platform.OS === "ios" ? 48 : 20,
   },
 }));
 
