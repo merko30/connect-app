@@ -53,14 +53,7 @@ export default function EditPlayerInfo() {
     <FormProvider {...form}>
       <KeyboardAvoid style={{ flex: 1 }}>
         <Header title={t("auth.editClubInfo")} />
-        <ScrollView
-          contentContainerStyle={{
-            paddingHorizontal: 24,
-            paddingTop: 12,
-            paddingBottom: 100,
-            backgroundColor: "white",
-          }}
-        >
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
           <FormInput
             control={control}
             name="clubName"
@@ -135,6 +128,12 @@ export default function EditPlayerInfo() {
 }
 
 const stylesheet = createStyle((t) => ({
+  scrollContainer: {
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    paddingBottom: 100,
+    backgroundColor: t.colors.background,
+  },
   container: {
     flex: 1,
     padding: 24,

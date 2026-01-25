@@ -4,12 +4,13 @@ import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
 import { ThemedButton } from "@/components/ThemedButton";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import { createStyle, useStyle } from "@/theme";
 import { FilterField } from "@/types/filters";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
 
 export type ClubFiltersSheetProps = {
   filters: FilterField[];
@@ -24,6 +25,7 @@ export const ClubFiltersSheet = ({
   initialValues = {},
   iconStyle,
 }: ClubFiltersSheetProps) => {
+  const styles = useStyle(stylesheet);
   const ref = useRef<BottomSheetModal>(null);
   const form = useForm({ defaultValues: initialValues });
   const { t } = useTranslation();
@@ -97,7 +99,7 @@ export const ClubFiltersSheet = ({
       </TouchableOpacity>
       <ReusableBottomSheet ref={ref} snapPoints={["40%", "70%"]}>
         <FormProvider {...form}>
-          <View style={{ padding: 16 }}>
+          <ScrollView style={styles.scrollContainer}>
             {filters.map((filter) => {
               if (filter.filters?.length) {
                 return (
@@ -123,12 +125,16 @@ export const ClubFiltersSheet = ({
               onPress={form.handleSubmit(handleApply)}
               style={{ marginTop: 16 }}
             />
-          </View>
+          </ScrollView>
         </FormProvider>
       </ReusableBottomSheet>
     </>
   );
 };
+
+const stylesheet = createStyle((t) => ({
+  scrollContainer: { padding: 16 },
+}));
 
 ClubFiltersSheet.displayName = "ClubFiltersSheet";
 

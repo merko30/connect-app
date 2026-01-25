@@ -1,3 +1,4 @@
+import { createStyle, useStyle } from "@/theme";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -9,7 +10,6 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-import { StyleSheet } from "react-native";
 
 type Props = {
   children: ReactNode;
@@ -19,7 +19,7 @@ type Props = {
 export const ReusableBottomSheet = forwardRef<BottomSheetModal, Props>(
   ({ children, snapPoints = ["50%"] }, ref) => {
     const internalRef = useRef<BottomSheetModal>(null);
-
+    const styles = useStyle(stylesheet);
     // Expose internal ref to parent
     useImperativeHandle(ref, () => internalRef.current!);
 
@@ -28,6 +28,9 @@ export const ReusableBottomSheet = forwardRef<BottomSheetModal, Props>(
         ref={internalRef}
         snapPoints={snapPoints}
         enablePanDownToClose
+        handleStyle={styles.bg}
+        backgroundStyle={styles.bg}
+        handleIndicatorStyle={styles.handle}
         backdropComponent={(props) => (
           <BottomSheetBackdrop {...props} disappearsOnIndex={-1} />
         )}
@@ -38,11 +41,18 @@ export const ReusableBottomSheet = forwardRef<BottomSheetModal, Props>(
   },
 );
 
-const styles = StyleSheet.create({
+const stylesheet = createStyle((t) => ({
   content: {
+    backgroundColor: t.colors.background,
     flex: 1,
     padding: 16,
   },
-});
+  handle: {
+    backgroundColor: t.colors.text,
+  },
+  bg: {
+    backgroundColor: t.colors.background,
+  },
+}));
 
 ReusableBottomSheet.displayName = "BottomSheet";

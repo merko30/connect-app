@@ -90,7 +90,7 @@ export function FormPicker<T extends FieldValues>({
               {options.map((opt) => (
                 <Picker.Item
                   key={opt.value}
-                  label={opt.label}
+                  label={translate(opt.label as TranslationKey) ?? opt.label}
                   value={opt.value}
                 />
               ))}

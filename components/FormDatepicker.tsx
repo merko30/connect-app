@@ -1,8 +1,10 @@
 import { ThemedText } from "@/components/ThemedText";
+import { TranslationKey } from "@/i18n";
 import { createStyle, useStyle, useTheme } from "@/theme";
 import Picker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { Platform, Pressable, View } from "react-native";
 import Modal from "react-native-modal";
 
@@ -10,7 +12,7 @@ export type FormDatePickerProps<T extends FieldValues> = {
   control: Control<T>;
   name: FieldPath<T>;
   label?: string;
-  placeholder?: string;
+  placeholder?: TranslationKey;
   style?: any;
   pickerContainerStyle?: any;
 };
@@ -19,13 +21,13 @@ export function FormDatePicker<T extends FieldValues>({
   control,
   name,
   label,
-  placeholder = "Select...",
+  placeholder = "select",
   pickerContainerStyle,
 }: FormDatePickerProps<T>) {
   const styles = useStyle(stylesheet);
   const { t } = useTheme();
   const [open, setOpen] = useState(false);
-
+  const { t: translate } = useTranslation();
   return (
     <Controller
       control={control}
@@ -44,7 +46,7 @@ export function FormDatePicker<T extends FieldValues>({
               onPress={() => setOpen(true)}
             >
               <ThemedText style={styles.picker}>
-                {value ? value.toDateString() : placeholder}
+                {value ? value.toDateString() : translate(placeholder)}
               </ThemedText>
             </Pressable>
 

@@ -8,18 +8,20 @@ import {
 } from "@/constants/profile";
 import MenuSection from "@/features/auth/components/MenuSection";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
+import { createStyle, useStyle } from "@/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
   const { data: user } = useGetCurrentUser();
   const router = useRouter();
+  const styles = useStyle(stylesheet);
 
   const pathname = usePathname();
   const isClub = pathname.includes("club");
@@ -69,12 +71,12 @@ export default function ProfileScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const stylesheet = createStyle((theme) => ({
   container: {
     flex: 1,
     alignItems: "center",
     padding: 24,
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.background,
   },
   avatarSection: {
     alignItems: "center",
@@ -109,4 +111,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "500",
   },
-});
+}));

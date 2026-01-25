@@ -21,11 +21,19 @@ const Header = (props: React.ComponentProps<typeof RNHeader>) => {
           />
         </Pressable>
       )}
+      headerStyle={styles.container}
+      headerTitleStyle={styles.title}
     />
   );
 };
 
-const stylesheet = createStyle(() => ({
+const stylesheet = createStyle((theme) => ({
+  container: {
+    backgroundColor: theme.colors.background,
+  },
+  title: {
+    color: theme.colors.text,
+  },
   left: { marginRight: 40 },
   chevron: {
     paddingLeft: Platform.OS === "ios" ? 48 : 20,

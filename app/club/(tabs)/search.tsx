@@ -4,19 +4,21 @@ import { CLUB_FILTERS } from "@/constants/clubFilters";
 import ClubFiltersSheet from "@/features/clubs/components/ClubFiltersSheet";
 import { PlayerCard } from "@/features/players/components/PlayerCard";
 import { useDebounce } from "@/hooks/useDebounce";
+import { createStyle, useStyle } from "@/theme";
 import { PlayerProfile } from "@/types/players";
 import { StrapiListResponse } from "@/types/strapi";
 import { buildStrapiFilters, toStrapiQueryString } from "@/utils/strapi-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PlayerSearchScreen() {
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
+  const styles = useStyle(stylesheet);
 
   const [filters, setFilters] = useState<Record<string, any>>({});
 
@@ -104,18 +106,10 @@ export default function PlayerSearchScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const stylesheet = createStyle((t) => ({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  contentContainer: {
-    flex: 1,
-    padding: 120,
-    alignItems: "center",
-    backgroundColor: "white",
-    zIndex: 100,
-    elevation: 10,
+    backgroundColor: t.colors.background,
   },
   searchRow: {
     flexDirection: "row",
@@ -133,4 +127,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 16,
   },
-});
+}));

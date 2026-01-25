@@ -1,9 +1,10 @@
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { MenuItem } from "@/constants/profile";
+import { createStyle, useStyle, useTheme } from "@/theme";
 import { Link } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 interface MenuSectionProps {
   title: string;
   items: MenuItem[];
@@ -11,6 +12,8 @@ interface MenuSectionProps {
 
 export default function MenuSection({ title, items }: MenuSectionProps) {
   const { t } = useTranslation();
+  const styles = useStyle(stylesheet);
+  const theme = useTheme();
   return (
     <View style={styles.section}>
       <ThemedText style={styles.sectionTitle}>{title}</ThemedText>
@@ -19,7 +22,11 @@ export default function MenuSection({ title, items }: MenuSectionProps) {
         <Link key={item.label} href={item.href}>
           <View style={styles.menuItem}>
             {item.icon && (
-              <IconSymbol name={item.icon} size={20} color="black" />
+              <IconSymbol
+                name={item.icon}
+                size={20}
+                color={theme.t.colors.text}
+              />
             )}
             <ThemedText style={styles.menuLabel}>{t(item.label)}</ThemedText>
           </View>
@@ -29,7 +36,7 @@ export default function MenuSection({ title, items }: MenuSectionProps) {
   );
 }
 
-const styles = StyleSheet.create({
+const stylesheet = createStyle((theme) => ({
   section: {
     width: "100%",
     marginBottom: 24,
@@ -38,7 +45,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "600",
     marginBottom: 12,
-    color: "#666",
+    color: theme.colors.gray[300],
     textTransform: "uppercase",
   },
   menuItem: {
@@ -47,11 +54,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#f0f0f0",
+    borderBottomColor: theme.colors.gray[600],
     gap: 12,
   },
   menuLabel: {
     fontSize: 14,
     fontWeight: "500",
   },
-});
+}));
