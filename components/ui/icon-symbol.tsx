@@ -28,6 +28,9 @@ const MAPPING = {
   person: "person",
   sportscourt: "sports-soccer",
   "slider.horizontal.3": "tune",
+  star: "star",
+  location: "location-on",
+  "x.circle": "close",
 } as IconMapping;
 
 /**

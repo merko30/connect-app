@@ -1,8 +1,9 @@
 import { ThemedText } from "@/components/ThemedText";
+import { IconSymbol } from "@/components/ui/icon-symbol";
 import { createStyle, useStyle } from "@/theme";
 import { PlayerProfile } from "@/types/players";
-import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, View } from "react-native";
 
 // Dummy player data for now
@@ -29,6 +30,7 @@ const player: PlayerProfile = {
 };
 
 export default function PlayerDetailsScreen() {
+  const { t } = useTranslation();
   const styles = useStyle(stylesheet);
   const router = useRouter();
 
@@ -45,14 +47,14 @@ export default function PlayerDetailsScreen() {
         <View style={styles.headerRow}>
           <View style={styles.avatarWrap}>
             <View style={styles.avatarPlaceholder}>
-              <Ionicons
+              <IconSymbol
                 name="person"
                 size={32}
                 color={styles.avatarIcon.color}
               />
             </View>
             <View style={styles.starWrap}>
-              <Ionicons name="star" size={16} color={styles.star.color} />
+              <IconSymbol name="star" size={16} color={styles.star.color} />
             </View>
           </View>
           <View style={styles.headerTextWrap}>
@@ -74,29 +76,43 @@ export default function PlayerDetailsScreen() {
             </View>
           </View>
           <Pressable style={styles.closeBtn} onPress={() => router.back()}>
-            <Ionicons name="close" size={24} color={styles.closeIcon.color} />
+            <IconSymbol
+              name="x.circle"
+              size={24}
+              color={styles.closeIcon.color}
+            />
           </Pressable>
         </View>
 
         <View style={styles.infoRow}>
-          <InfoBox label="Age" value={age?.toString() || "N/A"} />
-          <InfoBox label="Height" value={`${player.heightCm}cm`} />
-          <InfoBox label="Weight" value={`${player.weightKg}kg`} />
+          <InfoBox label={t("register.age")} value={age?.toString() || "N/A"} />
           <InfoBox
-            label="Foot"
+            label={t("register.height")}
+            value={`${player.heightCm}cm`}
+          />
+          <InfoBox
+            label={t("register.weight")}
+            value={`${player.weightKg}kg`}
+          />
+          <InfoBox
+            label={t("register.preferredFoot")}
             value={player.preferredFoot?.charAt(0).toUpperCase() || "N/A"}
           />
         </View>
 
         <View style={styles.detailsRow}>
           <View style={styles.detailItem}>
-            <ThemedText style={styles.detailLabel}>Nationality</ThemedText>
+            <ThemedText style={styles.detailLabel}>
+              {t("register.nationality")}
+            </ThemedText>
             <ThemedText style={styles.detailValue}>
               {player.nationality}
             </ThemedText>
           </View>
           <View style={styles.detailItem}>
-            <ThemedText style={styles.detailLabel}>Experience</ThemedText>
+            <ThemedText style={styles.detailLabel}>
+              {t("register.experienceLevel")}
+            </ThemedText>
             <ThemedText style={styles.detailValue}>
               {player.experienceLevel
                 ? player.experienceLevel?.charAt(0).toUpperCase() +
@@ -109,7 +125,7 @@ export default function PlayerDetailsScreen() {
         {player.availabilityFrom && (
           <View style={styles.availabilityBox}>
             <ThemedText style={styles.availabilityLabel}>
-              Available From
+              {t("register.availableFrom")}
             </ThemedText>
             <ThemedText style={styles.availabilityValue}>
               {new Date(player.availabilityFrom).toLocaleDateString()}
@@ -119,7 +135,7 @@ export default function PlayerDetailsScreen() {
 
         {player.location && (
           <View style={styles.locationBox}>
-            <Ionicons
+            <IconSymbol
               name="location"
               size={16}
               color={styles.locationIcon.color}
@@ -129,7 +145,9 @@ export default function PlayerDetailsScreen() {
         )}
 
         <Pressable style={styles.contactBtn}>
-          <ThemedText style={styles.contactBtnText}>Contact Player</ThemedText>
+          <ThemedText style={styles.contactBtnText}>
+            {t("register.contactPhone")}
+          </ThemedText>
         </Pressable>
       </View>
     </ScrollView>
@@ -255,6 +273,8 @@ const stylesheet = createStyle((t) => ({
   infoBox: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
     backgroundColor: t.colors.surface,
     borderRadius: t.radii.md,
     marginHorizontal: 2,
@@ -264,6 +284,7 @@ const stylesheet = createStyle((t) => ({
     color: t.colors.gray[500],
     fontSize: 11,
     marginBottom: 2,
+    textAlign: "center",
   },
   infoValue: {
     color: t.colors.text,
