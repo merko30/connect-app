@@ -6,7 +6,6 @@ export function createResource<T>(prefix: string) {
   return {
     list: (query?: StrapiQuery<T>) => {
       const qs = toStrapiQueryString(query);
-      console.log(qs);
 
       return api<StrapiListResponse<T>>(`${prefix}${qs ? `?${qs}` : ""}`);
     },

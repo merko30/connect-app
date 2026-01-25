@@ -35,7 +35,6 @@ export const ClubFiltersSheet = ({
 
   const handleApply = (values: Record<string, any>) => {
     onApply(values);
-    console.log(console.log(values));
 
     ref?.current?.close();
   };

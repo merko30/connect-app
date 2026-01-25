@@ -99,13 +99,10 @@ export default function RegisterScreen() {
       });
     },
     onError: (error: { error: { details: { message: string } } }) => {
-      console.log(error);
-
       const message = error.error?.details?.message;
       Toast.show({ type: "error", text1: message });
     },
     onSuccess: (data) => {
-      console.log({ data });
       AsyncStorage.setItem("token", data.jwt);
       queryClient.refetchQueries({ queryKey: ["current-user"] });
       router.navigate(isClubRegistration ? "/club/(tabs)" : "/player/(tabs)");

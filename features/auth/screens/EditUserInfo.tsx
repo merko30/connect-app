@@ -28,8 +28,6 @@ export default function EditUserInfo() {
   const styles = useStyle(stylesheet);
   const { data: user } = useGetCurrentUser();
 
-  console.log(user?.location, user?.nationality, user?.citizenship);
-
   const form = useForm<FormValues>({
     defaultValues: {
       ...getUserFormDefaults(user as User),

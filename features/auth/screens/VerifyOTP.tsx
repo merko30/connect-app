@@ -47,8 +47,6 @@ export default function LoginScreen() {
     },
   });
 
-  console.log(data, isPending, error);
-
   const styles = useStyleThemed((t) => ({
     container: {
       flex: 1,

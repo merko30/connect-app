@@ -38,7 +38,6 @@ export default function ClubRegisterScreen() {
     },
     async onSuccess(data: LoginResponse) {
       AsyncStorage.setItem("token", data.jwt);
-      console.log(data);
 
       const user = await usersApi.custom<User>("/users/me", {
         headers: {
