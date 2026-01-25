@@ -1,9 +1,10 @@
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
 import {
   CLUB_PROFILE_MENU_ITEMS,
-  MenuItem,
+  CLUB_SECURITY_SETTINGS_ITEMS,
   PLAYER_PROFILE_MENU_ITEMS,
+  PLAYER_SECURITY_SETTINGS_ITEMS,
 } from "@/constants/profile";
 import MenuSection from "@/features/auth/components/MenuSection";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
@@ -14,14 +15,6 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const SECURITY_SETTINGS_ITEMS: MenuItem[] = [
-  {
-    label: "profile.changePassword",
-    icon: "lock.fill",
-    href: "/auth/profile/change-password",
-  },
-];
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
@@ -60,11 +53,14 @@ export default function ProfileScreen() {
         />
         <MenuSection
           title={t("profile.settings")}
-          items={SECURITY_SETTINGS_ITEMS}
+          items={
+            isClub
+              ? CLUB_SECURITY_SETTINGS_ITEMS
+              : PLAYER_SECURITY_SETTINGS_ITEMS
+          }
         />
-        <ThemedButton
+        <RoleBasedButton
           title={t("profile.logout")}
-          variant={!isClub ? "outlineSecondary" : "outline"}
           onPress={handleLogout}
           style={{ marginTop: 24 }}
         />

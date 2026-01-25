@@ -5,6 +5,7 @@ const Layout = () => (
     <Stack.Screen name="index" />
     <Stack.Screen name="player" />
     <Stack.Screen name="edit" />
+    <Stack.Screen name="change-password" />
   </Stack>
 );
 

@@ -33,3 +33,19 @@ export const CLUB_PROFILE_MENU_ITEMS: MenuItem[] = [
     href: "/club/(tabs)/profile/club",
   },
 ];
+
+export const CLUB_SECURITY_SETTINGS_ITEMS: MenuItem[] = [
+  {
+    label: "profile.changePassword",
+    icon: "lock.fill",
+    href: "/club/profile/change-password",
+  },
+];
+
+export const PLAYER_SECURITY_SETTINGS_ITEMS: MenuItem[] = [
+  {
+    label: "profile.changePassword",
+    icon: "lock.fill",
+    href: "/player/profile/change-password",
+  },
+];

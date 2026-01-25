@@ -4,7 +4,6 @@ import { MenuItem } from "@/constants/profile";
 import { Link } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { StyleSheet, View } from "react-native";
-
 interface MenuSectionProps {
   title: string;
   items: MenuItem[];

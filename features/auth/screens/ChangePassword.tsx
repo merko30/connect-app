@@ -2,7 +2,7 @@ import { usersApi } from "@/api/auth";
 import { FormInput } from "@/components/FormInput";
 import Header from "@/components/Header";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { createStyle, useStyle } from "@/theme";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
@@ -77,7 +77,7 @@ function ChangePassword() {
           placeholder={t("register.confirmPassword")}
           secureTextEntry
         />
-        <ThemedButton
+        <RoleBasedButton
           title={t("save")}
           onPress={handleSubmit(onSubmit)}
           loading={isLoading}
@@ -90,7 +90,8 @@ function ChangePassword() {
 const stylesheet = createStyle((t) => ({
   container: {
     flex: 1,
-    padding: 24,
+    paddingTop: 24,
+    paddingHorizontal: 24,
     backgroundColor: t.colors.background,
   },
 }));
