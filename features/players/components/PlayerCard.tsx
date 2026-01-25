@@ -60,7 +60,7 @@ export function PlayerCard({ player, onPress }: Props) {
       href={{
         pathname: "/club/player/[id]",
         params: {
-          id: player.id,
+          id: player.documentId,
         },
       }}
       style={styles.card}

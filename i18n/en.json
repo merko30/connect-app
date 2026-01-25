@@ -6,6 +6,7 @@
   "remove": "Remove",
   "save": "Save",
   "apply": "Apply",
+  "loading": "Loading",
   "errorOccurred": "An error occurred. Please try again.",
   "profile": {
     "title": "Profile",

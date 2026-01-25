@@ -1,42 +1,45 @@
+import { playersApi } from "@/api/players";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { createStyle, useStyle } from "@/theme";
-import { PlayerProfile } from "@/types/players";
-import { useRouter } from "expo-router";
+import { useQuery } from "@tanstack/react-query";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, View } from "react-native";
-
-// Dummy player data for now
-const player: PlayerProfile = {
-  documentId: "1",
-  id: 1,
-  firstName: "Jalen",
-  lastName: "Johnson",
-  dateOfBirth: "2002-05-15",
-  nationality: "United States",
-  location: "New York, NY",
-  primaryPosition: "GK",
-  secondaryPositions: null,
-  preferredFoot: "right",
-  heightCm: 188,
-  weightKg: 82,
-  currentClub: "Manchester United",
-  isFreeAgent: false,
-  experienceLevel: "pro",
-  availabilityFrom: "2024-06-30",
-  visibility: "public",
-  createdAt: "2023-01-01T00:00:00Z",
-  updatedAt: "2023-01-01T00:00:00Z",
-};
 
 export default function PlayerDetailsScreen() {
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
   const router = useRouter();
 
-  const age = player.dateOfBirth
+  const { id } = useLocalSearchParams<{ id: string }>();
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["player", id],
+    queryFn: () => playersApi.get(id!),
+    enabled: !!id,
+  });
+  const { data: player } = data ?? {};
+
+  const age = player?.dateOfBirth
     ? new Date().getFullYear() - new Date(player.dateOfBirth).getFullYear()
     : null;
+
+  if (isLoading) {
+    return (
+      <View style={styles.centerContainer}>
+        <ThemedText>{t("loading")}...</ThemedText>
+      </View>
+    );
+  }
+
+  if (error || !player) {
+    return (
+      <View style={styles.centerContainer}>
+        <ThemedText>{t("errorOccurred")}</ThemedText>
+      </View>
+    );
+  }
 
   return (
     <ScrollView
@@ -356,5 +359,11 @@ const stylesheet = createStyle((t) => ({
     color: t.colors.background,
     fontWeight: "bold",
     fontSize: 16,
+  },
+  centerContainer: {
+    flex: 1,
+    backgroundColor: t.colors.background,
+    justifyContent: "center",
+    alignItems: "center",
   },
 }));

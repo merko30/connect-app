@@ -12,7 +12,7 @@ export function createResource<T>(prefix: string) {
 
     get: (id: number | string, query?: StrapiQuery<T>) => {
       const qs = toStrapiQueryString(query);
-      return api<T>(`${prefix}/${id}${qs ? `?${qs}` : ""}`);
+      return api<{ data: T }>(`${prefix}/${id}${qs ? `?${qs}` : ""}`);
     },
 
     create: (data: Partial<T>) =>
