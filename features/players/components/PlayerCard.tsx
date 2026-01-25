@@ -1,6 +1,7 @@
 import { useStyleThemed } from "@/theme";
 import { PlayerProfile } from "@/types/players";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Link } from "expo-router";
+import { Image, Text, View } from "react-native";
 
 type Props = {
   player: PlayerProfile;
@@ -55,9 +56,13 @@ export function PlayerCard({ player, onPress }: Props) {
   const imageUrl = player.profileImage?.data?.attributes.url;
 
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.85}
+    <Link
+      href={{
+        pathname: "/club/player/[id]",
+        params: {
+          id: player.id,
+        },
+      }}
       style={styles.card}
     >
       <Image
@@ -83,6 +88,6 @@ export function PlayerCard({ player, onPress }: Props) {
           <Text style={styles.statusText}>FREE</Text>
         </View>
       )}
-    </TouchableOpacity>
+    </Link>
   );
 }
