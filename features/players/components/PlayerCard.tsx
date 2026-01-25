@@ -63,31 +63,32 @@ export function PlayerCard({ player, onPress }: Props) {
           id: player.documentId,
         },
       }}
-      style={styles.card}
     >
-      <Image
-        source={{
-          uri:
-            imageUrl ??
-            `https://ui-avatars.com/api/?name=${name}&background=ddd`,
-        }}
-        style={styles.avatar}
-      />
+      <View style={styles.card}>
+        <Image
+          source={{
+            uri:
+              imageUrl ??
+              `https://ui-avatars.com/api/?name=${name}&background=ddd`,
+          }}
+          style={styles.avatar}
+        />
 
-      <View style={styles.infoContainer}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.position}>
-          {position}
-          {experience ? ` • ${experience}` : ""}
-        </Text>
-        {location && <Text style={styles.location}>📍 {location}</Text>}
-      </View>
-
-      {isFreeAgent && (
-        <View style={styles.status}>
-          <Text style={styles.statusText}>FREE</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.position}>
+            {position}
+            {experience ? ` • ${experience}` : ""}
+          </Text>
+          {location && <Text style={styles.location}>📍 {location}</Text>}
         </View>
-      )}
+
+        {isFreeAgent && (
+          <View style={styles.status}>
+            <Text style={styles.statusText}>FREE</Text>
+          </View>
+        )}
+      </View>
     </Link>
   );
 }

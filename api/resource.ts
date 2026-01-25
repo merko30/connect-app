@@ -12,6 +12,7 @@ export function createResource<T>(prefix: string) {
 
     get: (id: number | string, query?: StrapiQuery<T>) => {
       const qs = toStrapiQueryString(query);
+      console.log({ qs });
       return api<{ data: T }>(`${prefix}/${id}${qs ? `?${qs}` : ""}`);
     },
 

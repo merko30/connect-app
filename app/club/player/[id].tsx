@@ -5,7 +5,8 @@ import { createStyle, useStyle } from "@/theme";
 import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, View } from "react-native";
+import { Linking, Pressable, ScrollView, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PlayerDetailsScreen() {
   const { t } = useTranslation();
@@ -16,14 +17,27 @@ export default function PlayerDetailsScreen() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["player", id],
-    queryFn: () => playersApi.get(id!),
+    queryFn: () =>
+      playersApi.get(id!, {
+        populate: {
+          user: { fields: ["phoneNumber", "id"] },
+        },
+      }),
     enabled: !!id,
   });
   const { data: player } = data ?? {};
 
+  console.log(player?.user);
+
   const age = player?.dateOfBirth
     ? new Date().getFullYear() - new Date(player.dateOfBirth).getFullYear()
     : null;
+
+  const handleCallPlayer = () => {
+    if (player?.user?.phoneNumber) {
+      Linking.openURL(`tel:${player.user.phoneNumber}`);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -42,42 +56,9 @@ export default function PlayerDetailsScreen() {
   }
 
   return (
-    <ScrollView
-      style={styles.root}
-      contentContainerStyle={styles.scrollContent}
-    >
-      <View style={styles.card}>
-        <View style={styles.headerRow}>
-          <View style={styles.avatarWrap}>
-            <View style={styles.avatarPlaceholder}>
-              <IconSymbol
-                name="person"
-                size={32}
-                color={styles.avatarIcon.color}
-              />
-            </View>
-            <View style={styles.starWrap}>
-              <IconSymbol name="star" size={16} color={styles.star.color} />
-            </View>
-          </View>
-          <View style={styles.headerTextWrap}>
-            <ThemedText style={styles.name} numberOfLines={1}>
-              {player.firstName} {player.lastName}
-            </ThemedText>
-            <ThemedText style={styles.team}>{player.currentClub}</ThemedText>
-            <View style={styles.positionRow}>
-              <View style={styles.positionBadge}>
-                <ThemedText style={styles.positionShort}>
-                  {player.primaryPosition}
-                </ThemedText>
-              </View>
-              {player.secondaryPositions && (
-                <ThemedText style={styles.position}>
-                  {player.secondaryPositions}
-                </ThemedText>
-              )}
-            </View>
-          </View>
+    <SafeAreaView style={styles.safeAreaContainer}>
+      <ScrollView style={styles.root}>
+        <View style={styles.header}>
           <Pressable style={styles.closeBtn} onPress={() => router.back()}>
             <IconSymbol
               name="x.circle"
@@ -87,73 +68,133 @@ export default function PlayerDetailsScreen() {
           </Pressable>
         </View>
 
-        <View style={styles.infoRow}>
-          <InfoBox label={t("register.age")} value={age?.toString() || "N/A"} />
-          <InfoBox
-            label={t("register.height")}
-            value={`${player.heightCm}cm`}
-          />
-          <InfoBox
-            label={t("register.weight")}
-            value={`${player.weightKg}kg`}
-          />
-          <InfoBox
-            label={t("register.preferredFoot")}
-            value={player.preferredFoot?.charAt(0).toUpperCase() || "N/A"}
-          />
-        </View>
-
-        <View style={styles.detailsRow}>
-          <View style={styles.detailItem}>
-            <ThemedText style={styles.detailLabel}>
-              {t("register.nationality")}
-            </ThemedText>
-            <ThemedText style={styles.detailValue}>
-              {player.nationality}
-            </ThemedText>
+        <View style={styles.container}>
+          <View style={styles.avatarWrap}>
+            <View style={styles.avatarPlaceholder}>
+              <IconSymbol
+                name="person"
+                size={40}
+                color={styles.avatarIcon.color}
+              />
+            </View>
+            <View style={styles.starWrap}>
+              <IconSymbol name="star" size={18} color={styles.star.color} />
+            </View>
           </View>
-          <View style={styles.detailItem}>
-            <ThemedText style={styles.detailLabel}>
-              {t("register.experienceLevel")}
-            </ThemedText>
-            <ThemedText style={styles.detailValue}>
-              {player.experienceLevel
-                ? player.experienceLevel?.charAt(0).toUpperCase() +
-                  player.experienceLevel?.slice(1)
-                : "N/A"}
-            </ThemedText>
-          </View>
-        </View>
 
-        {player.availabilityFrom && (
-          <View style={styles.availabilityBox}>
-            <ThemedText style={styles.availabilityLabel}>
-              {t("register.availableFrom")}
-            </ThemedText>
-            <ThemedText style={styles.availabilityValue}>
-              {new Date(player.availabilityFrom).toLocaleDateString()}
-            </ThemedText>
-          </View>
-        )}
-
-        {player.location && (
-          <View style={styles.locationBox}>
-            <IconSymbol
-              name="location"
-              size={16}
-              color={styles.locationIcon.color}
-            />
-            <ThemedText style={styles.location}>{player.location}</ThemedText>
-          </View>
-        )}
-
-        <Pressable style={styles.contactBtn}>
-          <ThemedText style={styles.contactBtnText}>
-            {t("register.contactPhone")}
+          <ThemedText style={styles.name}>
+            {player?.firstName} {player?.lastName}
           </ThemedText>
-        </Pressable>
-      </View>
-    </ScrollView>
+          <ThemedText style={styles.team}>{player?.currentClub}</ThemedText>
+
+          <View style={styles.positionRow}>
+            <View style={styles.positionBadge}>
+              <ThemedText style={styles.positionShort}>
+                {player?.primaryPosition}
+              </ThemedText>
+            </View>
+            {player.secondaryPositions &&
+              player.secondaryPositions !== player.primaryPosition && (
+                <ThemedText style={styles.position}>
+                  {player?.secondaryPositions}
+                </ThemedText>
+              )}
+          </View>
+
+          <View style={styles.infoRow}>
+            <InfoBox
+              label={t("register.age") || "Age"}
+              value={age?.toString() || "N/A"}
+            />
+            <InfoBox
+              label={t("register.height")}
+              value={`${player?.heightCm}cm`}
+            />
+            <InfoBox
+              label={t("register.weight")}
+              value={`${player?.weightKg}kg`}
+            />
+            <InfoBox
+              label={t("register.preferredFoot")}
+              value={player?.preferredFoot?.charAt(0).toUpperCase() || "N/A"}
+            />
+          </View>
+
+          <View style={styles.detailsRow}>
+            <View style={styles.detailItem}>
+              <ThemedText style={styles.detailLabel}>
+                {t("register.nationality")}
+              </ThemedText>
+              <ThemedText style={styles.detailValue}>
+                {player?.nationality || "N/A"}
+              </ThemedText>
+            </View>
+            <View style={styles.detailItem}>
+              <ThemedText style={styles.detailLabel}>
+                {t("register.experienceLevel")}
+              </ThemedText>
+              <ThemedText style={styles.detailValue}>
+                {player?.experienceLevel
+                  ? player.experienceLevel?.charAt(0).toUpperCase() +
+                    player.experienceLevel?.slice(1)
+                  : "N/A"}
+              </ThemedText>
+            </View>
+          </View>
+
+          {player?.availabilityFrom && (
+            <View style={styles.infoSection}>
+              <ThemedText style={styles.sectionLabel}>
+                {t("register.availableFrom")}
+              </ThemedText>
+              <ThemedText style={styles.sectionValue}>
+                {new Date(player.availabilityFrom).toLocaleDateString()}
+              </ThemedText>
+            </View>
+          )}
+
+          {player?.location && (
+            <View style={styles.locationBox}>
+              <IconSymbol
+                name="location"
+                size={16}
+                color={styles.locationIcon.color}
+              />
+              <ThemedText style={styles.location}>{player.location}</ThemedText>
+            </View>
+          )}
+
+          {player?.user?.phoneNumber && (
+            <Pressable style={styles.contactBtn} onPress={handleCallPlayer}>
+              <IconSymbol
+                name="phone"
+                size={18}
+                color={styles.contactBtnText.color}
+              />
+              <ThemedText style={styles.contactBtnText}>
+                {t("register.contactPhone")}
+              </ThemedText>
+            </Pressable>
+          )}
+
+          {player?.formerClubs && player.formerClubs.length > 0 && (
+            <View style={styles.formerClubsSection}>
+              <ThemedText style={styles.sectionTitle}>
+                {t("register.formerClubs")}
+              </ThemedText>
+              {player.formerClubs.map(
+                (club: { name: string }, index: number) => (
+                  <View key={index} style={styles.clubItem}>
+                    <View style={styles.clubDot} />
+                    <ThemedText style={styles.clubName}>{club.name}</ThemedText>
+                  </View>
+                ),
+              )}
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -170,38 +211,34 @@ function InfoBox({ label, value }: { label: string; value: string | number }) {
 const stylesheet = createStyle((t) => ({
   root: {
     flex: 1,
-    backgroundColor: t.colors.surface,
-  },
-  scrollContent: {
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: t.spacing.lg,
-    flex: 1,
-  },
-  card: {
     backgroundColor: t.colors.background,
-    borderRadius: t.radii.xl,
-    padding: t.spacing.lg,
-    width: "90%",
-    maxWidth: 360,
-    shadowColor: t.colors.gray[900],
-    shadowOpacity: 0.1,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 5,
   },
-  headerRow: {
+  header: {
+    paddingHorizontal: t.spacing.lg,
+    paddingVertical: t.spacing.sm,
     flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  closeBtn: {
+    padding: t.spacing.xs,
+    borderRadius: t.radii.full,
+  },
+  closeIcon: {
+    color: t.colors.gray[400],
+  },
+  container: {
+    flex: 1,
+    padding: t.spacing.lg,
+    paddingBottom: t.spacing.xl,
     alignItems: "center",
-    marginBottom: t.spacing.md,
   },
   avatarWrap: {
-    marginRight: t.spacing.md,
     position: "relative",
+    marginBottom: t.spacing.md,
   },
   avatarPlaceholder: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     borderRadius: t.radii.full,
     backgroundColor: t.colors.gray[200],
     justifyContent: "center",
@@ -225,24 +262,21 @@ const stylesheet = createStyle((t) => ({
   star: {
     color: t.colors.primary,
   },
-  headerTextWrap: {
-    flex: 1,
-    minWidth: 0,
-  },
   name: {
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 20,
     color: t.colors.text,
-    marginBottom: 2,
+    marginBottom: 4,
   },
   team: {
     color: t.colors.gray[500],
-    fontSize: 13,
-    marginBottom: 4,
+    fontSize: 14,
+    marginBottom: 12,
   },
   positionRow: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: t.spacing.lg,
   },
   positionBadge: {
     backgroundColor: t.colors.surface,
@@ -253,22 +287,15 @@ const stylesheet = createStyle((t) => ({
   },
   positionShort: {
     fontWeight: "bold",
-    fontSize: 11,
+    fontSize: 12,
     color: t.colors.secondary,
   },
   position: {
     color: t.colors.gray[600],
-    fontSize: 12,
-  },
-  closeBtn: {
-    marginLeft: t.spacing.md,
-    padding: t.spacing.xs,
-    borderRadius: t.radii.full,
-  },
-  closeIcon: {
-    color: t.colors.gray[400],
+    fontSize: 13,
   },
   infoRow: {
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: t.spacing.md,
@@ -277,7 +304,6 @@ const stylesheet = createStyle((t) => ({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    textAlign: "center",
     backgroundColor: t.colors.surface,
     borderRadius: t.radii.md,
     marginHorizontal: 2,
@@ -285,9 +311,9 @@ const stylesheet = createStyle((t) => ({
   },
   infoLabel: {
     color: t.colors.gray[500],
+    textAlign: "center",
     fontSize: 11,
     marginBottom: 2,
-    textAlign: "center",
   },
   infoValue: {
     color: t.colors.text,
@@ -295,6 +321,7 @@ const stylesheet = createStyle((t) => ({
     fontSize: 14,
   },
   detailsRow: {
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     marginVertical: t.spacing.md,
@@ -317,24 +344,26 @@ const stylesheet = createStyle((t) => ({
     fontWeight: "600",
     fontSize: 14,
   },
-  availabilityBox: {
+  infoSection: {
+    width: "100%",
     backgroundColor: t.colors.surface,
     borderRadius: t.radii.md,
     padding: t.spacing.md,
     marginVertical: t.spacing.sm,
     alignItems: "center",
   },
-  availabilityLabel: {
+  sectionLabel: {
     color: t.colors.gray[500],
     fontSize: 12,
     marginBottom: 4,
   },
-  availabilityValue: {
+  sectionValue: {
     color: t.colors.text,
     fontWeight: "600",
     fontSize: 14,
   },
   locationBox: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     marginVertical: t.spacing.md,
@@ -349,16 +378,49 @@ const stylesheet = createStyle((t) => ({
     marginLeft: t.spacing.xs,
   },
   contactBtn: {
+    width: "100%",
     backgroundColor: t.colors.secondary,
     borderRadius: t.radii.lg,
+    flexDirection: "row",
     alignItems: "center",
-    paddingVertical: t.spacing.sm,
+    justifyContent: "center",
+    paddingVertical: t.spacing.md,
     marginTop: t.spacing.md,
+    gap: t.spacing.xs,
   },
   contactBtnText: {
     color: t.colors.background,
     fontWeight: "bold",
     fontSize: 16,
+  },
+  formerClubsSection: {
+    width: "100%",
+    marginTop: t.spacing.xl,
+    paddingTop: t.spacing.lg,
+    borderTopWidth: 1,
+    borderTopColor: t.colors.gray[200],
+  },
+  sectionTitle: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: t.colors.text,
+    marginBottom: t.spacing.md,
+  },
+  clubItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: t.spacing.md,
+  },
+  clubDot: {
+    width: 8,
+    height: 8,
+    borderRadius: t.radii.full,
+    backgroundColor: t.colors.primary,
+    marginRight: t.spacing.md,
+  },
+  clubName: {
+    color: t.colors.text,
+    fontSize: 14,
   },
   centerContainer: {
     flex: 1,
@@ -366,4 +428,5 @@ const stylesheet = createStyle((t) => ({
     justifyContent: "center",
     alignItems: "center",
   },
+  safeAreaContainer: { flex: 1, backgroundColor: t.colors.background },
 }));

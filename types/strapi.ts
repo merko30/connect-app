@@ -32,7 +32,14 @@ export type StrapiSort =
 export type StrapiPopulate =
   | string
   | string[]
-  | Record<string, boolean | { populate?: StrapiPopulate }>;
+  | {
+      [key: string]:
+        | boolean
+        | {
+            populate?: StrapiPopulate;
+            fields?: string[];
+          };
+    };
 
 type StrapiOperator<T> = {
   $eq?: T;

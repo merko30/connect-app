@@ -1,4 +1,5 @@
-import { StrapiMedia, StrapiUser } from "./strapi";
+import { StrapiMedia } from "./strapi";
+import { User } from "./users";
 
 export type PlayerPosition =
   | "GK"
@@ -49,9 +50,9 @@ export type PlayerProfile = {
 
   visibility: PlayerVisibility;
 
-  user?: {
-    data: StrapiUser;
-  };
+  formerClubs?: { name: string }[] | null;
+
+  user?: User;
 
   publishedAt?: string;
   createdAt: string;
