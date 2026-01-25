@@ -6,6 +6,7 @@
   "remove": "Odstrani",
   "save": "Shrani",
   "apply": "Uporabi",
+  "errorOccurred": "Prišlo je do napake. Poskusite znova.",
   "profile": {
     "title": "Profil",
     "editProfile": "Uredi profil",
@@ -28,7 +29,9 @@
     "haveAccount": "Že imate račun? Prijava",
     "registerAs": "Registrirajte se kot",
     "editClubInfo": "Uredi informacije o klubu",
-    "profileUpdated": "Uspešno ste posodobili svoj profil"
+    "profileUpdated": "Uspešno ste posodobili svoj profil",
+    "passwordUpdated": "Uspešno ste posodobili svoje geslo",
+    "currentPasswordInvalid": "Trenutno geslo ni veljavno."
   },
   "common": {
     "yes": "Da",
@@ -78,6 +81,7 @@
     "alreadyHaveAccount": "Že imate račun? Prijava",
     "email": "E-pošta",
     "password": "Geslo",
+    "confirmPassword": "Potrdite geslo",
     "username": "Uporabniško ime",
     "finishRegistration": "Dokončaj registracijo",
     "finishRegistrationDescription": "Dokončajte svojo registracijo z izpolnitvijo manjkajočih podatkov o igralcu.",

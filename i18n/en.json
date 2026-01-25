@@ -6,6 +6,7 @@
   "remove": "Remove",
   "save": "Save",
   "apply": "Apply",
+  "errorOccurred": "An error occurred. Please try again.",
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
@@ -28,7 +29,9 @@
     "haveAccount": "Already have an account? Sign In",
     "registerAs": "Register as",
     "editClubInfo": "Edit Club information",
-    "profileUpdated": "You have successfully updated your profile"
+    "profileUpdated": "You have successfully updated your profile",
+    "passwordUpdated": "You have successfully updated your password",
+    "currentPasswordInvalid": "Current password is invalid."
   },
   "common": {
     "yes": "Yes",
@@ -78,6 +81,7 @@
     "alreadyHaveAccount": "Already have an account? Login",
     "email": "Email",
     "password": "Password",
+    "confirmPassword": "Confirm password",
     "username": "Username",
     "finishRegistration": "Finish Registration",
     "finishRegistrationDescription": "Complete your registration by providing the necessary details to create your player profile.",

@@ -19,7 +19,7 @@ const SECURITY_SETTINGS_ITEMS: MenuItem[] = [
   {
     label: "profile.changePassword",
     icon: "lock.fill",
-    href: "/",
+    href: "/auth/profile/change-password",
   },
 ];
 
