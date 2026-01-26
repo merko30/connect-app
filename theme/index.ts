@@ -43,6 +43,7 @@ const lightTheme = {
     text: "#111111",
     accent: "#3BC27D", // Dark Turquoise
     gray,
+    spacer: "#E5E5E5",
   },
   spacing: SPACING,
   radii: RADIUS,
@@ -58,6 +59,7 @@ const darkTheme = {
     text: "#EEEEEE",
     accent: "#3BC27D",
     gray,
+    spacer: "#2C2C2C",
   },
   spacing: SPACING,
   radii: RADIUS,
@@ -88,7 +90,7 @@ export const baseStylesCreator = createThemedBaseStylesCreator<Themes>()(
       justifyContent: "center",
       alignItems: "center",
     },
-  })
+  }),
 );
 
 /** Init theme provider */

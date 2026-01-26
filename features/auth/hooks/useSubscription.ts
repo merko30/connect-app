@@ -4,7 +4,7 @@ import { useState } from "react";
 
 interface UseSubscriptionReturn {
   loading: boolean;
-  subscribe: (trialDays?: number) => Promise<void>;
+  subscribe: (trialDays?: number) => Promise<boolean>;
   error: string | null;
 }
 
@@ -13,7 +13,7 @@ export const useSubscription = (): UseSubscriptionReturn => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const subscribe = async (trialDays?: number) => {
+  const subscribe = async (trialDays?: number): Promise<boolean> => {
     setLoading(true);
     setError(null);
 
@@ -30,11 +30,9 @@ export const useSubscription = (): UseSubscriptionReturn => {
 
       const { clientSecret } = await res;
 
-      console.log(clientSecret);
-
       // 2️⃣ Initialize payment sheet
       const { error: initError } = await initPaymentSheet({
-        merchantDisplayName: "App RN",
+        merchantDisplayName: "X Connect",
         ...(trialDays
           ? { setupIntentClientSecret: clientSecret }
           : { paymentIntentClientSecret: clientSecret }),
@@ -44,7 +42,7 @@ export const useSubscription = (): UseSubscriptionReturn => {
       if (initError) {
         setError(initError.message || "Failed to initialize payment");
         console.error("Init error:", initError);
-        return;
+        return false;
       }
 
       // 3️⃣ Present payment sheet (opens payment UI)
@@ -55,16 +53,17 @@ export const useSubscription = (): UseSubscriptionReturn => {
           setError(paymentError.message || "Payment failed");
           console.error("Payment error:", paymentError);
         }
-        return;
+        return false;
       }
 
-      // 4️⃣ Success (payment completed)
       console.log("Subscription successful!");
+      return true;
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Subscription failed";
       setError(errorMessage);
       console.error("Subscription error:", err);
+      return false;
     } finally {
       setLoading(false);
     }

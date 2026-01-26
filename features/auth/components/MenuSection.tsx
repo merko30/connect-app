@@ -54,7 +54,7 @@ const stylesheet = createStyle((theme) => ({
     alignItems: "center",
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.gray[600],
+    borderBottomColor: theme.colors.spacer,
     gap: 12,
   },
   menuLabel: {

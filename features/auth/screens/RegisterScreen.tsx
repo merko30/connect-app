@@ -10,7 +10,7 @@ import { useStyleThemed } from "@/theme";
 import { ROLE_IDS } from "@/types/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -77,7 +77,6 @@ type StrapiRegisterForm = z.infer<typeof strapiRegisterSchema>;
 export default function RegisterScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const queryClient = useQueryClient();
   const [error, setError] = useState<string | null>(null);
   const { type } = useLocalSearchParams<{ type: "player" | "club" }>();
 
@@ -108,8 +107,15 @@ export default function RegisterScreen() {
     },
     onSuccess: (data) => {
       AsyncStorage.setItem("token", data.jwt);
-      subscribe(30).then(() => {
-        router.replace(isClubRegistration ? "/club/(tabs)" : "/player/(tabs)");
+      subscribe(30).then((subscribed) => {
+        if (subscribed) {
+          router.replace(
+            isClubRegistration ? "/club/(tabs)" : "/player/(tabs)",
+          );
+        } else {
+          // revert
+          console.log("failed");
+        }
       });
     },
   });
@@ -231,7 +237,7 @@ export default function RegisterScreen() {
                 title={t("register.register")}
                 onPress={handleSubmit(onSubmit)}
                 variant="primary"
-                loading={isPending}
+                loading={isPending || loading}
                 style={{ marginTop: 12 }}
               />
 
