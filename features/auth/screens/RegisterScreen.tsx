@@ -5,6 +5,7 @@ import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "@/constants/validation";
+import StripeProvider from "@/lib/stripe/Provider";
 import { useStyleThemed } from "@/theme";
 import { ROLE_IDS } from "@/types/users";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
+import { useSubscription } from "../hooks/useSubscription";
 
 // ---- STRAPI AUTH REGISTRATION SCHEMA ----
 const strapiRegisterSchema = z
@@ -81,6 +83,8 @@ export default function RegisterScreen() {
 
   const isClubRegistration = type === "club";
 
+  const { subscribe, loading } = useSubscription();
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: StrapiRegisterForm) => {
       const {
@@ -104,8 +108,9 @@ export default function RegisterScreen() {
     },
     onSuccess: (data) => {
       AsyncStorage.setItem("token", data.jwt);
-      queryClient.refetchQueries({ queryKey: ["current-user"] });
-      router.navigate(isClubRegistration ? "/club/(tabs)" : "/player/(tabs)");
+      subscribe(30).then(() => {
+        router.replace(isClubRegistration ? "/club/(tabs)" : "/player/(tabs)");
+      });
     },
   });
 
@@ -127,12 +132,12 @@ export default function RegisterScreen() {
   const form = useForm<StrapiRegisterForm>({
     resolver: zodResolver(strapiRegisterSchema) as any,
     defaultValues: {
-      firstName: "Andrea",
-      lastName: "Galliani",
-      username: "andreagalliani",
-      email: "andrea@example.com",
+      firstName: "Amir",
+      lastName: "Botonjic",
+      username: "amirbotonjic",
+      email: "amir@example.com",
       password: "password",
-      clubName: "AC Milan",
+      clubName: "NK Jesenice",
       contactPhone: "+38640123456",
       isClubRegistration,
     },
@@ -145,101 +150,103 @@ export default function RegisterScreen() {
   };
 
   return (
-    <FormProvider {...form}>
-      <KeyboardAvoid>
-        <ScrollView
-          style={{ flex: 1, backgroundColor: "white", paddingTop: 72 }}
-        >
-          <View style={styles.container}>
-            <AuthHeader
-              title={t(
-                isClubRegistration
-                  ? "register.clubTitle"
-                  : "register.playerTitle",
+    <StripeProvider>
+      <FormProvider {...form}>
+        <KeyboardAvoid>
+          <ScrollView
+            style={{ flex: 1, backgroundColor: "white", paddingTop: 72 }}
+          >
+            <View style={styles.container}>
+              <AuthHeader
+                title={t(
+                  isClubRegistration
+                    ? "register.clubTitle"
+                    : "register.playerTitle",
+                )}
+                caption={t(
+                  isClubRegistration
+                    ? "register.clubCaption"
+                    : "register.playerCaption",
+                )}
+              />
+
+              <FormInput
+                name="firstName"
+                control={control}
+                placeholder={t("register.firstName")}
+                style={styles.field}
+              />
+
+              <FormInput
+                name="lastName"
+                control={control}
+                placeholder={t("register.lastName")}
+                style={styles.field}
+              />
+
+              <FormInput
+                name="username"
+                control={control}
+                placeholder={t("register.username")}
+                style={styles.field}
+              />
+
+              <FormInput
+                name="email"
+                control={control}
+                placeholder={t("register.email")}
+                keyboardType="email-address"
+                style={styles.field}
+              />
+
+              <FormInput
+                name="password"
+                control={control}
+                placeholder={t("register.password")}
+                secureTextEntry
+                style={styles.field}
+              />
+
+              {isClubRegistration && (
+                <>
+                  <FormInput
+                    name="clubName"
+                    control={control}
+                    placeholder={t("register.clubName")}
+                    style={styles.field}
+                  />
+                  <FormInput
+                    name="contactPhone"
+                    control={control}
+                    placeholder={t("register.contactPhone")}
+                    keyboardType="phone-pad"
+                    style={styles.field}
+                  />
+                </>
               )}
-              caption={t(
-                isClubRegistration
-                  ? "register.clubCaption"
-                  : "register.playerCaption",
-              )}
-            />
 
-            <FormInput
-              name="firstName"
-              control={control}
-              placeholder={t("register.firstName")}
-              style={styles.field}
-            />
+              {error && <ThemedText style={styles.error}>{error}</ThemedText>}
 
-            <FormInput
-              name="lastName"
-              control={control}
-              placeholder={t("register.lastName")}
-              style={styles.field}
-            />
+              <ThemedButton
+                title={t("register.register")}
+                onPress={handleSubmit(onSubmit)}
+                variant="primary"
+                loading={isPending}
+                style={{ marginTop: 12 }}
+              />
 
-            <FormInput
-              name="username"
-              control={control}
-              placeholder={t("register.username")}
-              style={styles.field}
-            />
-
-            <FormInput
-              name="email"
-              control={control}
-              placeholder={t("register.email")}
-              keyboardType="email-address"
-              style={styles.field}
-            />
-
-            <FormInput
-              name="password"
-              control={control}
-              placeholder={t("register.password")}
-              secureTextEntry
-              style={styles.field}
-            />
-
-            {isClubRegistration && (
-              <>
-                <FormInput
-                  name="clubName"
-                  control={control}
-                  placeholder={t("register.clubName")}
-                  style={styles.field}
-                />
-                <FormInput
-                  name="contactPhone"
-                  control={control}
-                  placeholder={t("register.contactPhone")}
-                  keyboardType="phone-pad"
-                  style={styles.field}
-                />
-              </>
-            )}
-
-            {error && <ThemedText style={styles.error}>{error}</ThemedText>}
-
-            <ThemedButton
-              title={t("register.register")}
-              onPress={handleSubmit(onSubmit)}
-              variant="primary"
-              loading={isPending}
-              style={{ marginTop: 12 }}
-            />
-
-            <TouchableOpacity
-              style={styles.link}
-              onPress={() => router.navigate("/auth/login")}
-            >
-              <ThemedText style={styles.linkText}>
-                {t("register.alreadyHaveAccount")}
-              </ThemedText>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </KeyboardAvoid>
-    </FormProvider>
+              <TouchableOpacity
+                style={styles.link}
+                onPress={() => router.navigate("/auth/login")}
+              >
+                <ThemedText style={styles.linkText}>
+                  {t("register.alreadyHaveAccount")}
+                </ThemedText>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </KeyboardAvoid>
+      </FormProvider>
+    </StripeProvider>
   );
 }

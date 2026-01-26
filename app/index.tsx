@@ -1,10 +1,18 @@
 import Splash from "@/components/Splash";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { Role } from "@/types/users";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Redirect } from "expo-router";
+import { useEffect } from "react";
 
 const AppIndex = () => {
-  const { data, isLoading } = useGetCurrentUser();
+  const { data, isLoading, error } = useGetCurrentUser();
+
+  useEffect(() => {
+    if (error) {
+      AsyncStorage.removeItem("token");
+    }
+  }, [error]);
 
   if (isLoading) {
     return <Splash />;
