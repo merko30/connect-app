@@ -32,7 +32,9 @@
     "editClubInfo": "Uredi informacije o klubu",
     "profileUpdated": "Uspešno ste posodobili svoj profil",
     "passwordUpdated": "Uspešno ste posodobili svoje geslo",
-    "currentPasswordInvalid": "Trenutno geslo ni veljavno."
+    "currentPasswordInvalid": "Trenutno geslo ni veljavno.",
+    "taken": "E-pošta ali uporabniško ime je již zaregistrováno.",
+    "editPlayerInfo": "Uredi informace o hráči"
   },
   "common": {
     "yes": "Da",

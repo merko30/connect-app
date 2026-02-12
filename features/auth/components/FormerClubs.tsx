@@ -59,6 +59,7 @@ export default function FormerClubsFieldArray({ control }: Props) {
             objectKey="name"
             name={`formerClubs.${index}.name`}
             placeholder={`${t("register.formerClub")} ${index + 1}`}
+            containerStyle={{ flex: 5 }}
           />
 
           {/* Optional remove button */}
@@ -70,6 +71,7 @@ export default function FormerClubsFieldArray({ control }: Props) {
               padding: 4,
               paddingVertical: 4,
               height: 48,
+              flex: 1,
             }}
           />
         </View>

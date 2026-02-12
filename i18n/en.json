@@ -32,7 +32,9 @@
     "editClubInfo": "Edit Club information",
     "profileUpdated": "You have successfully updated your profile",
     "passwordUpdated": "You have successfully updated your password",
-    "currentPasswordInvalid": "Current password is invalid."
+    "currentPasswordInvalid": "Current password is invalid.",
+    "taken": "Email or username is already taken.",
+    "editPlayerInfo": "Edit Player Information"
   },
   "common": {
     "yes": "Yes",
@@ -68,6 +70,7 @@
     "preferredFoot": "Preferred foot",
     "left": "Left",
     "right": "Right",
+    "formerClub": "Former club",
     "primaryPosition": "Primary position",
     "secondaryPosition": "Secondary position",
     "experienceLevel": "Experience Level",

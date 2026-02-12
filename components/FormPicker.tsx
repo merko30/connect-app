@@ -31,7 +31,10 @@ export function FormPicker<T extends FieldValues>({
   style,
   pickerContainerStyle,
 }: FormPickerProps<T>) {
-  const { field } = useController({ name });
+  const {
+    field,
+    fieldState: { error },
+  } = useController({ name });
   const styles = useStyle(stylesheet);
   const { t } = useTheme();
   const { t: translate } = useTranslation();
@@ -64,9 +67,21 @@ export function FormPicker<T extends FieldValues>({
           style={styles.sheetButton}
         >
           <ThemedText>
-            {translate(field.value) ?? field.value ?? translate("select")}
+            {translate(
+              options.find((opt) => opt.value === field.value)
+                ?.label as TranslationKey,
+            ) ??
+              field.value ??
+              translate("select")}
           </ThemedText>
         </Pressable>
+        {error && (
+          <ThemedText
+            style={{ color: "#ff5252", fontSize: 12, marginBottom: 4 }}
+          >
+            {error.message}
+          </ThemedText>
+        )}
       </>
     );
   }

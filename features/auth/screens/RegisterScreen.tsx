@@ -5,6 +5,7 @@ import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "@/constants/validation";
+import { TranslationKey } from "@/i18n";
 import StripeProvider from "@/lib/stripe/Provider";
 import { useStyleThemed } from "@/theme";
 import { ROLE_IDS } from "@/types/users";
@@ -19,6 +20,11 @@ import { ScrollView, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
 import { useSubscription } from "../hooks/useSubscription";
+
+const REGISTER_RESPONSE_ERRORS: Record<string, TranslationKey> = {
+  taken: "auth.taken",
+  errorOccurred: "errorOccurred",
+};
 
 // ---- STRAPI AUTH REGISTRATION SCHEMA ----
 const strapiRegisterSchema = z
@@ -101,9 +107,19 @@ export default function RegisterScreen() {
         method: "POST",
       });
     },
-    onError: (error: { error: { details: { message: string } } }) => {
-      const message = error.error?.details?.message;
-      Toast.show({ type: "error", text1: message });
+    onError: (error: { error: { message: string } }) => {
+      const message = error.error?.message;
+      if (message.includes("taken")) {
+        Toast.show({
+          type: "error",
+          text1: t(REGISTER_RESPONSE_ERRORS["taken"]),
+        });
+      } else {
+        Toast.show({
+          type: "error",
+          text1: t(REGISTER_RESPONSE_ERRORS["errorOccurred"]),
+        });
+      }
     },
     onSuccess: (data) => {
       AsyncStorage.setItem("token", data.jwt);

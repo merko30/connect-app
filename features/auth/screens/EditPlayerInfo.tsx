@@ -63,7 +63,9 @@ export default function EditPlayerInfo() {
       ...getPlayerRegisterDefaults(user?.player),
     },
   });
-  const { control, handleSubmit } = form;
+  const { control, handleSubmit, formState: fs } = form;
+
+  console.log(fs.errors);
 
   const onSubmit = (data: PlayerRegisterForm) => {
     updatePlayer(data);
@@ -71,12 +73,13 @@ export default function EditPlayerInfo() {
 
   return (
     <FormProvider {...form}>
-      <KeyboardAvoid>
+      <KeyboardAvoid style={styles.container}>
         <Header title={t("auth.editPlayerInfo")} />
         <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
             justifyContent: "center",
+            paddingBottom: 100,
           }}
         >
           <View style={styles.container}>
@@ -84,7 +87,7 @@ export default function EditPlayerInfo() {
               control={control}
               name="dateOfBirth"
               label={t("register.dateOfBirth")}
-              placeholder={t("register.dateOfBirthPlaceholder")}
+              placeholder={"register.dateOfBirth"}
             />
 
             {/* Height and Weight */}
@@ -128,11 +131,11 @@ export default function EditPlayerInfo() {
               label={t("register.preferredFoot")}
               options={[
                 {
-                  label: t("register.left"),
+                  label: "register.left",
                   value: "left",
                 },
                 {
-                  label: t("register.right"),
+                  label: "register.right",
                   value: "right",
                 },
               ]}
@@ -204,8 +207,7 @@ export default function EditPlayerInfo() {
 const stylesheet = createStyle((t) => ({
   container: {
     flex: 1,
-    padding: 24,
-    paddingTop: 64,
+    padding: 12,
     backgroundColor: t.colors.background,
   },
   buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
