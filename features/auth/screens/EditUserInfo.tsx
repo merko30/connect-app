@@ -3,8 +3,10 @@ import { FormInput } from "@/components/FormInput";
 import Header from "@/components/Header";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
+import { editUserInfoSchema } from "@/constants/validation";
 import { createStyle, useStyle } from "@/theme";
 import { User } from "@/types/users";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -29,6 +31,7 @@ export default function EditUserInfo() {
   const { data: user } = useGetCurrentUser();
 
   const form = useForm<FormValues>({
+    resolver: zodResolver(editUserInfoSchema) as any,
     defaultValues: {
       ...getUserFormDefaults(user as User),
     },
@@ -41,8 +44,8 @@ export default function EditUserInfo() {
         body: data,
         method: "PUT",
       }),
-    onError: (error: { error: { details: { message: string } } }) => {
-      const message = error.error?.details?.message;
+    onError: (error: { error: { message: string } }) => {
+      const message = error.error?.message;
 
       Toast.show({ type: "error", text1: message });
     },

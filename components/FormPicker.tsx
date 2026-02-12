@@ -1,3 +1,4 @@
+import { FormError } from "@/components/FormError";
 import { ThemedText } from "@/components/ThemedText";
 import { TranslationKey } from "@/i18n";
 import { createStyle, useStyle, useTheme } from "@/theme";
@@ -75,13 +76,7 @@ export function FormPicker<T extends FieldValues>({
               translate("select")}
           </ThemedText>
         </Pressable>
-        {error && (
-          <ThemedText
-            style={{ color: "#ff5252", fontSize: 12, marginBottom: 4 }}
-          >
-            {error.message}
-          </ThemedText>
-        )}
+        <FormError message={error?.message} />
       </>
     );
   }
@@ -111,13 +106,7 @@ export function FormPicker<T extends FieldValues>({
               ))}
             </Picker>
           </View>
-          {error && (
-            <ThemedText
-              style={{ color: "#ff5252", fontSize: 12, marginBottom: 4 }}
-            >
-              {error.message}
-            </ThemedText>
-          )}
+          <FormError message={error?.message} />
         </View>
       )}
     />

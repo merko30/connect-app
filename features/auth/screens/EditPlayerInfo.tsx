@@ -75,13 +75,7 @@ export default function EditPlayerInfo() {
     <FormProvider {...form}>
       <KeyboardAvoid style={styles.container}>
         <Header title={t("auth.editPlayerInfo")} />
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: "center",
-            paddingBottom: 100,
-          }}
-        >
+        <ScrollView contentContainerStyle={styles.scrollContentContainer}>
           <View style={styles.container}>
             <FormDatePicker
               control={control}
@@ -195,7 +189,7 @@ export default function EditPlayerInfo() {
               title={t("save")}
               onPress={handleSubmit(onSubmit)}
               variant="primary"
-              style={{ marginTop: 12 }}
+              style={styles.saveButton}
             />
           </View>
         </ScrollView>
@@ -247,5 +241,13 @@ const stylesheet = createStyle((t) => ({
   },
   item: {
     height: 50,
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+    paddingBottom: 100,
+  },
+  saveButton: {
+    marginTop: 12,
   },
 }));

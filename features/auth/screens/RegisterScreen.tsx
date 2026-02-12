@@ -1,13 +1,17 @@
 import { usersApi } from "@/api/auth";
 import { AuthHeader } from "@/components/AuthHeader";
+import { FormError } from "@/components/FormError";
 import { FormInput } from "@/components/FormInput";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
-import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "@/constants/validation";
+import {
+  StrapiRegisterForm,
+  strapiRegisterSchema,
+} from "@/constants/validation";
 import { TranslationKey } from "@/i18n";
 import StripeProvider from "@/lib/stripe/Provider";
-import { useStyleThemed } from "@/theme";
+import { createStyle, useStyle } from "@/theme";
 import { ROLE_IDS } from "@/types/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -18,67 +22,12 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { z } from "zod";
 import { useSubscription } from "../hooks/useSubscription";
 
 const REGISTER_RESPONSE_ERRORS: Record<string, TranslationKey> = {
   taken: "auth.taken",
   errorOccurred: "errorOccurred",
 };
-
-// ---- STRAPI AUTH REGISTRATION SCHEMA ----
-const strapiRegisterSchema = z
-  .object({
-    firstName: z.string().min(1, {
-      message: REGISTER_ERRORS.firstName,
-    }),
-
-    lastName: z.string().min(1, {
-      message: REGISTER_ERRORS.lastName,
-    }),
-
-    username: z.string().min(3, {
-      message: REGISTER_ERRORS.username,
-    }),
-
-    email: z.email({
-      message: REGISTER_ERRORS.email,
-    }),
-
-    password: z.string().min(6, {
-      message: REGISTER_ERRORS.password,
-    }),
-    isClubRegistration: z.boolean(),
-
-    clubName: z.string().optional(),
-
-    contactPhone: z
-      .string()
-      .regex(SLOVENIAN_PHONE_REGEX, {
-        message: REGISTER_ERRORS.contactPhone,
-      })
-      .optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (data.isClubRegistration) {
-      if (!data.clubName || data.clubName.trim().length === 0) {
-        ctx.addIssue({
-          path: ["clubName"],
-          message: REGISTER_ERRORS.clubName,
-          code: "custom",
-        });
-      }
-
-      if (!data.contactPhone) {
-        ctx.addIssue({
-          path: ["contactPhone"],
-          message: REGISTER_ERRORS.contactPhone,
-          code: "custom",
-        });
-      }
-    }
-  });
-type StrapiRegisterForm = z.infer<typeof strapiRegisterSchema>;
 
 export default function RegisterScreen() {
   const { t } = useTranslation();
@@ -136,20 +85,7 @@ export default function RegisterScreen() {
     },
   });
 
-  const styles = useStyleThemed((t) => ({
-    container: {
-      flex: 1,
-      padding: 24,
-      paddingTop: 64,
-      justifyContent: "center",
-      backgroundColor: t.colors.background,
-    },
-    buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
-    link: { alignItems: "center", marginTop: 4, paddingBottom: 24 },
-    linkText: { color: t.colors.secondary, fontSize: 15, fontWeight: "500" },
-    field: {},
-    error: { color: "#ff5252", fontSize: 12, marginBottom: 4 },
-  }));
+  const styles = useStyle(stylesheet);
 
   const form = useForm<StrapiRegisterForm>({
     resolver: zodResolver(strapiRegisterSchema) as any,
@@ -175,9 +111,7 @@ export default function RegisterScreen() {
     <StripeProvider>
       <FormProvider {...form}>
         <KeyboardAvoid>
-          <ScrollView
-            style={{ flex: 1, backgroundColor: "white", paddingTop: 72 }}
-          >
+          <ScrollView style={styles.scrollView}>
             <View style={styles.container}>
               <AuthHeader
                 title={t(
@@ -247,14 +181,14 @@ export default function RegisterScreen() {
                 </>
               )}
 
-              {error && <ThemedText style={styles.error}>{error}</ThemedText>}
+              <FormError message={error} />
 
               <ThemedButton
                 title={t("register.register")}
                 onPress={handleSubmit(onSubmit)}
                 variant="primary"
                 loading={isPending || loading}
-                style={{ marginTop: 12 }}
+                style={styles.registerButton}
               />
 
               <TouchableOpacity
@@ -272,3 +206,23 @@ export default function RegisterScreen() {
     </StripeProvider>
   );
 }
+
+const stylesheet = createStyle((t) => ({
+  container: {
+    flex: 1,
+    padding: 24,
+    paddingTop: 64,
+    justifyContent: "center",
+    backgroundColor: t.colors.background,
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: "white",
+    paddingTop: 72,
+  },
+  buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
+  link: { alignItems: "center", marginTop: 4, paddingBottom: 24 },
+  linkText: { color: t.colors.secondary, fontSize: 15, fontWeight: "500" },
+  field: {},
+  registerButton: { marginTop: 12 },
+}));

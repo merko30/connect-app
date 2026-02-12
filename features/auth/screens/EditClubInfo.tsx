@@ -51,7 +51,7 @@ export default function EditPlayerInfo() {
 
   return (
     <FormProvider {...form}>
-      <KeyboardAvoid style={{ flex: 1 }}>
+      <KeyboardAvoid style={styles.container}>
         <Header title={t("auth.editClubInfo")} />
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <FormInput
@@ -119,7 +119,7 @@ export default function EditPlayerInfo() {
             title={t("save")}
             onPress={handleSubmit(onSubmit)}
             variant="primary"
-            style={{ marginTop: 12 }}
+            style={styles.saveButton}
           />
         </ScrollView>
       </KeyboardAvoid>
@@ -136,7 +136,6 @@ const stylesheet = createStyle((t) => ({
   },
   container: {
     flex: 1,
-    padding: 24,
     backgroundColor: t.colors.background,
   },
   buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
@@ -176,5 +175,8 @@ const stylesheet = createStyle((t) => ({
   },
   item: {
     height: 50,
+  },
+  saveButton: {
+    marginTop: 12,
   },
 }));

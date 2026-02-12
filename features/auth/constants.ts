@@ -142,14 +142,14 @@ export const getClubFormDefaults = (club?: ClubProfile | null): ClubForm => ({
   contactPhone: club?.contactPhone ?? "",
 });
 
-export const getUserFormDefaults = (user: User) => ({
-  firstName: user.firstName ?? "",
-  lastName: user.lastName ?? "",
-  phoneNumber: user.phoneNumber ?? "",
-  location: user.location ?? "",
-  nationality: user.nationality ?? "",
-  citizenship: user.citizenship ?? "",
-  email: user.email ?? "",
+export const getUserFormDefaults = (user?: User | null) => ({
+  firstName: user?.firstName ?? "",
+  lastName: user?.lastName ?? "",
+  phoneNumber: user?.phoneNumber ?? "",
+  location: user?.location ?? "",
+  nationality: user?.nationality ?? "",
+  citizenship: user?.citizenship ?? "",
+  email: user?.email ?? "",
 });
 export type UserForm = Pick<
   User,
