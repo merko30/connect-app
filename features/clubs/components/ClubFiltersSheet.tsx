@@ -19,7 +19,7 @@ export type ClubFiltersSheetProps = {
   iconStyle?: any;
 };
 
-export const ClubFiltersSheet = ({
+const ClubFiltersSheet = ({
   filters,
   onApply,
   initialValues = {},
