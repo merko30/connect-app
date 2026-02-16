@@ -22,6 +22,16 @@ const AppIndex = () => {
     return <Redirect href="/auth/login" />;
   }
 
+  console.log(data.subscriptionStatus);
+
+  if (
+    data &&
+    data.subscriptionStatus !== "active" &&
+    data.subscriptionStatus !== "trialing"
+  ) {
+    return <Redirect href="/subscribe" />;
+  }
+
   if (data?.role?.name === Role.ClubStaff.toString()) {
     return <Redirect href="/club/(tabs)" />;
   }

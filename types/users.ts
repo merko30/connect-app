@@ -16,6 +16,7 @@ export interface User {
   citizenship: string | null;
   player?: PlayerProfile;
   club?: ClubProfile;
+  subscriptionStatus?: string; // e.g., "active", "inactive", "trial"
 }
 
 export enum Role {

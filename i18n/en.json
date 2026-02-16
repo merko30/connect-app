@@ -115,5 +115,43 @@
     "verified": "Verified",
     "both": "Both",
     "age": "Age"
+  },
+  "subscription": {
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "past_due": "Past Due",
+      "trialing": "Trial"
+    },
+    "player": {
+      "title": "Premium Player Subscription",
+      "subtitle": "Unlock all features and get discovered by top clubs",
+      "benefit1": "Unlimited access to club listings and contact information",
+      "benefit2": "Priority visibility in club searches",
+      "benefit3": "Advanced profile customization with video highlights",
+      "benefit4": "Direct messaging with verified clubs and scouts",
+      "benefit5": "Career statistics and performance analytics"
+    },
+    "club": {
+      "title": "Premium Club Subscription",
+      "subtitle": "Find and recruit the best talent for your team",
+      "benefit1": "Unlimited player searches with advanced filters",
+      "benefit2": "Access to verified player profiles with detailed statistics",
+      "benefit3": "Direct messaging and contact with players",
+      "benefit4": "Save and organize player shortlists",
+      "benefit5": "Priority support and exclusive scouting tools"
+    },
+    "benefits": "What's included",
+    "perMonth": "month",
+    "billedMonthly": "Billed monthly, cancel anytime",
+    "subscribe": "Subscribe Now",
+    "manageSubscription": "Manage Subscription",
+    "maybeLater": "Maybe Later",
+    "goBack": "Go Back"
+  },
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "goBack": "Go Back"
   }
 }
