@@ -14,7 +14,7 @@ import { ExperienceLevel, PlayerPosition } from "@/types/players";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState } from "react";
+import React from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, Switch, View } from "react-native";
@@ -35,7 +35,6 @@ export default function EditPlayerInfo() {
   const source = Array.isArray(params.from) ? params.from[0] : params.from;
   const isOnboarding = source === "app";
   const styles = useStyle(stylesheet);
-  const [formState] = useState<PlayerRegisterForm | null>(null);
 
   const { data: user } = useGetCurrentUser();
 
@@ -55,9 +54,14 @@ export default function EditPlayerInfo() {
     onError: (error: { error: { details: { message: string } } }) => {
       const message = error.error?.details?.message;
 
+      console.log(error);
+
       Toast.show({ type: "error", text1: message });
     },
-    onSuccess: () => router.navigate("/player/(tabs)/profile"),
+    onSuccess: () =>
+      router.navigate(
+        isOnboarding ? "/player/(tabs)" : "/player/(tabs)/profile",
+      ),
   });
 
   const form = useForm<PlayerRegisterForm>({
@@ -205,7 +209,6 @@ const stylesheet = createStyle((t) => ({
   container: {
     flex: 1,
     padding: 12,
-    paddingTop: 36,
     backgroundColor: t.colors.background,
   },
   buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },

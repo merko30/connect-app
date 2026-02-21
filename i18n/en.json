@@ -29,6 +29,8 @@
     "registerDescription": "Create an account to join the community and start connecting with clubs and players.",
     "haveAccount": "Already have an account? Sign In",
     "registerAs": "Register as",
+    "completePlayerProfile": "Complete your player profile",
+    "completeClubProfile": "Complete your club profile",
     "editClubInfo": "Edit Club information",
     "profileUpdated": "You have successfully updated your profile",
     "passwordUpdated": "You have successfully updated your password",

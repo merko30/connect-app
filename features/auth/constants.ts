@@ -94,7 +94,7 @@ export const getPlayerRegisterDefaults = (
 
   currentClub: player?.currentClub ?? "",
 
-  formerClubs: [],
+  formerClubs: player?.formerClubs?.map((club) => ({ name: club.name })) ?? [],
 
   isFreeAgent: player?.isFreeAgent ?? false,
 
