@@ -7,7 +7,7 @@ import { ThemedButton } from "@/components/ThemedButton";
 import { createStyle, useStyle } from "@/theme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -19,6 +19,9 @@ import useGetCurrentUser from "../hooks/useGetCurrentUser";
 export default function EditPlayerInfo() {
   const { t } = useTranslation();
   const router = useRouter();
+  const params = useLocalSearchParams<{ from?: string }>();
+  const source = Array.isArray(params.from) ? params.from[0] : params.from;
+  const isOnboarding = source === "app";
   const styles = useStyle(stylesheet);
 
   const { data: user } = useGetCurrentUser();
@@ -52,7 +55,7 @@ export default function EditPlayerInfo() {
   return (
     <FormProvider {...form}>
       <KeyboardAvoid style={styles.container}>
-        <Header title={t("auth.editClubInfo")} />
+        {!isOnboarding && <Header title={t("auth.editClubInfo")} />}
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <FormInput
             control={control}
