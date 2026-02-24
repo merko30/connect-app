@@ -59,6 +59,14 @@ const AppIndex = () => {
 
   if (
     data?.role?.name === Role.ClubStaff.toString() &&
+    data?.club &&
+    data.club.verified === false
+  ) {
+    return <Redirect href="/club/not-verified" />;
+  }
+
+  if (
+    data?.role?.name === Role.ClubStaff.toString() &&
     !isClubProfileComplete(data?.club)
   ) {
     return <Redirect href="/onboarding/club?from=app" />;

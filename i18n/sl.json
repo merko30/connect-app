@@ -31,6 +31,8 @@
     "registerAs": "Registrirajte se kot",
     "completePlayerProfile": "Dopolnite svoj igralski profil",
     "completeClubProfile": "Dopolnite svoj klubski profil",
+    "clubNotVerifiedTitle": "Vaš klub še ni preverjen",
+    "clubNotVerifiedBody": "Pred uporabo aplikacije je potrebna verifikacija. Prejeli boste klic za potrditev kluba.",
     "editClubInfo": "Uredi informacije o klubu",
     "profileUpdated": "Uspešno ste posodobili svoj profil",
     "passwordUpdated": "Uspešno ste posodobili svoje geslo",

@@ -31,6 +31,8 @@
     "registerAs": "Register as",
     "completePlayerProfile": "Complete your player profile",
     "completeClubProfile": "Complete your club profile",
+    "clubNotVerifiedTitle": "Your club is not verified yet",
+    "clubNotVerifiedBody": "Verification is required before you can use the app. You will receive a call to verify your club.",
     "editClubInfo": "Edit Club information",
     "profileUpdated": "You have successfully updated your profile",
     "passwordUpdated": "You have successfully updated your password",

@@ -31,6 +31,7 @@ const MAPPING = {
   star: "star",
   location: "location-on",
   "x.circle": "close",
+  "exclamationmark.triangle.fill": "warning",
 } as IconMapping;
 
 /**
