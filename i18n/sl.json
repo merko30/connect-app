@@ -13,6 +13,7 @@
     "editProfile": "Uredi profil",
     "viewProfile": "Ogled profila",
     "settings": "Nastavitve",
+    "subscription": "Naročnina",
     "logout": "Odjava",
     "editUserInfo": "Uredi uporabniške informacije",
     "editPlayerInfo": "Uredi informacije o igralcu",
@@ -151,7 +152,23 @@
     "subscribe": "Naroči se zdaj",
     "manageSubscription": "Upravljaj naročnino",
     "maybeLater": "Mogoče pozneje",
-    "goBack": "Nazaj"
+    "goBack": "Nazaj",
+    "settings": {
+      "title": "Naročnina",
+      "currentStatus": "Trenutni status",
+      "activeDescription": "Vaša naročnina je aktivna. Lahko jo prekličete kadarkoli, dostop pa ostane do konca trenutnega obračunskega obdobja.",
+      "inactiveDescription": "Nimate aktivne naročnine.",
+      "cancelButton": "Prekliči naročnino",
+      "cancelTitle": "Prekliči naročnino",
+      "cancelConfirm": "Ali ste prepričani, da želite preklicati naročnino?",
+      "keep": "Obdrži naročnino",
+      "cancelSuccess": "Naročnina je uspešno preklicana",
+      "cancelError": "Naročnine ni bilo mogoče preklicati. Poskusite znova.",
+      "details": "Podrobnosti naročnine",
+      "daysRemaining": "Preostali dnevi",
+      "periodEnd": "Obračunsko obdobje se konča",
+      "willCancelAt": "Prekličem dne"
+    }
   },
   "common": {
     "yes": "Da",

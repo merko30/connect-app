@@ -36,6 +36,11 @@ export const CLUB_PROFILE_MENU_ITEMS: MenuItem[] = [
 
 export const CLUB_SECURITY_SETTINGS_ITEMS: MenuItem[] = [
   {
+    label: "profile.subscription",
+    icon: "creditcard",
+    href: "/club/profile/subscription",
+  },
+  {
     label: "profile.changePassword",
     icon: "lock.fill",
     href: "/club/profile/change-password",
@@ -43,6 +48,11 @@ export const CLUB_SECURITY_SETTINGS_ITEMS: MenuItem[] = [
 ];
 
 export const PLAYER_SECURITY_SETTINGS_ITEMS: MenuItem[] = [
+  {
+    label: "profile.subscription",
+    icon: "creditcard",
+    href: "/player/profile/subscription",
+  },
   {
     label: "profile.changePassword",
     icon: "lock.fill",

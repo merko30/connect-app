@@ -13,6 +13,7 @@
     "editProfile": "Edit Profile",
     "viewProfile": "View Profile",
     "settings": "Settings",
+    "subscription": "Subscription",
     "logout": "Logout",
     "editUserInfo": "Edit User Information",
     "editPlayerInfo": "Edit Player Information",
@@ -151,7 +152,23 @@
     "subscribe": "Subscribe Now",
     "manageSubscription": "Manage Subscription",
     "maybeLater": "Maybe Later",
-    "goBack": "Go Back"
+    "goBack": "Go Back",
+    "settings": {
+      "title": "Subscription",
+      "currentStatus": "Current status",
+      "activeDescription": "Your subscription is active. You can cancel anytime and access continues until the current billing period ends.",
+      "inactiveDescription": "You do not have an active subscription.",
+      "cancelButton": "Cancel Subscription",
+      "cancelTitle": "Cancel subscription",
+      "cancelConfirm": "Are you sure you want to cancel your subscription?",
+      "keep": "Keep subscription",
+      "cancelSuccess": "Subscription canceled successfully",
+      "cancelError": "Unable to cancel subscription. Please try again.",
+      "details": "Subscription details",
+      "daysRemaining": "Days remaining",
+      "periodEnd": "Billing period ends",
+      "willCancelAt": "Will cancel on"
+    }
   },
   "common": {
     "yes": "Yes",

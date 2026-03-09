@@ -31,6 +31,7 @@ const MAPPING = {
   star: "star",
   location: "location-on",
   "x.circle": "close",
+  creditcard: "credit-card",
   "exclamationmark.triangle.fill": "warning",
 } as IconMapping;
 
