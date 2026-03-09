@@ -41,10 +41,6 @@
     "taken": "Email or username is already taken.",
     "editPlayerInfo": "Edit Player Information"
   },
-  "common": {
-    "yes": "Yes",
-    "no": "No"
-  },
   "filters": {
     "minHeight": "Min Height",
     "maxHeight": "Max Height"
@@ -164,6 +160,7 @@
       "keep": "Keep subscription",
       "cancelSuccess": "Subscription canceled successfully",
       "cancelError": "Unable to cancel subscription. Please try again.",
+      "subscriptionStarted": "Subscription started successfully!",
       "details": "Subscription details",
       "daysRemaining": "Days remaining",
       "periodEnd": "Billing period ends",

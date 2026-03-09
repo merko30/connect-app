@@ -22,14 +22,14 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { useSubscription } from "../hooks/useSubscription";
+import { usePaymentSubscription } from "../hooks/usePaymentSubscription";
 
 const REGISTER_RESPONSE_ERRORS: Record<string, TranslationKey> = {
   taken: "auth.taken",
   errorOccurred: "errorOccurred",
 };
 
-export default function RegisterScreen() {
+function RegisterScreenContent() {
   const { t } = useTranslation();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -37,7 +37,14 @@ export default function RegisterScreen() {
 
   const isClubRegistration = type === "club";
 
-  const { subscribe, loading } = useSubscription();
+  const { handleSubscribe, loading: subscriptionLoading } =
+    usePaymentSubscription({
+      trialDays: 30,
+      navigateOnSuccess: isClubRegistration ? "/club/(tabs)" : "/player/(tabs)",
+      onError: (error) => {
+        setError(error);
+      },
+    });
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: StrapiRegisterForm) => {
@@ -70,18 +77,10 @@ export default function RegisterScreen() {
         });
       }
     },
-    onSuccess: (data) => {
-      AsyncStorage.setItem("token", data.jwt);
-      subscribe(30).then((subscribed) => {
-        if (subscribed) {
-          router.replace(
-            isClubRegistration ? "/club/(tabs)" : "/player/(tabs)",
-          );
-        } else {
-          // revert
-          console.log("failed");
-        }
-      });
+    onSuccess: async (data) => {
+      // Save token and then start subscription flow
+      await AsyncStorage.setItem("token", data.jwt);
+      handleSubscribe();
     },
   });
 
@@ -108,101 +107,107 @@ export default function RegisterScreen() {
   };
 
   return (
-    <StripeProvider>
-      <FormProvider {...form}>
-        <KeyboardAvoid>
-          <ScrollView style={styles.scrollView}>
-            <View style={styles.container}>
-              <AuthHeader
-                title={t(
-                  isClubRegistration
-                    ? "register.clubTitle"
-                    : "register.playerTitle",
-                )}
-                caption={t(
-                  isClubRegistration
-                    ? "register.clubCaption"
-                    : "register.playerCaption",
-                )}
-              />
-
-              <FormInput
-                name="firstName"
-                control={control}
-                placeholder={t("register.firstName")}
-                style={styles.field}
-              />
-
-              <FormInput
-                name="lastName"
-                control={control}
-                placeholder={t("register.lastName")}
-                style={styles.field}
-              />
-
-              <FormInput
-                name="username"
-                control={control}
-                placeholder={t("register.username")}
-                style={styles.field}
-              />
-
-              <FormInput
-                name="email"
-                control={control}
-                placeholder={t("register.email")}
-                keyboardType="email-address"
-                style={styles.field}
-              />
-
-              <FormInput
-                name="password"
-                control={control}
-                placeholder={t("register.password")}
-                secureTextEntry
-                style={styles.field}
-              />
-
-              {isClubRegistration && (
-                <>
-                  <FormInput
-                    name="clubName"
-                    control={control}
-                    placeholder={t("register.clubName")}
-                    style={styles.field}
-                  />
-                  <FormInput
-                    name="contactPhone"
-                    control={control}
-                    placeholder={t("register.contactPhone")}
-                    keyboardType="phone-pad"
-                    style={styles.field}
-                  />
-                </>
+    <FormProvider {...form}>
+      <KeyboardAvoid>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.container}>
+            <AuthHeader
+              title={t(
+                isClubRegistration
+                  ? "register.clubTitle"
+                  : "register.playerTitle",
               )}
+              caption={t(
+                isClubRegistration
+                  ? "register.clubCaption"
+                  : "register.playerCaption",
+              )}
+            />
 
-              <FormError message={error} />
+            <FormInput
+              name="firstName"
+              control={control}
+              placeholder={t("register.firstName")}
+              style={styles.field}
+            />
 
-              <ThemedButton
-                title={t("register.register")}
-                onPress={handleSubmit(onSubmit)}
-                variant="primary"
-                loading={isPending || loading}
-                style={styles.registerButton}
-              />
+            <FormInput
+              name="lastName"
+              control={control}
+              placeholder={t("register.lastName")}
+              style={styles.field}
+            />
 
-              <TouchableOpacity
-                style={styles.link}
-                onPress={() => router.navigate("/auth/login")}
-              >
-                <ThemedText style={styles.linkText}>
-                  {t("register.alreadyHaveAccount")}
-                </ThemedText>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        </KeyboardAvoid>
-      </FormProvider>
+            <FormInput
+              name="username"
+              control={control}
+              placeholder={t("register.username")}
+              style={styles.field}
+            />
+
+            <FormInput
+              name="email"
+              control={control}
+              placeholder={t("register.email")}
+              keyboardType="email-address"
+              style={styles.field}
+            />
+
+            <FormInput
+              name="password"
+              control={control}
+              placeholder={t("register.password")}
+              secureTextEntry
+              style={styles.field}
+            />
+
+            {isClubRegistration && (
+              <>
+                <FormInput
+                  name="clubName"
+                  control={control}
+                  placeholder={t("register.clubName")}
+                  style={styles.field}
+                />
+                <FormInput
+                  name="contactPhone"
+                  control={control}
+                  placeholder={t("register.contactPhone")}
+                  keyboardType="phone-pad"
+                  style={styles.field}
+                />
+              </>
+            )}
+
+            <FormError message={error} />
+
+            <ThemedButton
+              title={t("register.register")}
+              onPress={handleSubmit(onSubmit)}
+              variant="primary"
+              loading={isPending || subscriptionLoading}
+              style={styles.registerButton}
+            />
+
+            <TouchableOpacity
+              style={styles.link}
+              onPress={() => router.navigate("/auth/login")}
+            >
+              <ThemedText style={styles.linkText}>
+                {t("register.alreadyHaveAccount")}
+              </ThemedText>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoid>
+    </FormProvider>
+  );
+}
+
+export default function RegisterScreen() {
+  return (
+    <StripeProvider>
+      <RegisterScreenContent />
     </StripeProvider>
   );
 }

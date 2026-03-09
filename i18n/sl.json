@@ -41,10 +41,6 @@
     "taken": "E-pošta ali uporabniško ime je již zaregistrováno.",
     "editPlayerInfo": "Uredi informace o hráči"
   },
-  "common": {
-    "yes": "Da",
-    "no": "Ne"
-  },
   "filters": {
     "minHeight": "Minimalna višina",
     "maxHeight": "Maksimalna višina"
@@ -164,6 +160,7 @@
       "keep": "Obdrži naročnino",
       "cancelSuccess": "Naročnina je uspešno preklicana",
       "cancelError": "Naročnine ni bilo mogoče preklicati. Poskusite znova.",
+      "subscriptionStarted": "Naročnina je uspešno aktivirana!",
       "details": "Podrobnosti naročnine",
       "daysRemaining": "Preostali dnevi",
       "periodEnd": "Obračunsko obdobje se konča",

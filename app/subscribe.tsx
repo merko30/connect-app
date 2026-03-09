@@ -1,5 +1,7 @@
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
+import { usePaymentSubscription } from "@/features/auth/hooks/usePaymentSubscription";
 import { TranslationKey } from "@/i18n";
+import StripeProvider from "@/lib/stripe/Provider";
 import { Role } from "@/types/users";
 import { useRouter } from "expo-router";
 import React, { useEffect } from "react";
@@ -15,7 +17,7 @@ import {
 } from "../constants/subscription";
 import { createStyle, useStyle } from "../theme";
 
-const SubscribePage = () => {
+const SubscribePageContent = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { data: user } = useGetCurrentUser();
@@ -26,6 +28,14 @@ const SubscribePage = () => {
 
   const themed = useStyle(stylesheet);
 
+  const { handleSubscribe, loading } = usePaymentSubscription({
+    navigateOnSuccess: isClub ? "/club/(tabs)" : "/player/(tabs)",
+  });
+
+  const handleGoBack = () => {
+    router.back();
+  };
+
   // Check subscription status and redirect if needed
   useEffect(() => {
     if (
@@ -33,21 +43,9 @@ const SubscribePage = () => {
       CURRENT_SUBSCRIPTION_STATUS === SUBSCRIPTION_STATUS.TRIAL
     ) {
       // User has active subscription, redirect to appropriate dashboard
-      const redirectPath = isClub ? "/club" : "/player";
-      // Uncomment to enable auto-redirect
-      // router.replace(redirectPath);
+      // Uncomment to enable auto-redirect: router.replace(isClub ? "/club" : "/player");
     }
   }, [isClub, router]);
-
-  const handleSubscribe = () => {
-    // TODO: Implement subscription logic
-    console.log("Subscribe clicked");
-    // For now, just show an alert or navigate
-  };
-
-  const handleGoBack = () => {
-    router.back();
-  };
 
   return (
     <SafeAreaView style={themed.container}>
@@ -102,11 +100,13 @@ const SubscribePage = () => {
                 title={t("subscription.manageSubscription")}
                 onPress={handleSubscribe}
                 variant="primary"
+                loading={loading}
               />
               <ThemedButton
                 title={t("common.goBack")}
                 onPress={handleGoBack}
                 variant="outline"
+                disabled={loading}
               />
             </>
           ) : (
@@ -115,17 +115,27 @@ const SubscribePage = () => {
                 title={t("subscription.subscribe")}
                 onPress={handleSubscribe}
                 variant="primary"
+                loading={loading}
               />
               <ThemedButton
                 title={t("subscription.maybeLater")}
                 onPress={handleGoBack}
                 variant="outline"
+                disabled={loading}
               />
             </>
           )}
         </View>
       </ScrollView>
     </SafeAreaView>
+  );
+};
+
+const SubscribePage = () => {
+  return (
+    <StripeProvider>
+      <SubscribePageContent />
+    </StripeProvider>
   );
 };
 
