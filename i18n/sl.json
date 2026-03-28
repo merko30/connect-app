@@ -126,21 +126,19 @@
     },
     "player": {
       "title": "Premium naročnina za igralce",
-      "subtitle": "Odklenite vse funkcije in vas odkrijejo vrhunski klubi",
-      "benefit1": "Neomejen dostop do seznamov klubov in kontaktnih podatkov",
-      "benefit2": "Prednostna vidnost v iskalnikih klubov",
-      "benefit3": "Napredna prilagoditev profila z video povzetki",
-      "benefit4": "Neposredno sporočanje s preverjenimi klubi in skavti",
-      "benefit5": "Karierna statistika in analiza uspešnosti"
+      "subtitle": "Poiščite klube in pustite, da vas najdejo",
+      "description": "Naročite se, da nam pomagate vzdrževati to aplikacijo. S storitvijo naročnine dobite možnost iskanja klubov in igralcev.",
+      "benefit1": "Poiščite klube",
+      "benefit2": "Oglejte si podrobnosti klubov in kontaktne podatke",
+      "benefit3": "Povežite se s klubi in skavti"
     },
     "club": {
       "title": "Premium naročnina za klube",
-      "subtitle": "Poiščite in rekrutirajte najboljše talente za svojo ekipo",
-      "benefit1": "Neomejeno iskanje igralcev z naprednimi filtri",
-      "benefit2": "Dostop do preverjenih profilov igralcev s podrobno statistiko",
-      "benefit3": "Neposredno sporočanje in stik z igralci",
-      "benefit4": "Shranjevanje in organiziranje seznamov igralcev",
-      "benefit5": "Prednostna podpora in ekskluzivna orodja za skavtiranje"
+      "subtitle": "Poiščite in rekrutirajte igralce",
+      "description": "Naročite se, da nam pomagate vzdrževati to aplikacijo. S storitvijo naročnine dobite možnost iskanja klubov in igralcev.",
+      "benefit1": "Poiščite igralce",
+      "benefit2": "Oglejte si podrobne profile igralcev",
+      "benefit3": "Povežite se z igralci"
     },
     "benefits": "Kaj je vključeno",
     "perMonth": "mesec",

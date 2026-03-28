@@ -126,21 +126,19 @@
     },
     "player": {
       "title": "Premium Player Subscription",
-      "subtitle": "Unlock all features and get discovered by top clubs",
-      "benefit1": "Unlimited access to club listings and contact information",
-      "benefit2": "Priority visibility in club searches",
-      "benefit3": "Advanced profile customization with video highlights",
-      "benefit4": "Direct messaging with verified clubs and scouts",
-      "benefit5": "Career statistics and performance analytics"
+      "subtitle": "Search for clubs and let them find you",
+      "description": "Subscribe to help us maintain this app. Your subscription gives you the ability to search for clubs and players.",
+      "benefit1": "Search for clubs",
+      "benefit2": "View club details and contact information",
+      "benefit3": "Connect with clubs and scouts"
     },
-    "club": {
+    "club": {,
+      "benefit1": "Search for players",
+      "benefit2": "View detailed player profiles",
+      "benefit3": "Connect with players"
       "title": "Premium Club Subscription",
-      "subtitle": "Find and recruit the best talent for your team",
-      "benefit1": "Unlimited player searches with advanced filters",
-      "benefit2": "Access to verified player profiles with detailed statistics",
-      "benefit3": "Direct messaging and contact with players",
-      "benefit4": "Save and organize player shortlists",
-      "benefit5": "Priority support and exclusive scouting tools"
+      "subtitle": "Search for and recruit players",
+      "description": "Subscribe to help us maintain this app. Your subscription gives you the ability to search for clubs and players."
     },
     "benefits": "What's included",
     "perMonth": "month",

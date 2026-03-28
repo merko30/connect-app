@@ -47,8 +47,6 @@ const AppIndex = () => {
     return <Redirect href="/auth/login" />;
   }
 
-  console.log(data.subscriptionStatus);
-
   if (
     data &&
     data.subscriptionStatus !== "active" &&

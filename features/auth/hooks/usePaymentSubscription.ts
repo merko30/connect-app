@@ -3,6 +3,7 @@ import { Href, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import { useSubscription } from "./useSubscription";
+import { useSubscriptionStatus } from "./useSubscriptionStatus";
 
 interface UsePaymentSubscriptionOptions {
   onSuccess?: () => void;
@@ -18,10 +19,17 @@ export const usePaymentSubscription = (
   const router = useRouter();
   const queryClient = useQueryClient();
   const { subscribe: stripeSubscribe, loading } = useSubscription();
+  const { data: subscriptionStatus } = useSubscriptionStatus();
 
   const handleSubscribe = async () => {
     try {
-      const success = await stripeSubscribe(options.trialDays);
+      // Check if user has already used their trial
+      // If they have, don't offer trial again (pass 0 instead of trialDays)
+      const effectiveTrialDays = subscriptionStatus?.hasUsedTrial
+        ? 0
+        : options.trialDays;
+
+      const success = await stripeSubscribe(effectiveTrialDays);
 
       if (success) {
         // Invalidate subscription cache to fetch fresh data

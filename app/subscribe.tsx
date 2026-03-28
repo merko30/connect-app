@@ -10,9 +10,7 @@ import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedButton } from "../components/ThemedButton";
 import {
-  CLUB_SUBSCRIPTION_BENEFITS,
   CURRENT_SUBSCRIPTION_STATUS,
-  PLAYER_SUBSCRIPTION_BENEFITS,
   SUBSCRIPTION_STATUS,
 } from "../constants/subscription";
 import { createStyle, useStyle } from "../theme";
@@ -22,9 +20,6 @@ const SubscribePageContent = () => {
   const router = useRouter();
   const { data: user } = useGetCurrentUser();
   const isClub = user?.role?.name === Role.ClubStaff.toString();
-  const benefits = isClub
-    ? CLUB_SUBSCRIPTION_BENEFITS
-    : PLAYER_SUBSCRIPTION_BENEFITS;
 
   const themed = useStyle(stylesheet);
 
@@ -79,13 +74,30 @@ const SubscribePageContent = () => {
           </Text>
         </View>
 
+        <View style={themed.descriptionSection}>
+          <Text style={themed.descriptionText}>
+            {t(
+              isClub
+                ? "subscription.club.description"
+                : "subscription.player.description",
+            )}
+          </Text>
+        </View>
+
         <View style={themed.benefitsSection}>
-          <Text style={themed.benefitsTitle}>{t("subscription.benefits")}</Text>
-          {benefits.map((benefit, index) => (
+          {[
+            isClub
+              ? "subscription.club.benefit1"
+              : "subscription.player.benefit1",
+            isClub
+              ? "subscription.club.benefit2"
+              : "subscription.player.benefit2",
+            isClub
+              ? "subscription.club.benefit3"
+              : "subscription.player.benefit3",
+          ].map((benefit, index) => (
             <View key={index} style={themed.benefitItem}>
-              <View style={themed.checkmark}>
-                <Text style={themed.checkmarkText}>✓</Text>
-              </View>
+              <Text style={themed.benefitBullet}>•</Text>
               <Text style={themed.benefitText}>
                 {t(benefit as TranslationKey)}
               </Text>
@@ -164,39 +176,36 @@ const stylesheet = createStyle((theme) => ({
     color: theme.colors.gray[400],
     lineHeight: 24,
   },
-  benefitsSection: {
-    marginVertical: 30,
-  },
-  benefitsTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: theme.colors.accent,
-    marginBottom: 20,
-  },
-  benefitItem: {
-    flexDirection: "row",
-    marginBottom: 16,
-    alignItems: "flex-start",
-  },
-  checkmark: {
-    width: 24,
-    height: 24,
+  descriptionSection: {
+    marginVertical: 20,
+    padding: 16,
+    backgroundColor: theme.colors.surface,
     borderRadius: 12,
-    backgroundColor: theme.colors.primary,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 12,
   },
-  checkmarkText: {
-    color: "#FFFFFF",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  benefitText: {
-    flex: 1,
+  descriptionText: {
     fontSize: 16,
     color: theme.colors.text,
     lineHeight: 24,
+  },
+  benefitsSection: {
+    marginVertical: 20,
+  },
+  benefitItem: {
+    flexDirection: "row",
+    marginBottom: 12,
+    alignItems: "flex-start",
+  },
+  benefitBullet: {
+    fontSize: 18,
+    color: theme.colors.primary,
+    marginRight: 12,
+    fontWeight: "600",
+  },
+  benefitText: {
+    flex: 1,
+    fontSize: 15,
+    color: theme.colors.text,
+    lineHeight: 22,
   },
   pricingCard: {
     backgroundColor: theme.colors.surface,

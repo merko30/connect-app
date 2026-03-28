@@ -31,9 +31,10 @@ export const useSubscription = (): UseSubscriptionReturn => {
       const { clientSecret } = await res;
 
       // 2️⃣ Initialize payment sheet
+      // Use setupIntent for trials (no immediate charge), paymentIntent for immediate subscriptions
       const { error: initError } = await initPaymentSheet({
         merchantDisplayName: "X Connect",
-        ...(trialDays
+        ...(trialDays && trialDays > 0
           ? { setupIntentClientSecret: clientSecret }
           : { paymentIntentClientSecret: clientSecret }),
         allowsDelayedPaymentMethods: true,
