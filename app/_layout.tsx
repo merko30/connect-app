@@ -4,8 +4,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
-import { themes } from "@/theme";
-import { ThemeProvider } from "@pavelgric/react-native-theme-provider";
+import { ThemeProvider } from "@/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 
@@ -23,13 +22,11 @@ function RootContent() {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const resolvedTheme = colorScheme === "dark" ? "dark" : "light";
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider
-        themes={themes}
-        initialTheme={colorScheme as "light" | "dark"}
-      >
+      <ThemeProvider key={resolvedTheme} initialTheme={resolvedTheme}>
         <BottomSheetModalProvider>
           <QueryClientProvider client={queryClient}>
             <RootContent />

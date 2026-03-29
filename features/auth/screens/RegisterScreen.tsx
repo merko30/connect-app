@@ -222,7 +222,6 @@ const stylesheet = createStyle((t) => ({
   },
   scrollView: {
     flex: 1,
-    backgroundColor: "white",
     paddingTop: 72,
   },
   buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },

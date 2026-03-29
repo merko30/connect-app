@@ -22,11 +22,30 @@ function getLocalIP() {
 
 const ip = getLocalIP();
 const port = 1337; // Strapi port
-const envPath = path.join(process.cwd(), ".env");
+const envPath = path.join(process.cwd(), ".env.local");
+const apiUrl = `http://${ip}:${port}/api`;
 
-const content = `EXPO_PUBLIC_API_URL=http://${ip}:${port}/api
-`;
+let content = "";
 
-fs.writeFileSync(envPath, content);
+if (fs.existsSync(envPath)) {
+  content = fs.readFileSync(envPath, "utf8");
+}
+
+const lines = content.length > 0 ? content.split(/\r?\n/) : [];
+let foundApiUrl = false;
+
+const updatedLines = lines.map((line) => {
+  if (line.startsWith("EXPO_PUBLIC_API_URL=")) {
+    foundApiUrl = true;
+    return `EXPO_PUBLIC_API_URL=${apiUrl}`;
+  }
+  return line;
+});
+
+if (!foundApiUrl) {
+  updatedLines.push(`EXPO_PUBLIC_API_URL=${apiUrl}`);
+}
+
+fs.writeFileSync(envPath, `${updatedLines.join("\n")}\n`);
 
 console.log(`✅ .env generated with IP: ${ip}`);
