@@ -10,6 +10,7 @@ import { createStyle, useStyle } from "@/theme";
 import { ClubProfile } from "@/types/clubs";
 import { StrapiListResponse } from "@/types/strapi";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
@@ -17,6 +18,7 @@ import { FlatList, View } from "react-native";
 export function PlayerHome() {
   const styles = useStyle(stylesheet);
   const { t } = useTranslation();
+  const router = useRouter();
   const { data: me } = useGetCurrentUser();
 
   const [searchText, setSearchText] = useState("");
@@ -72,7 +74,16 @@ export function PlayerHome() {
         <FlatList
           data={clubs}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={(item) => <ClubCard club={item.item} />}
+          renderItem={(item) => (
+            <ClubCard
+              club={item.item}
+              onPress={() =>
+                router.push(
+                  `/player/club/${item.item.documentId ?? item.item.id}`,
+                )
+              }
+            />
+          )}
         />
       </View>
     </KeyboardAvoid>

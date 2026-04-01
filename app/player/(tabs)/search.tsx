@@ -9,6 +9,7 @@ import { ClubProfile } from "@/types/clubs";
 import { StrapiListResponse } from "@/types/strapi";
 import { buildStrapiFilters, toStrapiQueryString } from "@/utils/strapi-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
@@ -16,6 +17,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PlayerSearchScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
   const styles = useStyle(stylesheet);
@@ -95,7 +97,14 @@ export default function PlayerSearchScreen() {
       <FlatList
         data={clubs}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <ClubCard club={item} />}
+        renderItem={({ item }) => (
+          <ClubCard
+            club={item}
+            onPress={() =>
+              router.push(`/player/club/${item.documentId ?? item.id}`)
+            }
+          />
+        )}
         onRefresh={refetch}
         refreshing={isPending}
         onEndReached={onEndReached}
