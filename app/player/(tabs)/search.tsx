@@ -39,10 +39,7 @@ export default function PlayerSearchScreen() {
         ...(debouncedSearch
           ? [
               {
-                $or: [
-                  { firstName: { $containsi: debouncedSearch } },
-                  { lastName: { $containsi: debouncedSearch } },
-                ],
+                $or: [{ clubName: { $containsi: debouncedSearch } }],
               },
             ]
           : []),
@@ -58,6 +55,7 @@ export default function PlayerSearchScreen() {
     refetch,
     isPending,
     hasNextPage,
+    error,
   } = useInfiniteQuery<StrapiListResponse<ClubProfile>>({
     queryKey: ["clubs", debouncedSearch, toStrapiQueryString(strapiFilters)],
     initialPageParam: 1,
@@ -78,6 +76,7 @@ export default function PlayerSearchScreen() {
   });
 
   const clubs = data?.pages.flatMap((page) => page.data) ?? [];
+  console.log(clubs, error);
 
   const onEndReached = () => {
     if (!isFetchingNextPage && hasNextPage) fetchNextPage();
