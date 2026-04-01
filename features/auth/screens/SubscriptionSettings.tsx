@@ -1,77 +1,29 @@
-import { usersApi } from "@/api/auth";
 import Header from "@/components/Header";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { TranslationKey } from "@/i18n";
 import { createStyle, useStyle } from "@/theme";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Toast from "react-native-toast-message";
 import { useSubscriptionStatus } from "../hooks/useSubscriptionStatus";
-
-type CancelResponse = {
-  message?: string;
-};
 
 function SubscriptionSettings() {
   const router = useRouter();
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
-  const queryClient = useQueryClient();
-  const { data: subscription, isLoading, error } = useSubscriptionStatus();
+  const { data: subscription, isLoading } = useSubscriptionStatus();
   const portalUrl =
     Constants.expoConfig?.extra?.subscriptionPortalUrl ||
     process.env.EXPO_PUBLIC_SUBSCRIPTION_PORTAL_URL;
-
-  console.log(subscription, error);
 
   const isActiveSubscription =
     subscription?.isActive || subscription?.isTrialing;
   const status = subscription?.status || "inactive";
   const translatedStatusKey = `subscription.status.${status}` as TranslationKey;
-
-  const { mutate: cancelSubscription, isPending: isCancelling } = useMutation({
-    mutationFn: async () =>
-      await usersApi.custom<CancelResponse>("/subscriptions/cancel", {
-        method: "POST",
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["subscription-status"] });
-      Toast.show({
-        type: "success",
-        text1: t("subscription.settings.cancelSuccess"),
-      });
-    },
-    onError: () => {
-      Toast.show({
-        type: "error",
-        text1: t("subscription.settings.cancelError"),
-      });
-    },
-  });
-
-  const onCancelPress = () => {
-    Alert.alert(
-      t("subscription.settings.cancelTitle"),
-      t("subscription.settings.cancelConfirm"),
-      [
-        {
-          text: t("subscription.settings.keep"),
-          style: "cancel",
-        },
-        {
-          text: t("subscription.settings.cancelButton"),
-          style: "destructive",
-          onPress: () => cancelSubscription(),
-        },
-      ],
-    );
-  };
 
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return "-";
@@ -79,7 +31,7 @@ function SubscriptionSettings() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
       <Header title={t("subscription.settings.title")} />
       <ScrollView
         style={styles.content}
@@ -146,7 +98,13 @@ function SubscriptionSettings() {
           </View>
         )}
 
-        {portalUrl && !isActiveSubscription && (
+        <View style={styles.manageInfoCard}>
+          <ThemedText style={styles.manageInfoText}>
+            {t("subscription.settings.manageInfo")}
+          </ThemedText>
+        </View>
+
+        {portalUrl && (
           <ThemedButton
             title={t("subscription.settings.manageSubscription")}
             onPress={() =>
@@ -159,14 +117,6 @@ function SubscriptionSettings() {
             style={{ marginBottom: 12 }}
           />
         )}
-
-        <ThemedButton
-          title={t("subscription.settings.cancelButton")}
-          onPress={onCancelPress}
-          variant="outline"
-          loading={isCancelling}
-          disabled={!isActiveSubscription || isLoading}
-        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -235,6 +185,19 @@ const stylesheet = createStyle((theme) => ({
     marginBottom: 8,
   },
   description: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: theme.colors.gray[400],
+  },
+  manageInfoCard: {
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: theme.colors.surface,
+    borderWidth: 1,
+    borderColor: theme.colors.spacer,
+    marginBottom: 16,
+  },
+  manageInfoText: {
     fontSize: 14,
     lineHeight: 20,
     color: theme.colors.gray[400],

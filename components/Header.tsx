@@ -21,7 +21,7 @@ const Header = (props: React.ComponentProps<typeof RNHeader>) => {
           />
         </Pressable>
       )}
-      headerStyle={styles.container}
+      headerStyle={[styles.container, props.headerStyle]}
       headerTitleStyle={styles.title}
     />
   );

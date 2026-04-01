@@ -153,6 +153,7 @@
       "currentStatus": "Current status",
       "activeDescription": "Your subscription is active. You can cancel anytime and access continues until the current billing period ends.",
       "inactiveDescription": "You do not have an active subscription.",
+      "manageInfo": "Subscription changes and cancellation are managed on our website.",
       "manageSubscription": "Manage on Website",
       "cancelButton": "Cancel Subscription",
       "cancelTitle": "Cancel subscription",

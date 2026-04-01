@@ -153,6 +153,7 @@
       "currentStatus": "Trenutni status",
       "activeDescription": "Vaša naročnina je aktivna. Lahko jo prekličete kadarkoli, dostop pa ostane do konca trenutnega obračunskega obdobja.",
       "inactiveDescription": "Nimate aktivne naročnine.",
+      "manageInfo": "Spremembe naročnine in preklic urejate na naši spletni strani.",
       "manageSubscription": "Upravljaj na spletni strani",
       "cancelButton": "Prekliči naročnino",
       "cancelTitle": "Prekliči naročnino",
