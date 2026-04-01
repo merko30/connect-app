@@ -13,10 +13,12 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export function ClubHome() {
   const styles = useStyle(stylesheet);
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const { data: me } = useGetCurrentUser();
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
@@ -63,7 +65,7 @@ export function ClubHome() {
   };
 
   return (
-    <KeyboardAvoid style={styles.container}>
+    <KeyboardAvoid style={styles.container} keyboardVerticalOffset={insets.top}>
       <Welcome
         title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
         subtitle={t("home.findAndRecruit")}
@@ -84,6 +86,8 @@ export function ClubHome() {
           refreshing={isPending}
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="never"
         />
       </View>
     </KeyboardAvoid>

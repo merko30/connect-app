@@ -14,10 +14,12 @@ import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export function PlayerHome() {
   const styles = useStyle(stylesheet);
   const { t } = useTranslation();
+  const insets = useSafeAreaInsets();
   const router = useRouter();
   const { data: me } = useGetCurrentUser();
 
@@ -61,7 +63,7 @@ export function PlayerHome() {
   };
 
   return (
-    <KeyboardAvoid style={styles.container}>
+    <KeyboardAvoid style={styles.container} keyboardVerticalOffset={insets.top}>
       <Welcome
         title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
         subtitle={t("home.findYourNextClub")}
@@ -84,6 +86,10 @@ export function PlayerHome() {
               }
             />
           )}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.5}
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="never"
         />
       </View>
     </KeyboardAvoid>

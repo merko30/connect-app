@@ -1,19 +1,42 @@
 import { createStyle, useStyle } from "@/theme";
 import {
+  Keyboard,
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
   Platform,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 
-const KeyboardAvoid = ({ children, ...props }: KeyboardAvoidingViewProps) => {
+type KeyboardAvoidProps = KeyboardAvoidingViewProps & {
+  dismissOnTap?: boolean;
+  keyboardVerticalOffset?: number;
+};
+
+const KeyboardAvoid = ({
+  children,
+  dismissOnTap = true,
+  keyboardVerticalOffset = 0,
+  ...props
+}: KeyboardAvoidProps) => {
   const styles = useStyle(stylesheet);
+
+  const content = <View style={styles.content}>{children}</View>;
+
   return (
     <KeyboardAvoidingView
       style={[styles.container, props.style]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={keyboardVerticalOffset}
       {...props}
     >
-      {children}
+      {dismissOnTap ? (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          {content}
+        </TouchableWithoutFeedback>
+      ) : (
+        content
+      )}
     </KeyboardAvoidingView>
   );
 };
@@ -21,8 +44,10 @@ const KeyboardAvoid = ({ children, ...props }: KeyboardAvoidingViewProps) => {
 const stylesheet = createStyle((t) => ({
   container: {
     flex: 1,
-    paddingBottom: 20,
     backgroundColor: t.colors.background,
+  },
+  content: {
+    flex: 1,
   },
 }));
 

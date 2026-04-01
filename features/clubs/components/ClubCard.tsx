@@ -61,7 +61,8 @@ export function ClubCard({ club, onPress }: ClubCardProps) {
       <Image
         source={{
           uri:
-            logoUrl ?? "https://ui-avatars.com/api/?name=Club&background=ddd",
+            logoUrl ??
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(clubName)}&background=ddd`,
         }}
         style={styles.logo}
       />
