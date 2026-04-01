@@ -12,13 +12,8 @@ export const REGISTER_ERRORS = {
   contactPhone: "register.error.contactPhone",
 };
 
-// Phone number schema
-export const phoneSchema = z
-  .string()
-  .regex(SLOVENIAN_PHONE_REGEX, {
-    message: REGISTER_ERRORS.contactPhone,
-  })
-  .optional();
+// Phone number schema (regex validated contextually in superRefine for clubs)
+export const phoneSchema = z.string().optional();
 
 // Error message keys for translation
 
@@ -68,6 +63,12 @@ export const strapiRegisterSchema = z
       }
 
       if (!data.contactPhone) {
+        ctx.addIssue({
+          path: ["contactPhone"],
+          message: REGISTER_ERRORS.contactPhone,
+          code: "custom",
+        });
+      } else if (!SLOVENIAN_PHONE_REGEX.test(data.contactPhone)) {
         ctx.addIssue({
           path: ["contactPhone"],
           message: REGISTER_ERRORS.contactPhone,

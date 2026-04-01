@@ -54,14 +54,16 @@ export default function EditPlayerInfo() {
     onError: (error: { error: { details: { message: string } } }) => {
       const message = error.error?.details?.message;
 
-      console.log(error);
+      console.log(JSON.stringify(error));
 
       Toast.show({ type: "error", text1: message });
     },
-    onSuccess: () =>
+    onSuccess: () => {
+      Toast.show({ type: "success", text1: t("auth.infoUpdated") });
       router.navigate(
         isOnboarding ? "/player/(tabs)" : "/player/(tabs)/profile",
-      ),
+      );
+    },
   });
 
   const form = useForm<PlayerRegisterForm>({

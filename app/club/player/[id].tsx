@@ -27,8 +27,6 @@ export default function PlayerDetailsScreen() {
   });
   const { data: player } = data ?? {};
 
-  console.log(player?.user);
-
   const age = player?.dateOfBirth
     ? new Date().getFullYear() - new Date(player.dateOfBirth).getFullYear()
     : null;

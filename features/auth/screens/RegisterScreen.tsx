@@ -10,41 +10,32 @@ import {
   strapiRegisterSchema,
 } from "@/constants/validation";
 import { TranslationKey } from "@/i18n";
-import StripeProvider from "@/lib/stripe/Provider";
 import { createStyle, useStyle } from "@/theme";
-import { ROLE_IDS } from "@/types/users";
+import { ROLE_IDS, User } from "@/types/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { usePaymentSubscription } from "../hooks/usePaymentSubscription";
 
 const REGISTER_RESPONSE_ERRORS: Record<string, TranslationKey> = {
   taken: "auth.taken",
   errorOccurred: "errorOccurred",
 };
 
-function RegisterScreenContent() {
+export default function RegisterScreenContent() {
   const { t } = useTranslation();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const { type } = useLocalSearchParams<{ type: "player" | "club" }>();
 
-  const isClubRegistration = type === "club";
+  const queryClient = useQueryClient();
 
-  const { handleSubscribe, loading: subscriptionLoading } =
-    usePaymentSubscription({
-      trialDays: 30,
-      navigateOnSuccess: isClubRegistration ? "/club/(tabs)" : "/player/(tabs)",
-      onError: (error) => {
-        setError(error);
-      },
-    });
+  const isClubRegistration = type === "club";
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: StrapiRegisterForm) => {
@@ -64,6 +55,8 @@ function RegisterScreenContent() {
       });
     },
     onError: (error: { error: { message: string } }) => {
+      console.log(error);
+
       const message = error.error?.message;
       if (message.includes("taken")) {
         Toast.show({
@@ -78,9 +71,20 @@ function RegisterScreenContent() {
       }
     },
     onSuccess: async (data) => {
+      console.log(data);
+
       // Save token and then start subscription flow
       await AsyncStorage.setItem("token", data.jwt);
-      handleSubscribe();
+
+      const user = await usersApi.custom<User>("/users/me", {
+        headers: {
+          Authorization: `Bearer ${data.jwt}`,
+        },
+      });
+
+      queryClient.setQueryData(["current-user"], user);
+
+      router.push("/");
     },
   });
 
@@ -89,13 +93,13 @@ function RegisterScreenContent() {
   const form = useForm<StrapiRegisterForm>({
     resolver: zodResolver(strapiRegisterSchema) as any,
     defaultValues: {
-      firstName: "Amir",
-      lastName: "Botonjic",
-      username: "amirbotonjic",
-      email: "amir@example.com",
-      password: "password",
-      clubName: "NK Jesenice",
-      contactPhone: "+38640123456",
+      firstName: "",
+      lastName: "",
+      username: "",
+      email: "",
+      password: "",
+      clubName: "",
+      contactPhone: "",
       isClubRegistration,
     },
   });
@@ -105,6 +109,8 @@ function RegisterScreenContent() {
     setError(null);
     mutate(data);
   };
+
+  console.log(form.formState.errors);
 
   return (
     <FormProvider {...form}>
@@ -185,7 +191,7 @@ function RegisterScreenContent() {
               title={t("register.register")}
               onPress={handleSubmit(onSubmit)}
               variant="primary"
-              loading={isPending || subscriptionLoading}
+              loading={isPending}
               style={styles.registerButton}
             />
 
@@ -201,14 +207,6 @@ function RegisterScreenContent() {
         </ScrollView>
       </KeyboardAvoid>
     </FormProvider>
-  );
-}
-
-export default function RegisterScreen() {
-  return (
-    <StripeProvider>
-      <RegisterScreenContent />
-    </StripeProvider>
   );
 }
 

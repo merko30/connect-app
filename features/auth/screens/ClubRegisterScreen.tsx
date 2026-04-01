@@ -17,8 +17,8 @@ import Toast from "react-native-toast-message";
 export default function ClubRegisterScreen() {
   const router = useRouter();
   const [values, setValues] = useState<LoginValues>({
-    email: "amir@example.com",
-    password: "password",
+    email: "",
+    password: "",
   });
   const queryClient = useQueryClient();
 

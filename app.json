@@ -41,13 +41,6 @@
           }
         }
       ],
-      [
-        "@stripe/stripe-react-native",
-        {
-          "merchantIdentifier": "com.itse-sa.app-rn",
-          "enableGooglePay": false
-        }
-      ],
       "@react-native-community/datetimepicker"
     ],
     "experiments": {

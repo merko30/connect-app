@@ -36,6 +36,7 @@
     "clubNotVerifiedBody": "Verification is required before you can use the app. You will receive a call to verify your club.",
     "editClubInfo": "Edit Club information",
     "profileUpdated": "You have successfully updated your profile",
+    "infoUpdated": "You have successfully updated your information.",
     "passwordUpdated": "You have successfully updated your password",
     "currentPasswordInvalid": "Current password is invalid.",
     "taken": "Email or username is already taken.",
@@ -127,7 +128,7 @@
     "player": {
       "title": "Premium Player Subscription",
       "subtitle": "Search for clubs and let them find you",
-      "description": "Subscribe to help us maintain this app. Your subscription gives you the ability to search for clubs and players.",
+      "description": "Subscribe to help us maintain this app.",
       "benefit1": "Search for clubs",
       "benefit2": "View club details and contact information",
       "benefit3": "Connect with clubs and scouts"
@@ -138,7 +139,7 @@
       "benefit3": "Connect with players",
       "title": "Premium Club Subscription",
       "subtitle": "Search for and recruit players",
-      "description": "Subscribe to help us maintain this app. Your subscription gives you the ability to search for clubs and players."
+      "description": "Subscribe to help us maintain this app."
     },
     "benefits": "What's included",
     "perMonth": "month",
@@ -152,6 +153,7 @@
       "currentStatus": "Current status",
       "activeDescription": "Your subscription is active. You can cancel anytime and access continues until the current billing period ends.",
       "inactiveDescription": "You do not have an active subscription.",
+      "manageSubscription": "Manage on Website",
       "cancelButton": "Cancel Subscription",
       "cancelTitle": "Cancel subscription",
       "cancelConfirm": "Are you sure you want to cancel your subscription?",

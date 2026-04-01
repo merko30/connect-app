@@ -5,6 +5,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { TranslationKey } from "@/i18n";
 import { createStyle, useStyle } from "@/theme";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Constants from "expo-constants";
+import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, ScrollView, View } from "react-native";
@@ -17,10 +19,14 @@ type CancelResponse = {
 };
 
 function SubscriptionSettings() {
+  const router = useRouter();
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
   const queryClient = useQueryClient();
   const { data: subscription, isLoading, error } = useSubscriptionStatus();
+  const portalUrl =
+    Constants.expoConfig?.extra?.subscriptionPortalUrl ||
+    process.env.EXPO_PUBLIC_SUBSCRIPTION_PORTAL_URL;
 
   console.log(subscription, error);
 
@@ -138,6 +144,20 @@ function SubscriptionSettings() {
               </View>
             )}
           </View>
+        )}
+
+        {portalUrl && !isActiveSubscription && (
+          <ThemedButton
+            title={t("subscription.settings.manageSubscription")}
+            onPress={() =>
+              router.push({
+                pathname: "/auth/subscription-portal",
+                params: { url: portalUrl },
+              })
+            }
+            variant="primary"
+            style={{ marginBottom: 12 }}
+          />
         )}
 
         <ThemedButton
