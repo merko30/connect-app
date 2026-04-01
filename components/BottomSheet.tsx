@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const ReusableBottomSheet = forwardRef<BottomSheetModal, Props>(
-  ({ children, snapPoints = ["50%"] }, ref) => {
+  ({ children, snapPoints = ["100%"] }, ref) => {
     const internalRef = useRef<BottomSheetModal>(null);
     const styles = useStyle(stylesheet);
     // Expose internal ref to parent
@@ -52,6 +52,8 @@ const stylesheet = createStyle((t) => ({
   },
   bg: {
     backgroundColor: t.colors.background,
+    borderTopRightRadius: t.radii.xl,
+    borderTopLeftRadius: t.radii.xl,
   },
 }));
 

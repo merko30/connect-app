@@ -10,7 +10,7 @@ import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import { Keyboard, ScrollView, TouchableOpacity, View } from "react-native";
 
 export type ClubFiltersSheetProps = {
   filters: FilterField[];
@@ -31,6 +31,7 @@ const ClubFiltersSheet = ({
   const { t } = useTranslation();
 
   const handleOpen = () => {
+    Keyboard.dismiss();
     ref?.current?.present();
     ref?.current?.expand();
   };
@@ -97,7 +98,7 @@ const ClubFiltersSheet = ({
       >
         <IconSymbol name="slider.horizontal.3" size={24} color="#888" />
       </TouchableOpacity>
-      <ReusableBottomSheet ref={ref} snapPoints={["40%", "70%"]}>
+      <ReusableBottomSheet ref={ref}>
         <FormProvider {...form}>
           <ScrollView style={styles.scrollContainer}>
             {filters.map((filter) => {
