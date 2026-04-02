@@ -33,6 +33,8 @@ const MAPPING = {
   "x.circle": "close",
   creditcard: "credit-card",
   "exclamationmark.triangle.fill": "warning",
+  trash: "delete",
+  pencil: "edit",
 } as IconMapping;
 
 /**

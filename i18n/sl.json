@@ -19,7 +19,8 @@
     "editUserInfo": "Uredi uporabniške informacije",
     "editPlayerInfo": "Uredi informacije o igralcu",
     "editClubInfo": "Uredi informacije o klubu",
-    "changePassword": "Spremeni geslo"
+    "changePassword": "Spremeni geslo",
+    "myPosts": "Moji oglasi za rekrutacijo"
   },
   "auth": {
     "signIn": "Prijava",
@@ -175,7 +176,9 @@
   "common": {
     "yes": "Da",
     "no": "Ne",
-    "goBack": "Nazaj"
+    "goBack": "Nazaj",
+    "cancel": "Prekliči",
+    "delete": "Izbriši"
   },
   "experienceLevels": {
     "youth": "Mladinec",
@@ -191,6 +194,7 @@
   },
   "recruitmentPost": {
     "createTitle": "Nova objava za rekrutacijo",
+    "editTitle": "Uredi oglas",
     "title": "Naslov",
     "position": "Položaj",
     "note": "Opomba (neobvezno)",
@@ -200,6 +204,10 @@
     "contractType": "Vrsta pogodbe",
     "requirements": "Zahteve (neobvezno)",
     "publish": "Objavi oglas",
+    "save": "Shrani spremembe",
+    "noPosts": "Še ni oglasov za rekrutacijo.",
+    "deleteTitle": "Izbriši oglas",
+    "deleteMessage": "Ali ste prepričani, da želite izbrisati ta oglas?",
     "status": {
       "open": "Odprto",
       "paused": "Zaustavljeno",

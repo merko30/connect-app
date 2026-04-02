@@ -32,6 +32,11 @@ export const CLUB_PROFILE_MENU_ITEMS: MenuItem[] = [
     icon: "sportscourt",
     href: "/club/(tabs)/profile/club",
   },
+  {
+    label: "profile.myPosts",
+    icon: "list.bullet",
+    href: "/club/(tabs)/profile/posts",
+  },
 ];
 
 export const CLUB_SECURITY_SETTINGS_ITEMS: MenuItem[] = [

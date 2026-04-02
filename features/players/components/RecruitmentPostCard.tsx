@@ -1,13 +1,16 @@
 import { useStyleThemed } from "@/theme";
 import { RecruitmentPost } from "@/types/recruitment-posts";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Text, View } from "react-native";
 
 type Props = {
   post: RecruitmentPost;
+  children?: ReactNode;
+  hideLogo?: boolean;
 };
 
-export function RecruitmentPostCard({ post }: Props) {
+export function RecruitmentPostCard({ post, children, hideLogo }: Props) {
   const { t } = useTranslation();
   const styles = useStyleThemed((t) => ({
     card: {
@@ -47,14 +50,16 @@ export function RecruitmentPostCard({ post }: Props) {
 
   return (
     <View style={styles.card}>
-      <Image
-        source={{
-          uri:
-            logoUrl ??
-            `https://ui-avatars.com/api/?name=${encodeURIComponent(clubName)}&background=ddd`,
-        }}
-        style={styles.logo}
-      />
+      {!hideLogo && (
+        <Image
+          source={{
+            uri:
+              logoUrl ??
+              `https://ui-avatars.com/api/?name=${encodeURIComponent(clubName)}&background=ddd`,
+          }}
+          style={styles.logo}
+        />
+      )}
 
       <View style={styles.infoContainer}>
         <Text style={styles.title}>{post.title}</Text>
@@ -62,6 +67,7 @@ export function RecruitmentPostCard({ post }: Props) {
           {metaLine}
         </Text>
       </View>
+      {children}
     </View>
   );
 }

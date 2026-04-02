@@ -19,7 +19,8 @@
     "editUserInfo": "Edit User Information",
     "editPlayerInfo": "Edit Player Information",
     "editClubInfo": "Edit Club information",
-    "changePassword": "Change password"
+    "changePassword": "Change password",
+    "myPosts": "My Recruitment Posts"
   },
   "auth": {
     "signIn": "Sign In",
@@ -175,7 +176,9 @@
   "common": {
     "yes": "Yes",
     "no": "No",
-    "goBack": "Go Back"
+    "goBack": "Go Back",
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "experienceLevels": {
     "youth": "Youth",
@@ -192,6 +195,7 @@
   },
   "recruitmentPost": {
     "createTitle": "New Recruitment Post",
+    "editTitle": "Edit Recruitment Post",
     "title": "Title",
     "position": "Position",
     "note": "Note (optional)",
@@ -201,6 +205,10 @@
     "contractType": "Contract Type",
     "requirements": "Requirements (optional)",
     "publish": "Publish Post",
+    "save": "Save Changes",
+    "noPosts": "No recruitment posts yet.",
+    "deleteTitle": "Delete Post",
+    "deleteMessage": "Are you sure you want to delete this recruitment post?",
     "status": {
       "open": "Open",
       "paused": "Paused",

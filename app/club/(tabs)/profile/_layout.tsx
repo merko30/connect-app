@@ -7,6 +7,7 @@ const Layout = () => (
     <Stack.Screen name="edit" />
     <Stack.Screen name="(change-password)" />
     <Stack.Screen name="subscription" />
+    <Stack.Screen name="posts" />
   </Stack>
 );
 
