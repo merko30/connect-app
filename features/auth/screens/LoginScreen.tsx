@@ -78,76 +78,78 @@ export default function LoginScreen() {
 
   return (
     <KeyboardAvoid style={styles.container}>
-      <AuthHeader
-        title={t("auth.signIn")}
-        caption={t("auth.signInDescription")}
-      />
-      <ThemedTextInput
-        placeholder={t("auth.emailPlaceholder")}
-        value={values.email}
-        onChangeText={onChange("email")}
-        keyboardType="default"
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <ThemedTextInput
-        placeholder={t("auth.passwordPlaceholder")}
-        value={values.password}
-        onChangeText={onChange("password")}
-        keyboardType="default"
-        secureTextEntry
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <ThemedButton
-        title={t("auth.signIn")}
-        onPress={onSubmit}
-        variant="primary"
-        style={{ marginTop: 12 }}
-        loading={isPending}
-        disabled={isPending}
-      />
-      <ThemedText style={styles.registerLabel}>
-        {t("auth.registerAs")}
-      </ThemedText>
-      <View style={styles.registerButtons}>
-        <TouchableOpacity
-          style={[
-            styles.link,
-            {
-              backgroundColor: theme.colors.primary,
-            },
-          ]}
-          onPress={() =>
-            router.navigate({
-              pathname: "/auth/club-registration",
-              params: {
-                type: "club",
+      <View style={styles.innerContainer}>
+        <AuthHeader
+          title={t("auth.signIn")}
+          caption={t("auth.signInDescription")}
+        />
+        <ThemedTextInput
+          placeholder={t("auth.emailPlaceholder")}
+          value={values.email}
+          onChangeText={onChange("email")}
+          keyboardType="default"
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        <ThemedTextInput
+          placeholder={t("auth.passwordPlaceholder")}
+          value={values.password}
+          onChangeText={onChange("password")}
+          keyboardType="default"
+          secureTextEntry
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        <ThemedButton
+          title={t("auth.signIn")}
+          onPress={onSubmit}
+          variant="primary"
+          style={{ marginTop: 12 }}
+          loading={isPending}
+          disabled={isPending}
+        />
+        <ThemedText style={styles.registerLabel}>
+          {t("auth.registerAs")}
+        </ThemedText>
+        <View style={styles.registerButtons}>
+          <TouchableOpacity
+            style={[
+              styles.link,
+              {
+                backgroundColor: theme.colors.primary,
               },
-            })
-          }
-        >
-          <ThemedText style={styles.linkText}>{t("club")}</ThemedText>
-        </TouchableOpacity>
-        <View style={styles.spacer} />
-        <TouchableOpacity
-          style={[
-            styles.link,
-            {
-              backgroundColor: theme.colors.secondary,
-            },
-          ]}
-          onPress={() =>
-            router.navigate({
-              pathname: "/auth/player-registration",
-              params: {
-                type: "player",
+            ]}
+            onPress={() =>
+              router.navigate({
+                pathname: "/auth/club-registration",
+                params: {
+                  type: "club",
+                },
+              })
+            }
+          >
+            <ThemedText style={styles.linkText}>{t("club")}</ThemedText>
+          </TouchableOpacity>
+          <View style={styles.spacer} />
+          <TouchableOpacity
+            style={[
+              styles.link,
+              {
+                backgroundColor: theme.colors.secondary,
               },
-            })
-          }
-        >
-          <ThemedText style={styles.linkText}>{t("player")}</ThemedText>
-        </TouchableOpacity>
+            ]}
+            onPress={() =>
+              router.navigate({
+                pathname: "/auth/player-registration",
+                params: {
+                  type: "player",
+                },
+              })
+            }
+          >
+            <ThemedText style={styles.linkText}>{t("player")}</ThemedText>
+          </TouchableOpacity>
+        </View>
       </View>
     </KeyboardAvoid>
   );
@@ -157,8 +159,13 @@ const stylesheet = createStyle((t) => ({
   container: {
     flex: 1,
     justifyContent: "center",
-    padding: 24,
+    alignItems: "center",
+    paddingHorizontal: 24,
     backgroundColor: t.colors.background,
+  },
+  innerContainer: {
+    justifyContent: "center",
+    flex: 1,
   },
   buttonText: { color: "#fff", fontWeight: "600", fontSize: 16 },
   link: {
