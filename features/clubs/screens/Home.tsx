@@ -10,15 +10,17 @@ import { createStyle, useStyle } from "@/theme";
 import { PlayerProfile } from "@/types/players";
 import { StrapiListResponse } from "@/types/strapi";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, View } from "react-native";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export function ClubHome() {
   const styles = useStyle(stylesheet);
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const router = useRouter();
   const { data: me } = useGetCurrentUser();
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
@@ -90,6 +92,14 @@ export function ClubHome() {
           keyboardShouldPersistTaps="never"
         />
       </View>
+
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => router.push("/club/recruitment-posts/create")}
+        activeOpacity={0.85}
+      >
+        <Text style={styles.fabIcon}>+</Text>
+      </TouchableOpacity>
     </KeyboardAvoid>
   );
 }
@@ -112,5 +122,27 @@ const stylesheet = createStyle((t) => ({
     paddingVertical: t.spacing.md,
     paddingHorizontal: t.spacing.lg,
     borderColor: "transparent",
+  },
+  fab: {
+    position: "absolute",
+    bottom: 120,
+    right: t.spacing.lg,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: t.colors.primary,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 6,
+  },
+  fabIcon: {
+    color: "#fff",
+    fontSize: 28,
+    lineHeight: 32,
+    fontWeight: "400",
   },
 }));

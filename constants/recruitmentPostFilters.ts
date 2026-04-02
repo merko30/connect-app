@@ -7,7 +7,7 @@ export const RECRUITMENT_POST_FILTERS: FilterField[] = [
     label: "register.primaryPosition",
     type: "select",
     options: PRIMARY_POSITIONS.map((position) => ({
-      label: `positions.${position}`,
+      label: position,
       value: position,
     })),
     strapiOperator: "$eq",

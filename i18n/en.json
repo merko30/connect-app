@@ -183,25 +183,28 @@
     "semi-pro": "Semi-Pro",
     "pro": "Pro"
   },
-  "positions": {
-    "GK": "Goalkeeper",
-    "CB": "Center Back",
-    "LB": "Left Back",
-    "RB": "Right Back",
-    "CDM": "Defensive Midfielder",
-    "CM": "Central Midfielder",
-    "LM": "Left Midfielder",
-    "RM": "Right Midfielder",
-    "CAM": "Attacking Midfielder",
-    "LW": "Left Winger",
-    "RW": "Right Winger",
-    "ST": "Striker",
-    "CF": "Center Forward"
-  },
+
   "contractTypes": {
     "trial": "Trial",
     "short-term": "Short-term",
     "full-season": "Full season",
     "permanent": "Permanent"
+  },
+  "recruitmentPost": {
+    "createTitle": "New Recruitment Post",
+    "title": "Title",
+    "position": "Position",
+    "note": "Note (optional)",
+    "level": "Level",
+    "statusLabel": "Status",
+    "deadline": "Deadline",
+    "contractType": "Contract Type",
+    "requirements": "Requirements (optional)",
+    "publish": "Publish Post",
+    "status": {
+      "open": "Open",
+      "paused": "Paused",
+      "closed": "Closed"
+    }
   }
 }

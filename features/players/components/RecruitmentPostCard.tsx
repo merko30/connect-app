@@ -39,7 +39,7 @@ export function RecruitmentPostCard({ post }: Props) {
   const club = post.club;
   const clubName = club?.clubName ?? "-";
   const logoUrl = club?.logo?.data?.attributes?.url;
-  const positionLabel = t(`positions.${post.position}`);
+  const positionLabel = post.position;
   const contractTypeLabel = post.contractType
     ? t(`contractTypes.${post.contractType}`)
     : "-";

@@ -183,25 +183,27 @@
     "semi-pro": "Pol-profesionalec",
     "pro": "Profesionalec"
   },
-  "positions": {
-    "GK": "Vratar",
-    "CB": "Centralni branilec",
-    "LB": "Levi bočni branilec",
-    "RB": "Desni bočni branilec",
-    "CDM": "Defenzivni vezist",
-    "CM": "Centralni vezist",
-    "LM": "Levi vezist",
-    "RM": "Desni vezist",
-    "CAM": "Ofenzivni vezist",
-    "LW": "Levo krilo",
-    "RW": "Desno krilo",
-    "ST": "Napadalec",
-    "CF": "Centralni napadalec"
-  },
   "contractTypes": {
     "trial": "Preizkus",
     "short-term": "Kratkoročno",
     "full-season": "Cela sezona",
     "permanent": "Stalna pogodba"
+  },
+  "recruitmentPost": {
+    "createTitle": "Nova objava za rekrutacijo",
+    "title": "Naslov",
+    "position": "Položaj",
+    "note": "Opomba (neobvezno)",
+    "level": "Raven",
+    "statusLabel": "Status",
+    "deadline": "Rok prijave",
+    "contractType": "Vrsta pogodbe",
+    "requirements": "Zahteve (neobvezno)",
+    "publish": "Objavi oglas",
+    "status": {
+      "open": "Odprto",
+      "paused": "Zaustavljeno",
+      "closed": "Zaprto"
+    }
   }
 }
