@@ -25,6 +25,25 @@ type FormValues = {
   requirements: string;
 };
 
+const positionOptions = PRIMARY_POSITIONS.map((p) => ({
+  label: p,
+  value: p,
+}));
+
+const levelOptions = [
+  { label: "experienceLevels.youth", value: "youth" },
+  { label: "experienceLevels.amateur", value: "amateur" },
+  { label: "experienceLevels.semi-pro", value: "semi-pro" },
+  { label: "experienceLevels.pro", value: "pro" },
+];
+
+const contractTypeOptions = [
+  { label: "contractTypes.trial", value: "trial" },
+  { label: "contractTypes.short-term", value: "short-term" },
+  { label: "contractTypes.full-season", value: "full-season" },
+  { label: "contractTypes.permanent", value: "permanent" },
+];
+
 export default function EditRecruitmentPostScreen() {
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
@@ -90,25 +109,6 @@ export default function EditRecruitmentPostScreen() {
       Alert.alert(t("errorOccurred"));
     },
   });
-
-  const positionOptions = PRIMARY_POSITIONS.map((p) => ({
-    label: p,
-    value: p,
-  }));
-
-  const levelOptions = [
-    { label: "experienceLevels.youth", value: "youth" },
-    { label: "experienceLevels.amateur", value: "amateur" },
-    { label: "experienceLevels.semi-pro", value: "semi-pro" },
-    { label: "experienceLevels.pro", value: "pro" },
-  ];
-
-  const contractTypeOptions = [
-    { label: "contractTypes.trial", value: "trial" },
-    { label: "contractTypes.short-term", value: "short-term" },
-    { label: "contractTypes.full-season", value: "full-season" },
-    { label: "contractTypes.permanent", value: "permanent" },
-  ];
 
   if (isLoading) {
     return (
