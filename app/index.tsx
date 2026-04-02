@@ -39,6 +39,11 @@ const AppIndex = () => {
     }
   }, [error]);
 
+  // info log
+  console.log(
+    `User subscription status: ${data?.subscriptionStatus}, role: ${data?.role?.name}`,
+  );
+
   if (isLoading) {
     return <Splash />;
   }

@@ -76,9 +76,9 @@ export default function PlayerDetailsScreen() {
                 color={styles.avatarIcon.color}
               />
             </View>
-            <View style={styles.starWrap}>
+            {/* <View style={styles.starWrap}>
               <IconSymbol name="star" size={18} color={styles.star.color} />
-            </View>
+            </View> */}
           </View>
 
           <ThemedText style={styles.name}>

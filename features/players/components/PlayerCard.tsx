@@ -10,11 +10,13 @@ type Props = {
 
 export function PlayerCard({ player, onPress }: Props) {
   const styles = useStyleThemed((t) => ({
+    link: {
+      marginBottom: t.spacing.sm,
+    },
     card: {
       backgroundColor: t.colors.surface,
       borderRadius: 14,
       padding: 14,
-      marginBottom: 12,
       shadowColor: "#999",
       shadowOpacity: 0.08,
       shadowRadius: 4,
@@ -23,6 +25,7 @@ export function PlayerCard({ player, onPress }: Props) {
       flexDirection: "row",
       alignItems: "center",
       marginHorizontal: 0.5,
+      marginBottom: 12,
     },
     avatar: {
       width: 56,
@@ -63,6 +66,7 @@ export function PlayerCard({ player, onPress }: Props) {
           id: player.documentId,
         },
       }}
+      style={styles.link}
     >
       <View style={styles.card}>
         <Image
