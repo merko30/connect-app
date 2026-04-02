@@ -42,7 +42,7 @@ export function FormPicker<T extends FieldValues>({
 
   if (Platform.OS === "ios") {
     return (
-      <>
+      <View style={styles.container}>
         {label && <ThemedText style={styles.label}>{label}</ThemedText>}
         <Pressable
           onPress={() =>
@@ -77,7 +77,7 @@ export function FormPicker<T extends FieldValues>({
           </ThemedText>
         </Pressable>
         <FormError message={error?.message} />
-      </>
+      </View>
     );
   }
 
@@ -86,7 +86,7 @@ export function FormPicker<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <View style={{ marginBottom: 12 }}>
+        <View style={styles.container}>
           {label && <ThemedText>{label}</ThemedText>}
           <View style={[styles.pickerContainer, pickerContainerStyle]}>
             <Picker
@@ -114,6 +114,9 @@ export function FormPicker<T extends FieldValues>({
 }
 
 const stylesheet = createStyle((t) => ({
+  container: {
+    marginBottom: t.spacing.sm,
+  },
   pickerContainer: {
     borderWidth: 1,
     borderColor: t.colors.text + "33",

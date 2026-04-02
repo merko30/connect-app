@@ -88,7 +88,7 @@ export default function EditPlayerInfo() {
           <FormPicker
             control={control}
             name="level"
-            placeholder={t("register.level")}
+            label={t("register.level")}
             options={[
               { label: t("register.amateur"), value: "amateur" },
               { label: t("register.semiPro"), value: "semi-pro" },
