@@ -2,7 +2,7 @@ import { clubsApi } from "@/api/clubs";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { CLUB_FILTERS } from "@/constants/clubFilters";
 import { ClubCard } from "@/features/clubs/components/ClubCard";
-import ClubFiltersSheet from "@/features/clubs/components/ClubFiltersSheet";
+import ClubFiltersSheet from "@/features/players/components/ClubFiltersSheet";
 import { useDebounce } from "@/hooks/useDebounce";
 import { createStyle, useStyle } from "@/theme";
 import { ClubProfile } from "@/types/clubs";

@@ -1,7 +1,7 @@
 import { playersApi } from "@/api/players";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
-import { CLUB_FILTERS } from "@/constants/clubFilters";
-import ClubFiltersSheet from "@/features/clubs/components/ClubFiltersSheet";
+import { PLAYER_FILTERS } from "@/constants/playerFilters";
+import PlayerFiltersSheet from "@/features/clubs/components/PlayerFiltersSheet";
 import { PlayerCard } from "@/features/players/components/PlayerCard";
 import { useDebounce } from "@/hooks/useDebounce";
 import { createStyle, useStyle } from "@/theme";
@@ -27,7 +27,7 @@ export default function PlayerSearchScreen() {
   };
 
   const strapiFilters = useMemo(
-    () => buildStrapiFilters(filters, CLUB_FILTERS),
+    () => buildStrapiFilters(filters, PLAYER_FILTERS),
     [filters],
   );
 
@@ -90,7 +90,7 @@ export default function PlayerSearchScreen() {
           placeholder={t("search")}
           style={styles.input}
         />
-        <ClubFiltersSheet filters={CLUB_FILTERS} onApply={onApplyFilters} />
+        <PlayerFiltersSheet filters={PLAYER_FILTERS} onApply={onApplyFilters} />
       </View>
       <FlatList
         data={players}
