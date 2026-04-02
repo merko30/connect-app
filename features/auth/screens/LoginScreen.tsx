@@ -1,25 +1,24 @@
 import { usersApi } from "@/api/auth";
 import { AuthHeader } from "@/components/AuthHeader";
+import { FormInput } from "@/components/FormInput";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { LoginForm, loginSchema } from "@/constants/validation";
 import { createStyle, useStyle, useTheme } from "@/theme";
-import { LoginResponse, LoginValues, Role, User } from "@/types/users";
+import { LoginResponse, Role, User } from "@/types/users";
+import { zodResolver } from "@hookform/resolvers/zod";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { TouchableOpacity, View } from "react-native";
 import Toast from "react-native-toast-message";
 
 export default function LoginScreen() {
   const router = useRouter();
-  const [values, setValues] = useState<LoginValues>({
-    email: "",
-    password: "",
-  });
   const queryClient = useQueryClient();
 
   const { t: theme } = useTheme();
@@ -27,7 +26,7 @@ export default function LoginScreen() {
   const { t } = useTranslation();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (value: LoginValues) => {
+    mutationFn: (value: LoginForm) => {
       return usersApi.custom<LoginResponse>("/auth/local", {
         method: "POST",
         body: {
@@ -61,19 +60,17 @@ export default function LoginScreen() {
     },
   });
 
-  const onSubmit = () => {
-    if (!values.email || !values.password) {
-      return;
-    }
+  const form = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema) as any,
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const { control, handleSubmit } = form;
 
-    mutate(values);
-  };
-
-  const onChange = (name: string) => (value: string) => {
-    setValues((old) => ({
-      ...old,
-      [name]: value,
-    }));
+  const onSubmit = (data: LoginForm) => {
+    mutate(data);
   };
 
   return (
@@ -83,18 +80,18 @@ export default function LoginScreen() {
           title={t("auth.signIn")}
           caption={t("auth.signInDescription")}
         />
-        <ThemedTextInput
+        <FormInput
           placeholder={t("auth.emailPlaceholder")}
-          value={values.email}
-          onChangeText={onChange("email")}
+          control={control}
+          name="email"
           keyboardType="default"
           autoCapitalize="none"
           autoCorrect={false}
         />
-        <ThemedTextInput
+        <FormInput
           placeholder={t("auth.passwordPlaceholder")}
-          value={values.password}
-          onChangeText={onChange("password")}
+          control={control}
+          name="password"
           keyboardType="default"
           secureTextEntry
           autoCapitalize="none"
@@ -102,7 +99,7 @@ export default function LoginScreen() {
         />
         <ThemedButton
           title={t("auth.signIn")}
-          onPress={onSubmit}
+          onPress={handleSubmit(onSubmit)}
           variant="primary"
           style={{ marginTop: 12 }}
           loading={isPending}

@@ -90,3 +90,14 @@ export const editUserInfoSchema = z.object({
 });
 
 export type EditUserInfoForm = z.infer<typeof editUserInfoSchema>;
+
+export const loginSchema = z.object({
+  email: z.email({
+    message: REGISTER_ERRORS.email,
+  }),
+  password: z.string().min(6, {
+    message: REGISTER_ERRORS.password,
+  }),
+});
+
+export type LoginForm = z.infer<typeof loginSchema>;
