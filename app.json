@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "app-rn",
-    "slug": "app-rn",
+    "name": "XI Connect",
+    "slug": "xi-connect",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "apprn",
+    "icon": "./assets/images/app-icon.png",
+    "scheme": "xi-connect",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -24,7 +24,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.itsesa.apprn"
+      "package": "com.merim.xiconnect"
     },
     "web": {
       "output": "static",
@@ -35,7 +35,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/app-icon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",
