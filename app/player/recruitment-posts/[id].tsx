@@ -1,28 +1,106 @@
-import { recruitmentPostsApi } from "@/api/recruitment-posts";
+import {
+  addRecruitmentPostInterest,
+  recruitmentPostsApi,
+  removeRecruitmentPostInterest,
+} from "@/api/recruitment-posts";
 import Header from "@/components/Header";
+import { ThemedButton } from "@/components/ThemedButton";
+import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { createStyle, useStyle } from "@/theme";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Image, ScrollView, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 
 export default function RecruitmentPostDetailScreen() {
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
   const { id } = useLocalSearchParams<{ id: string }>();
+  const queryClient = useQueryClient();
+  const [isInterested, setIsInterested] = useState(false);
+  const { data: currentUser } = useGetCurrentUser();
 
   const { data: postData, isPending } = useQuery({
     queryKey: ["recruitment-posts", id],
     queryFn: () =>
       recruitmentPostsApi.get(id, {
-        populate: { club: { populate: { logo: true } } } as any,
+        populate: {
+          interestedPlayers: {
+            fields: ["id"],
+          },
+          club: { populate: { logo: true } },
+        } as any,
       }),
     enabled: !!id,
   });
 
   const post = postData?.data;
+
+  const initialInterest = useMemo(
+    () =>
+      (post?.interestedPlayers ?? []).some(
+        (player: any) => player.id === currentUser?.player?.id,
+      ),
+    [post?.interestedPlayers, currentUser?.player?.id],
+  );
+
+  useEffect(() => {
+    setIsInterested(initialInterest);
+  }, [initialInterest]);
+
+  const addInterestMutation = useMutation({
+    mutationFn: (postId: string | number) => addRecruitmentPostInterest(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["recruitment-posts", id] });
+      Toast.show({
+        type: "success",
+        text1: t("recruitmentPost.interestedContactSoon"),
+      });
+    },
+    onError: () => {
+      setIsInterested(false);
+      Alert.alert(t("errorOccurred"));
+    },
+  });
+
+  const removeInterestMutation = useMutation({
+    mutationFn: (postId: string | number) =>
+      removeRecruitmentPostInterest(postId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["recruitment-posts", id] });
+    },
+    onError: () => {
+      setIsInterested(true);
+      Alert.alert(t("errorOccurred"));
+    },
+  });
+
+  const isInterestLoading =
+    addInterestMutation.isPending || removeInterestMutation.isPending;
+
+  const onToggleInterest = () => {
+    const postId = post?.id;
+    if (!postId || isInterestLoading) return;
+
+    if (isInterested) {
+      setIsInterested(false);
+      removeInterestMutation.mutate(postId);
+      return;
+    }
+
+    setIsInterested(true);
+    addInterestMutation.mutate(postId);
+  };
 
   const club = post?.club;
   const clubName = club?.clubName ?? "-";
@@ -130,6 +208,18 @@ export default function RecruitmentPostDetailScreen() {
               <Text style={styles.sectionBody}>{post.requirements}</Text>
             </View>
           ) : null}
+
+          <ThemedButton
+            title={
+              isInterested
+                ? t("recruitmentPost.interestedSelected")
+                : t("recruitmentPost.interested")
+            }
+            onPress={onToggleInterest}
+            loading={isInterestLoading}
+            variant={isInterested ? "outline" : "primary"}
+            style={styles.interestedButton}
+          />
         </ScrollView>
       )}
     </SafeAreaView>
@@ -223,5 +313,8 @@ const stylesheet = createStyle((t) => ({
     fontSize: 15,
     color: t.colors.text,
     lineHeight: 22,
+  },
+  interestedButton: {
+    marginTop: t.spacing.xl,
   },
 }));

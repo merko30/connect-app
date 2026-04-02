@@ -27,6 +27,7 @@ export type RecruitmentPost = {
   deadline?: string | null;
   contractType?: "trial" | "short-term" | "full-season" | "permanent" | null;
   requirements?: string | null;
+  interestedPlayers?: { id: number }[];
 
   club?: ClubProfile | null;
 
