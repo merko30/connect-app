@@ -1,7 +1,9 @@
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { TranslationKey } from "@/i18n";
 import { Role } from "@/types/users";
-import React from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,6 +18,29 @@ const SubscribePage = () => {
   const { data: user } = useGetCurrentUser();
   const isClub = user?.role?.name === Role.ClubStaff.toString();
   const themed = useStyle(stylesheet);
+  const router = useRouter();
+  const qClient = useQueryClient();
+
+  useEffect(() => {
+    const handleUrl = async ({ url }: { url: string }) => {
+      console.log(url);
+
+      if (url?.includes("refresh=true")) {
+        qClient.invalidateQueries({ queryKey: ["current-user"] }).then(() => {
+          router.replace("/");
+        });
+      }
+    };
+
+    const sub = Linking.addEventListener("url", handleUrl);
+
+    // handle cold start (VERY important)
+    Linking.getInitialURL().then((url) => {
+      if (url) handleUrl({ url });
+    });
+
+    return () => sub.remove();
+  }, []);
 
   const benefits: TranslationKey[] = isClub
     ? [
