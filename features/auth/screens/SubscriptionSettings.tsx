@@ -4,15 +4,13 @@ import { ThemedText } from "@/components/ThemedText";
 import { TranslationKey } from "@/i18n";
 import { createStyle, useStyle } from "@/theme";
 import Constants from "expo-constants";
-import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, View } from "react-native";
+import { Linking, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSubscriptionStatus } from "../hooks/useSubscriptionStatus";
 
 function SubscriptionSettings() {
-  const router = useRouter();
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
   const { data: subscription, isLoading } = useSubscriptionStatus();
@@ -28,6 +26,15 @@ function SubscriptionSettings() {
   const formatDate = (dateStr: string | null) => {
     if (!dateStr) return "-";
     return new Date(dateStr).toLocaleDateString();
+  };
+
+  const handleOpenSubscriptionPortal = async () => {
+    if (!portalUrl) return;
+
+    const canOpen = await Linking.canOpenURL(portalUrl);
+    if (canOpen) {
+      await Linking.openURL(portalUrl);
+    }
   };
 
   return (
@@ -107,12 +114,7 @@ function SubscriptionSettings() {
         {portalUrl && (
           <ThemedButton
             title={t("subscription.settings.manageSubscription")}
-            onPress={() =>
-              router.push({
-                pathname: "/auth/subscription-portal",
-                params: { url: portalUrl },
-              })
-            }
+            onPress={handleOpenSubscriptionPortal}
             variant="primary"
             style={{ marginBottom: 12 }}
           />

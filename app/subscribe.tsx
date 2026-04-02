@@ -1,10 +1,9 @@
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { TranslationKey } from "@/i18n";
 import { Role } from "@/types/users";
-import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Text, View } from "react-native";
+import { Linking, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ThemedButton } from "../components/ThemedButton";
 import { createStyle, useStyle } from "../theme";
@@ -14,7 +13,6 @@ const portalUrl =
 
 const SubscribePage = () => {
   const { t } = useTranslation();
-  const router = useRouter();
   const { data: user } = useGetCurrentUser();
   const isClub = user?.role?.name === Role.ClubStaff.toString();
   const themed = useStyle(stylesheet);
@@ -30,6 +28,13 @@ const SubscribePage = () => {
         "subscription.player.benefit2",
         "subscription.player.benefit3",
       ];
+
+  const handleOpenSubscriptionPortal = async () => {
+    const canOpen = await Linking.canOpenURL(portalUrl);
+    if (canOpen) {
+      await Linking.openURL(portalUrl);
+    }
+  };
 
   return (
     <SafeAreaView style={themed.container}>
@@ -74,12 +79,7 @@ const SubscribePage = () => {
         <View style={themed.buttonContainer}>
           <ThemedButton
             title={t("subscription.subscribe")}
-            onPress={() =>
-              router.push({
-                pathname: "/auth/subscription-portal",
-                params: { url: portalUrl },
-              })
-            }
+            onPress={handleOpenSubscriptionPortal}
             variant="primary"
           />
         </View>
