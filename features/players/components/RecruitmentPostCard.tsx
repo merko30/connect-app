@@ -2,15 +2,21 @@ import { useStyleThemed } from "@/theme";
 import { RecruitmentPost } from "@/types/recruitment-posts";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
   post: RecruitmentPost;
   children?: ReactNode;
   hideLogo?: boolean;
+  onPress?: () => void;
 };
 
-export function RecruitmentPostCard({ post, children, hideLogo }: Props) {
+export function RecruitmentPostCard({
+  post,
+  children,
+  hideLogo,
+  onPress,
+}: Props) {
   const { t } = useTranslation();
   const styles = useStyleThemed((t) => ({
     card: {
@@ -49,7 +55,12 @@ export function RecruitmentPostCard({ post, children, hideLogo }: Props) {
   const metaLine = `${clubName} - ${positionLabel} - ${contractTypeLabel}`;
 
   return (
-    <View style={styles.card}>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={onPress}
+      activeOpacity={onPress ? 0.7 : 1}
+      disabled={!onPress}
+    >
       {!hideLogo && (
         <Image
           source={{
@@ -68,6 +79,6 @@ export function RecruitmentPostCard({ post, children, hideLogo }: Props) {
         </Text>
       </View>
       {children}
-    </View>
+    </TouchableOpacity>
   );
 }

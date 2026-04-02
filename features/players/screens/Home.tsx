@@ -10,6 +10,7 @@ import { createStyle, useStyle } from "@/theme";
 import { RecruitmentPost } from "@/types/recruitment-posts";
 import { StrapiListResponse } from "@/types/strapi";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
@@ -20,6 +21,7 @@ export function PlayerHome() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { data: me } = useGetCurrentUser();
+  const router = useRouter();
 
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
@@ -85,7 +87,16 @@ export function PlayerHome() {
         <FlatList
           data={recruitmentPosts}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <RecruitmentPostCard post={item} />}
+          renderItem={({ item }) => (
+            <RecruitmentPostCard
+              post={item}
+              onPress={() =>
+                router.push(
+                  `/player/recruitment-posts/${item.documentId ?? item.id}` as any,
+                )
+              }
+            />
+          )}
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}
           keyboardDismissMode="on-drag"

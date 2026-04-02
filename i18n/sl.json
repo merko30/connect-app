@@ -205,6 +205,8 @@
     "requirements": "Zahteve (neobvezno)",
     "publish": "Objavi oglas",
     "save": "Shrani spremembe",
+    "detail": "Podrobnosti oglasa",
+    "noteLabel": "Opomba",
     "noPosts": "Še ni oglasov za rekrutacijo.",
     "deleteTitle": "Izbriši oglas",
     "deleteMessage": "Ali ste prepričani, da želite izbrisati ta oglas?",

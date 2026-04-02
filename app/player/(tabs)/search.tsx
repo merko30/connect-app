@@ -9,6 +9,7 @@ import { RecruitmentPost } from "@/types/recruitment-posts";
 import { StrapiListResponse } from "@/types/strapi";
 import { buildStrapiFilters, toStrapiQueryString } from "@/utils/strapi-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
@@ -21,6 +22,7 @@ export default function PlayerSearchScreen() {
   const styles = useStyle(stylesheet);
 
   const [filters, setFilters] = useState<Record<string, any>>({});
+  const router = useRouter();
 
   const onApplyFilters = (values: Record<string, any>) => {
     setFilters(values);
@@ -111,7 +113,16 @@ export default function PlayerSearchScreen() {
       <FlatList
         data={recruitmentPosts}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <RecruitmentPostCard post={item} />}
+        renderItem={({ item }) => (
+          <RecruitmentPostCard
+            post={item}
+            onPress={() =>
+              router.push(
+                `/player/recruitment-posts/${item.documentId ?? item.id}` as any,
+              )
+            }
+          />
+        )}
         onRefresh={refetch}
         refreshing={isPending}
         onEndReached={onEndReached}
