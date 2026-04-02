@@ -197,5 +197,11 @@
     "RW": "Desno krilo",
     "ST": "Napadalec",
     "CF": "Centralni napadalec"
+  },
+  "contractTypes": {
+    "trial": "Preizkus",
+    "short-term": "Kratkoročno",
+    "full-season": "Cela sezona",
+    "permanent": "Stalna pogodba"
   }
 }

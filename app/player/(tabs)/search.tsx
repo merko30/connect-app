@@ -38,6 +38,7 @@ export default function PlayerSearchScreen() {
           ? [
               {
                 $or: [
+                  { title: { $containsi: debouncedSearch } },
                   { note: { $containsi: debouncedSearch } },
                   { position: { $containsi: debouncedSearch } },
                   { club: { clubName: { $containsi: debouncedSearch } } },

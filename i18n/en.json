@@ -197,5 +197,11 @@
     "RW": "Right Winger",
     "ST": "Striker",
     "CF": "Center Forward"
+  },
+  "contractTypes": {
+    "trial": "Trial",
+    "short-term": "Short-term",
+    "full-season": "Full season",
+    "permanent": "Permanent"
   }
 }

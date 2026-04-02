@@ -40,6 +40,7 @@ export function PlayerHome() {
           filters: debouncedSearch
             ? ({
                 $or: [
+                  { title: { $containsi: debouncedSearch } },
                   { note: { $containsi: debouncedSearch } },
                   { position: { $containsi: debouncedSearch } },
                   {

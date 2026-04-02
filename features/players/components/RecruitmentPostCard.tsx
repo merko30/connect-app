@@ -32,17 +32,18 @@ export function RecruitmentPostCard({ post }: Props) {
       marginRight: 12,
     },
     infoContainer: { flex: 1 },
-    clubName: { fontSize: 16, fontWeight: "600", color: t.colors.text },
-    position: { fontSize: 13, color: t.colors.text, marginTop: 2 },
-    note: { fontSize: 12, color: t.colors.text, marginTop: 2 },
-    league: { fontSize: 12, color: t.colors.text, marginTop: 2 },
+    title: { fontSize: 16, fontWeight: "600", color: t.colors.text },
+    metaLine: { fontSize: 13, color: t.colors.text, marginTop: 2 },
   }));
 
   const club = post.club;
   const clubName = club?.clubName ?? "-";
   const logoUrl = club?.logo?.data?.attributes?.url;
-
-  console.log(post.club);
+  const positionLabel = t(`positions.${post.position}`);
+  const contractTypeLabel = post.contractType
+    ? t(`contractTypes.${post.contractType}`)
+    : "-";
+  const metaLine = `${clubName} - ${positionLabel} - ${contractTypeLabel}`;
 
   return (
     <View style={styles.card}>
@@ -56,10 +57,10 @@ export function RecruitmentPostCard({ post }: Props) {
       />
 
       <View style={styles.infoContainer}>
-        <Text style={styles.clubName}>{clubName}</Text>
-        <Text style={styles.position}>{t(`positions.${post.position}`)}</Text>
-        {club?.league && <Text style={styles.league}>{club.league}</Text>}
-        {!!post.note && <Text style={styles.note}>{post.note}</Text>}
+        <Text style={styles.title}>{post.title}</Text>
+        <Text numberOfLines={1} style={styles.metaLine}>
+          {metaLine}
+        </Text>
       </View>
     </View>
   );
