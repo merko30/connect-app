@@ -209,6 +209,8 @@
     "interested": "Zainteresiran",
     "interestedSelected": "Zainteresiran ✓",
     "interestedContactSoon": "Hvala! Klub vas bo kmalu kontaktiral.",
+    "interestedPlayers": "Zainteresirani igralci",
+    "noInterestedPlayers": "Zaenkrat ni zainteresiranih igralcev.",
     "noteLabel": "Opomba",
     "noPosts": "Še ni oglasov za rekrutacijo.",
     "deleteTitle": "Izbriši oglas",

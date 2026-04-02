@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import { ThemedText } from "@/components/ThemedText";
 import { CircleIconButton } from "@/components/ui/CircleIconButton";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
+import { InterestedPlayersCard } from "@/features/clubs/components/InterestedPlayersCard";
 import { RecruitmentPostCard } from "@/features/players/components/RecruitmentPostCard";
 import { createStyle, useStyle } from "@/theme";
 import { RecruitmentPost } from "@/types/recruitment-posts";
@@ -63,6 +64,15 @@ export default function ClubPostsScreen() {
           filters: { club: { documentId: { $eq: clubId } } } as any,
           populate: {
             club: true,
+            interestedPlayers: {
+              fields: [
+                "id",
+                "documentId",
+                "firstName",
+                "lastName",
+                "primaryPosition",
+              ],
+            },
           },
         });
       },
@@ -91,24 +101,28 @@ export default function ClubPostsScreen() {
           data={posts}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <RecruitmentPostCard post={item} hideLogo>
-              <CircleIconButton
-                name="pencil"
-                color="#3498db"
-                onPress={() =>
-                  router.push(
-                    `/club/recruitment-posts/${item.documentId ?? item.id}/edit` as any,
-                  )
-                }
-                style={styles.iconButton}
-              />
-              <CircleIconButton
-                name="trash"
-                color="#e74c3c"
-                onPress={() => handleDelete(item)}
-                style={styles.iconButton}
-              />
-            </RecruitmentPostCard>
+            <View>
+              <RecruitmentPostCard post={item} hideLogo>
+                <CircleIconButton
+                  name="pencil"
+                  color="#3498db"
+                  onPress={() =>
+                    router.push(
+                      `/club/recruitment-posts/${item.documentId ?? item.id}/edit` as any,
+                    )
+                  }
+                  style={styles.iconButton}
+                />
+                <CircleIconButton
+                  name="trash"
+                  color="#e74c3c"
+                  onPress={() => handleDelete(item)}
+                  style={styles.iconButton}
+                />
+              </RecruitmentPostCard>
+
+              <InterestedPlayersCard players={item.interestedPlayers} />
+            </View>
           )}
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}

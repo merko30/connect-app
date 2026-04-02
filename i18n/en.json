@@ -210,6 +210,8 @@
     "interested": "Interested",
     "interestedSelected": "Interested ✓",
     "interestedContactSoon": "Thanks! The club will contact you soon.",
+    "interestedPlayers": "Interested Players",
+    "noInterestedPlayers": "No interested players yet.",
     "noteLabel": "Note",
     "noPosts": "No recruitment posts yet.",
     "deleteTitle": "Delete Post",
