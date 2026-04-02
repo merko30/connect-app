@@ -47,8 +47,13 @@ export const CLUB_SECURITY_SETTINGS_ITEMS: MenuItem[] = [
   },
   {
     label: "profile.changePassword",
-    icon: "lock.fill",
+    icon: "key.fill",
     href: "/club/profile/change-password",
+  },
+  {
+    label: "profile.security",
+    icon: "lock.fill",
+    href: "/club/(tabs)/profile/security",
   },
 ];
 
@@ -60,7 +65,12 @@ export const PLAYER_SECURITY_SETTINGS_ITEMS: MenuItem[] = [
   },
   {
     label: "profile.changePassword",
-    icon: "lock.fill",
+    icon: "key.fill",
     href: "/player/profile/change-password",
+  },
+  {
+    label: "profile.security",
+    icon: "lock.fill",
+    href: "/player/(tabs)/profile/security",
   },
 ];

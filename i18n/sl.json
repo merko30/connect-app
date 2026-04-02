@@ -20,7 +20,9 @@
     "editPlayerInfo": "Uredi informacije o igralcu",
     "editClubInfo": "Uredi informacije o klubu",
     "changePassword": "Spremeni geslo",
-    "myPosts": "Moji oglasi za rekrutacijo"
+    "myPosts": "Moji oglasi za rekrutacijo",
+    "deleteAccount": "Izbriši račun",
+    "security": "Varnost"
   },
   "auth": {
     "signIn": "Prijava",
@@ -179,6 +181,19 @@
     "goBack": "Nazaj",
     "cancel": "Prekliči",
     "delete": "Izbriši"
+  },
+  "deleteAccount": {
+    "title": "Izbriši svoj račun",
+    "subtitle": "To dejanje je trajno in ga ni mogoče razveljaviti.",
+    "button": "Izbriši račun",
+    "confirmTitle": "Izbrišem račun?",
+    "confirmMessage": "Ali ste prepričani, da želite trajno izbrisati svoj račun?"
+  },
+  "security": {
+    "title": "Varnostne nastavitve",
+    "subtitle": "Upravljajte občutljive akcije računa na enem mestu.",
+    "deleteSectionTitle": "Izbriši račun",
+    "deleteSectionSubtitle": "Izbris računa je nepovraten in trajno odstrani vaše podatke."
   },
   "experienceLevels": {
     "youth": "Mladinec",

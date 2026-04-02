@@ -25,6 +25,7 @@ const MAPPING = {
   "person.fill": "person",
   "chevron.left": "chevron-left",
   "lock.fill": "lock",
+  "key.fill": "vpn-key",
   person: "person",
   sportscourt: "sports-soccer",
   "slider.horizontal.3": "tune",
