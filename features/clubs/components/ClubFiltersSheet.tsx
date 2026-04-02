@@ -3,11 +3,12 @@ import { FormDatePicker } from "@/components/FormDatepicker";
 import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
 import { ThemedButton } from "@/components/ThemedButton";
+import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { createStyle, useStyle } from "@/theme";
 import { FilterField } from "@/types/filters";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Keyboard, ScrollView, TouchableOpacity, View } from "react-native";
@@ -16,19 +17,36 @@ export type ClubFiltersSheetProps = {
   filters: FilterField[];
   onApply: (values: Record<string, any>) => void;
   initialValues?: Record<string, any>;
-  iconStyle?: any;
+};
+
+const buildEmptyValues = (filters: FilterField[]) => {
+  return filters.reduce<Record<string, any>>((acc, filter) => {
+    if (filter.filters?.length) {
+      Object.assign(acc, buildEmptyValues(filter.filters));
+      return acc;
+    }
+
+    acc[filter.name] = "";
+    return acc;
+  }, {});
 };
 
 const ClubFiltersSheet = ({
   filters,
   onApply,
   initialValues = {},
-  iconStyle,
 }: ClubFiltersSheetProps) => {
   const styles = useStyle(stylesheet);
   const ref = useRef<BottomSheetModal>(null);
-  const form = useForm({ defaultValues: initialValues });
   const { t } = useTranslation();
+  const defaultValues = useMemo(
+    () => ({
+      ...buildEmptyValues(filters),
+      ...initialValues,
+    }),
+    [filters, initialValues],
+  );
+  const form = useForm({ defaultValues });
 
   const handleOpen = () => {
     Keyboard.dismiss();
@@ -51,7 +69,7 @@ const ClubFiltersSheet = ({
           keyboardType="numeric"
           name={filter.name}
           placeholder={t(filter.label)}
-          containerStyle={{ flex: 1 }}
+          containerStyle={styles.numberInput}
         />
       );
     }
@@ -92,11 +110,18 @@ const ClubFiltersSheet = ({
   return (
     <>
       <TouchableOpacity
-        style={iconStyle}
+        style={styles.icon}
         onPress={handleOpen}
         accessibilityLabel="Filters"
       >
-        <IconSymbol name="slider.horizontal.3" size={24} color="#888" />
+        <IconSymbol name="slider.horizontal.3" size={32} color="#888" />
+        {Object.keys(form.formState.dirtyFields).length > 0 && (
+          <View style={styles.filterCount}>
+            <ThemedText style={styles.filterCountText}>
+              {Object.keys(form.formState.dirtyFields).length}
+            </ThemedText>
+          </View>
+        )}
       </TouchableOpacity>
       <ReusableBottomSheet ref={ref}>
         <FormProvider {...form}>
@@ -126,6 +151,18 @@ const ClubFiltersSheet = ({
               onPress={form.handleSubmit(handleApply)}
               style={{ marginTop: 16 }}
             />
+            {form.formState.isDirty && (
+              <ThemedButton
+                title={t("reset")}
+                onPress={() => {
+                  form.reset(defaultValues);
+                  onApply({});
+                  ref?.current?.close();
+                }}
+                variant="secondary"
+                style={{ marginTop: 8 }}
+              />
+            )}
           </ScrollView>
         </FormProvider>
       </ReusableBottomSheet>
@@ -135,6 +172,29 @@ const ClubFiltersSheet = ({
 
 const stylesheet = createStyle((t) => ({
   scrollContainer: { padding: 16 },
+  icon: {
+    position: "relative",
+  },
+  numberInput: {
+    flex: 1,
+    marginBottom: t.spacing.sm,
+  },
+  filterCount: {
+    position: "absolute",
+    top: -4,
+    right: -4,
+    backgroundColor: t.colors.primary,
+    borderRadius: 8,
+    width: 20,
+    height: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  filterCountText: {
+    color: "#fff",
+    fontSize: 10,
+    fontWeight: "bold",
+  },
 }));
 
 ClubFiltersSheet.displayName = "ClubFiltersSheet";

@@ -1,3 +1,4 @@
+import AvatarOrInitials from "@/components/AvatarOrInitials";
 import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
 import {
@@ -38,7 +39,11 @@ export default function ProfileScreen() {
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarSection}>
         {/* Show a circle for avatar */}
-        <View style={styles.avatarCircle} />
+        <AvatarOrInitials
+          avatarUrl={null}
+          name={user?.firstName + " " + user?.lastName}
+          size={96}
+        />
         <ThemedText variant="title" style={{ marginTop: 8 }}>
           {user?.firstName + " " + user?.lastName}
         </ThemedText>

@@ -124,7 +124,8 @@ const stylesheet = createStyle((t) => ({
     marginBottom: 0,
   },
   listContent: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingHorizontal: t.spacing.md,
+    paddingBottom: t.spacing.md,
+    paddingTop: t.spacing.xs,
   },
 }));

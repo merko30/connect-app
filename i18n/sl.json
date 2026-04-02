@@ -7,6 +7,7 @@
   "save": "Shrani",
   "apply": "Uporabi",
   "loading": "Nalaganje",
+  "reset": "Ponastavi",
   "errorOccurred": "Prišlo je do napake. Poskusite znova.",
   "profile": {
     "title": "Profil",
@@ -81,6 +82,7 @@
     "pro": "Profesionalec",
     "isFreeAgent": "Prosti igralec",
     "register": "Registriraj se",
+    "availableNow": "Na voljo zdaj",
     "savedFormData": "Shranjeni podatki obrazca:",
     "terms": "Z registracijo se strinjate z našimi pogoji storitve in politiko zasebnosti.",
     "alreadyHaveAccount": "Že imate račun? Prijava",
@@ -172,5 +174,11 @@
     "yes": "Da",
     "no": "Ne",
     "goBack": "Nazaj"
+  },
+  "experienceLevels": {
+    "youth": "Mladinec",
+    "amateur": "Amater",
+    "semi-pro": "Pol-profesionalec",
+    "pro": "Profesionalec"
   }
 }

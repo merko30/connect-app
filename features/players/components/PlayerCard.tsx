@@ -1,7 +1,8 @@
+import AvatarOrInitials from "@/components/AvatarOrInitials";
 import { useStyleThemed } from "@/theme";
 import { PlayerProfile } from "@/types/players";
 import { Link } from "expo-router";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 type Props = {
   player: PlayerProfile;
@@ -69,14 +70,7 @@ export function PlayerCard({ player, onPress }: Props) {
       style={styles.link}
     >
       <View style={styles.card}>
-        <Image
-          source={{
-            uri:
-              imageUrl ??
-              `https://ui-avatars.com/api/?name=${name}&background=ddd`,
-          }}
-          style={styles.avatar}
-        />
+        <AvatarOrInitials avatarUrl={imageUrl} name={name} size={56} />
 
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{name}</Text>

@@ -134,8 +134,7 @@ export default function PlayerDetailsScreen() {
               </ThemedText>
               <ThemedText style={styles.detailValue}>
                 {player?.experienceLevel
-                  ? player.experienceLevel?.charAt(0).toUpperCase() +
-                    player.experienceLevel?.slice(1)
+                  ? t(`experienceLevels.${player.experienceLevel}`)
                   : "N/A"}
               </ThemedText>
             </View>
@@ -147,7 +146,9 @@ export default function PlayerDetailsScreen() {
                 {t("register.availableFrom")}
               </ThemedText>
               <ThemedText style={styles.sectionValue}>
-                {new Date(player.availabilityFrom).toLocaleDateString()}
+                {player.availabilityFrom > new Date().toISOString()
+                  ? new Date(player.availabilityFrom).toLocaleDateString()
+                  : t("register.availableNow")}
               </ThemedText>
             </View>
           )}

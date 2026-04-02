@@ -7,6 +7,7 @@
   "save": "Save",
   "apply": "Apply",
   "loading": "Loading",
+  "reset": "Reset",
   "errorOccurred": "An error occurred. Please try again.",
   "profile": {
     "title": "Profile",
@@ -82,6 +83,7 @@
     "pro": "Pro",
     "isFreeAgent": "Is Free Agent",
     "register": "Register",
+    "availableNow": "Available now",
     "savedFormData": "Saved form data:",
     "terms": "By registering, you agree to our Terms of Service and Privacy Policy.",
     "alreadyHaveAccount": "Already have an account? Login",
@@ -172,5 +174,11 @@
     "yes": "Yes",
     "no": "No",
     "goBack": "Go Back"
+  },
+  "experienceLevels": {
+    "youth": "Youth",
+    "amateur": "Amateur",
+    "semi-pro": "Semi-Pro",
+    "pro": "Pro"
   }
 }
