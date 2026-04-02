@@ -43,6 +43,7 @@ export default function ProfileScreen() {
           avatarUrl={null}
           name={user?.firstName + " " + user?.lastName}
           size={96}
+          style={styles.avatarCircle}
         />
         <ThemedText variant="title" style={{ marginTop: 8 }}>
           {user?.firstName + " " + user?.lastName}

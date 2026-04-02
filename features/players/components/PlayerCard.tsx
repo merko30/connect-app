@@ -70,7 +70,12 @@ export function PlayerCard({ player, onPress }: Props) {
       style={styles.link}
     >
       <View style={styles.card}>
-        <AvatarOrInitials avatarUrl={imageUrl} name={name} size={56} />
+        <AvatarOrInitials
+          avatarUrl={imageUrl}
+          name={name}
+          size={56}
+          style={styles.avatar}
+        />
 
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{name}</Text>
