@@ -51,7 +51,9 @@
     "title": "Home",
     "welcome": "Welcome, {user}",
     "findAndRecruit": "Find and recruit new players",
+    "findYourNextOpportunity": "Find your next opportunity",
     "findYourNextClub": "Find your next club",
+    "featuredRecruitmentPosts": "Recruitment Posts",
     "featuredClubs": "Featured Clubs",
     "featuredPlayers": "Featured Players"
   },
@@ -180,5 +182,20 @@
     "amateur": "Amateur",
     "semi-pro": "Semi-Pro",
     "pro": "Pro"
+  },
+  "positions": {
+    "GK": "Goalkeeper",
+    "CB": "Center Back",
+    "LB": "Left Back",
+    "RB": "Right Back",
+    "CDM": "Defensive Midfielder",
+    "CM": "Central Midfielder",
+    "LM": "Left Midfielder",
+    "RM": "Right Midfielder",
+    "CAM": "Attacking Midfielder",
+    "LW": "Left Winger",
+    "RW": "Right Winger",
+    "ST": "Striker",
+    "CF": "Center Forward"
   }
 }

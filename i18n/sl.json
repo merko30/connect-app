@@ -51,7 +51,9 @@
     "title": "Domača stran",
     "welcome": "Dobrodošli, {{user}}",
     "findAndRecruit": "Poiščite in rekrutirajte nove igralce",
+    "findYourNextOpportunity": "Poiščite svojo naslednjo priložnost",
     "findYourNextClub": "Poiščite svoj naslednji klub",
+    "featuredRecruitmentPosts": "Objave za rekrutacijo",
     "featuredClubs": "Priporočeni klubi",
     "featuredPlayers": "Priporočeni igralci"
   },
@@ -180,5 +182,20 @@
     "amateur": "Amater",
     "semi-pro": "Pol-profesionalec",
     "pro": "Profesionalec"
+  },
+  "positions": {
+    "GK": "Vratar",
+    "CB": "Centralni branilec",
+    "LB": "Levi bočni branilec",
+    "RB": "Desni bočni branilec",
+    "CDM": "Defenzivni vezist",
+    "CM": "Centralni vezist",
+    "LM": "Levi vezist",
+    "RM": "Desni vezist",
+    "CAM": "Ofenzivni vezist",
+    "LW": "Levo krilo",
+    "RW": "Desno krilo",
+    "ST": "Napadalec",
+    "CF": "Centralni napadalec"
   }
 }

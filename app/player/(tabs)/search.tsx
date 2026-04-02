@@ -1,15 +1,14 @@
-import { clubsApi } from "@/api/clubs";
+import { recruitmentPostsApi } from "@/api/recruitment-posts";
+import { FiltersSheet } from "@/components/FiltersSheet";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
-import { CLUB_FILTERS } from "@/constants/clubFilters";
-import { ClubCard } from "@/features/clubs/components/ClubCard";
-import ClubFiltersSheet from "@/features/players/components/ClubFiltersSheet";
+import { RECRUITMENT_POST_FILTERS } from "@/constants/recruitmentPostFilters";
+import { RecruitmentPostCard } from "@/features/players/components/RecruitmentPostCard";
 import { useDebounce } from "@/hooks/useDebounce";
 import { createStyle, useStyle } from "@/theme";
-import { ClubProfile } from "@/types/clubs";
+import { RecruitmentPost } from "@/types/recruitment-posts";
 import { StrapiListResponse } from "@/types/strapi";
 import { buildStrapiFilters, toStrapiQueryString } from "@/utils/strapi-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, View } from "react-native";
@@ -17,7 +16,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function PlayerSearchScreen() {
   const { t } = useTranslation();
-  const router = useRouter();
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
   const styles = useStyle(stylesheet);
@@ -29,7 +27,7 @@ export default function PlayerSearchScreen() {
   };
 
   const strapiFilters = useMemo(
-    () => buildStrapiFilters(filters, CLUB_FILTERS),
+    () => buildStrapiFilters(filters, RECRUITMENT_POST_FILTERS),
     [filters],
   );
 
@@ -39,7 +37,11 @@ export default function PlayerSearchScreen() {
         ...(debouncedSearch
           ? [
               {
-                $or: [{ clubName: { $containsi: debouncedSearch } }],
+                $or: [
+                  { note: { $containsi: debouncedSearch } },
+                  { position: { $containsi: debouncedSearch } },
+                  { club: { clubName: { $containsi: debouncedSearch } } },
+                ],
               },
             ]
           : []),
@@ -55,15 +57,25 @@ export default function PlayerSearchScreen() {
     refetch,
     isPending,
     hasNextPage,
-    error,
-  } = useInfiniteQuery<StrapiListResponse<ClubProfile>>({
-    queryKey: ["clubs", debouncedSearch, toStrapiQueryString(strapiFilters)],
+  } = useInfiniteQuery<StrapiListResponse<RecruitmentPost>>({
+    queryKey: [
+      "recruitment-posts",
+      debouncedSearch,
+      toStrapiQueryString(strapiFilters),
+    ],
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
       const page =
         typeof pageParam === "number" ? pageParam : Number(pageParam);
-      return clubsApi.list({
+      return recruitmentPostsApi.list({
         pagination: { page, pageSize: 20 },
+        populate: {
+          club: {
+            populate: {
+              logo: true,
+            },
+          },
+        },
         filters: formattedFilters,
       });
     },
@@ -75,8 +87,7 @@ export default function PlayerSearchScreen() {
     },
   });
 
-  const clubs = data?.pages.flatMap((page) => page.data) ?? [];
-  console.log(clubs, error);
+  const recruitmentPosts = data?.pages.flatMap((page) => page.data) ?? [];
 
   const onEndReached = () => {
     if (!isFetchingNextPage && hasNextPage) fetchNextPage();
@@ -91,19 +102,15 @@ export default function PlayerSearchScreen() {
           placeholder={t("search")}
           style={styles.input}
         />
-        <ClubFiltersSheet filters={CLUB_FILTERS} onApply={onApplyFilters} />
+        <FiltersSheet
+          filters={RECRUITMENT_POST_FILTERS}
+          onApply={onApplyFilters}
+        />
       </View>
       <FlatList
-        data={clubs}
+        data={recruitmentPosts}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <ClubCard
-            club={item}
-            onPress={() =>
-              router.push(`/player/club/${item.documentId ?? item.id}`)
-            }
-          />
-        )}
+        renderItem={({ item }) => <RecruitmentPostCard post={item} />}
         onRefresh={refetch}
         refreshing={isPending}
         onEndReached={onEndReached}
