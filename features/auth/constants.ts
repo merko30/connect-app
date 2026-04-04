@@ -1,9 +1,5 @@
 // Slovenian phone number regex
-import {
-  phoneSchema,
-  REGISTER_ERRORS,
-  SLOVENIAN_PHONE_REGEX,
-} from "@/constants/validation";
+import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "@/constants/validation";
 import { ClubProfile } from "@/types/clubs";
 import { PlayerProfile } from "@/types/players";
 import { User } from "@/types/users";
@@ -114,7 +110,7 @@ export const coachRegisterSchema = z.object({
   lastName: z.string().min(1, REGISTER_ERRORS.lastName),
   coachType: z.string().min(1, REGISTER_ERRORS.coachType),
   licenseLevel: z.string().optional(),
-  experienceLevel: z.string().optional(),
+  experienceLevel: z.string().min(1, REGISTER_ERRORS.experienceLevel),
   categories: z.string().optional(),
   currentClub: z.string().optional(),
   formerClubs: z
@@ -122,17 +118,23 @@ export const coachRegisterSchema = z.object({
     .optional(),
   yearsOfExperience: z
     .string()
-    .regex(/^\d*$/, REGISTER_ERRORS.yearsOfExperience)
-    .optional(),
+    .min(1, "register.error.yearsOfExperienceRequired")
+    .regex(/^\d+$/, REGISTER_ERRORS.yearsOfExperience),
   bio: z.string().optional(),
   dateOfBirth: z.instanceof(Date).nullable(),
-  location: z.string().optional(),
+  location: z.string().min(1, "register.error.location"),
   nationality: z.string().optional(),
   contactEmail: z
+    .string()
     .email({ message: "register.error.contactEmail" })
     .optional()
     .or(z.literal("")),
-  contactPhone: phoneSchema,
+  contactPhone: z
+    .string()
+    .min(1, REGISTER_ERRORS.contactPhone)
+    .regex(SLOVENIAN_PHONE_REGEX, {
+      message: REGISTER_ERRORS.contactPhone,
+    }),
   isAvailable: z.boolean().optional(),
   availableFrom: z.instanceof(Date).nullable(),
   visibility: z.enum(["public", "clubs-only", "private"]),

@@ -133,7 +133,13 @@
       "primaryPosition": "Primary position is required.",
       "experienceLevel": "Experience level is required.",
       "coachType": "Coach type is required.",
+      "licenseLevel": "License level is required.",
+      "currentClub": "Current club is required.",
       "yearsOfExperience": "Years of experience must be a number.",
+      "yearsOfExperienceRequired": "Years of experience is required.",
+      "bio": "Bio must be at least 20 characters.",
+      "location": "Location is required.",
+      "nationality": "Nationality is required.",
       "formerClub": "Former club is required."
     },
     "country": "Country",

@@ -37,7 +37,14 @@ const isCoachProfileComplete = (coach?: CoachProfile | null) => {
   }
 
   return (
-    !!coach.firstName?.trim() && !!coach.lastName?.trim() && !!coach.coachType
+    !!coach.firstName?.trim() &&
+    !!coach.lastName?.trim() &&
+    !!coach.coachType &&
+    !!coach.experienceLevel &&
+    coach.yearsOfExperience != null &&
+    coach.yearsOfExperience >= 0 &&
+    !!coach.location?.trim() &&
+    !!coach.contactPhone?.trim()
   );
 };
 

@@ -70,7 +70,7 @@ export default function EditCoachInfo() {
         return;
       }
 
-      // await coachesApi.create(payload);
+      await coachesApi.create(payload);
     },
     onError: (error: { error?: { details?: { message?: string } } }) => {
       const message = error.error?.details?.message ?? t("errorOccurred");
@@ -216,6 +216,17 @@ export default function EditCoachInfo() {
               control={control}
               name="availableFrom"
               label={t("register.availableFrom")}
+            />
+
+            <FormPicker
+              control={control}
+              name="visibility"
+              label={t("register.visibility")}
+              options={[
+                { label: "visibility.public", value: "public" },
+                { label: "visibility.clubs-only", value: "clubs-only" },
+                { label: "visibility.private", value: "private" },
+              ]}
             />
 
             <Controller
