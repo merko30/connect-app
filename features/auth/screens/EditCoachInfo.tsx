@@ -4,7 +4,7 @@ import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
 import Header from "@/components/Header";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
 import FormerClubsFieldArray from "@/features/auth/components/FormerClubs";
 import { createStyle, useStyle } from "@/theme";
@@ -248,10 +248,9 @@ export default function EditCoachInfo() {
               numberOfLines={5}
             />
 
-            <ThemedButton
+            <RoleBasedButton
               title={t("save")}
               onPress={handleSubmit(onSubmit)}
-              variant="primary"
               style={styles.saveButton}
               loading={isPending}
             />

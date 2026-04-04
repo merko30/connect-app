@@ -3,11 +3,11 @@ import { ThemedButton, ThemedButtonProps } from "./ThemedButton";
 
 const RoleBasedButton = (props: ThemedButtonProps) => {
   const { data: user } = useGetCurrentUser();
-  const isClub = !!user?.club;
+  const isClubOrCoach = !!user?.club || !!user?.coach;
 
   return (
     <ThemedButton
-      variant={!isClub ? "outlineSecondary" : "outline"}
+      variant={!isClubOrCoach ? "outlineSecondary" : "outline"}
       {...props}
     />
   );
