@@ -76,7 +76,9 @@ const AppIndex = () => {
   }
 
   if (
-    data?.role?.name === Role.Player.toString() &&
+    [Role.Player.toString(), Role.Coach.toString()].includes(
+      data?.role?.name ?? "",
+    ) &&
     !isPlayerProfileComplete(data?.player)
   ) {
     return <Redirect href="/onboarding/player?from=app" />;

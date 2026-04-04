@@ -50,6 +50,7 @@ export const strapiRegisterSchema = z
   .object({
     ...authCredentialsSchema,
     isClubRegistration: z.boolean(),
+    coachType: z.string().optional(),
     ...clubFieldsSchema,
   })
   .superRefine((data, ctx) => {

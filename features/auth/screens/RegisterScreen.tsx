@@ -2,6 +2,7 @@ import { usersApi } from "@/api/auth";
 import { AuthHeader } from "@/components/AuthHeader";
 import { FormError } from "@/components/FormError";
 import { FormInput } from "@/components/FormInput";
+import { FormPicker } from "@/components/FormPicker";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedText } from "@/components/ThemedText";
@@ -27,15 +28,26 @@ const REGISTER_RESPONSE_ERRORS: Record<string, TranslationKey> = {
   errorOccurred: "errorOccurred",
 };
 
+const COACH_TYPES = [
+  { label: "Head Coach", value: "head-coach" },
+  { label: "Assistant Coach", value: "assistant-coach" },
+  { label: "Fitness Coach", value: "fitness-coach" },
+  { label: "Goalkeeping Coach", value: "goalkeeping-coach" },
+  { label: "Analyst", value: "analyst" },
+];
+
 export default function RegisterScreenContent() {
   const { t } = useTranslation();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const { type } = useLocalSearchParams<{ type: "player" | "club" }>();
+  const { type } = useLocalSearchParams<{
+    type: "player" | "club" | "coach";
+  }>();
 
   const queryClient = useQueryClient();
 
   const isClubRegistration = type === "club";
+  const isCoachRegistration = type === "coach";
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: StrapiRegisterForm) => {
@@ -43,13 +55,19 @@ export default function RegisterScreenContent() {
         contactPhone,
         clubName,
         isClubRegistration,
+        coachType,
         ...registrationData
       } = data;
       return await usersApi.custom<{ jwt: string }>("/auth/local/register", {
         body: {
           ...registrationData,
-          role: isClubRegistration ? ROLE_IDS.CLUB_STAFF : ROLE_IDS.PLAYER,
+          role: isClubRegistration
+            ? ROLE_IDS.CLUB_STAFF
+            : isCoachRegistration
+              ? ROLE_IDS.COACH
+              : ROLE_IDS.PLAYER,
           ...(isClubRegistration ? { clubName, contactPhone } : {}),
+          ...(isCoachRegistration ? { coachType } : {}),
         },
         method: "POST",
       });
@@ -100,6 +118,7 @@ export default function RegisterScreenContent() {
       password: "",
       clubName: "",
       contactPhone: "",
+      coachType: "",
       isClubRegistration,
     },
   });
@@ -107,6 +126,7 @@ export default function RegisterScreenContent() {
 
   const onSubmit = async (data: StrapiRegisterForm) => {
     setError(null);
+    console.log(data);
     mutate(data);
   };
 
@@ -121,12 +141,16 @@ export default function RegisterScreenContent() {
               title={t(
                 isClubRegistration
                   ? "register.clubTitle"
-                  : "register.playerTitle",
+                  : isCoachRegistration
+                    ? "register.coachTitle"
+                    : "register.playerTitle",
               )}
               caption={t(
                 isClubRegistration
                   ? "register.clubCaption"
-                  : "register.playerCaption",
+                  : isCoachRegistration
+                    ? "register.coachCaption"
+                    : "register.playerCaption",
               )}
             />
 
@@ -166,6 +190,16 @@ export default function RegisterScreenContent() {
               secureTextEntry
               style={styles.field}
             />
+
+            {isCoachRegistration && (
+              <FormPicker
+                options={COACH_TYPES}
+                name="coachType"
+                control={control}
+                label={t("register.coachType")}
+                style={styles.field}
+              />
+            )}
 
             {isClubRegistration && (
               <>

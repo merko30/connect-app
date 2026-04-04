@@ -127,7 +127,6 @@ export default function LoginScreen() {
           >
             <ThemedText style={styles.linkText}>{t("club")}</ThemedText>
           </TouchableOpacity>
-          <View style={styles.spacer} />
           <TouchableOpacity
             style={[
               styles.link,
@@ -145,6 +144,24 @@ export default function LoginScreen() {
             }
           >
             <ThemedText style={styles.linkText}>{t("player")}</ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.link,
+              {
+                backgroundColor: theme.colors.accent,
+              },
+            ]}
+            onPress={() =>
+              router.navigate({
+                pathname: "/auth/player-registration",
+                params: {
+                  type: "coach",
+                },
+              })
+            }
+          >
+            <ThemedText style={styles.linkText}>{t("coach")}</ThemedText>
           </TouchableOpacity>
         </View>
       </View>
@@ -190,10 +207,6 @@ const stylesheet = createStyle((t) => ({
     gap: 10,
     alignItems: "center",
     justifyContent: "center",
-  },
-  spacer: {
-    width: 1,
-    height: 20,
-    backgroundColor: t.colors.text,
+    flexWrap: "wrap",
   },
 }));

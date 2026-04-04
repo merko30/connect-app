@@ -22,6 +22,7 @@ export interface User {
 export enum Role {
   ClubStaff = "Club-staff",
   Player = "Player",
+  Coach = "Coach",
 }
 
 export interface LoginValues {
@@ -37,4 +38,5 @@ export interface LoginResponse {
 export const ROLE_IDS = {
   PLAYER: 3,
   CLUB_STAFF: 4,
+  COACH: 5,
 };
