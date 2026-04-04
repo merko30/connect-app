@@ -19,6 +19,7 @@
     "logout": "Odjava",
     "editUserInfo": "Uredi uporabniške informacije",
     "editPlayerInfo": "Uredi informacije o igralcu",
+    "editCoachInfo": "Uredi informacije o trenerju",
     "editClubInfo": "Uredi informacije o klubu",
     "changePassword": "Spremeni geslo",
     "myPosts": "Moji oglasi za rekrutacijo",
@@ -36,6 +37,7 @@
     "haveAccount": "Že imate račun? Prijava",
     "registerAs": "Registrirajte se kot",
     "completePlayerProfile": "Dopolnite svoj igralski profil",
+    "completeCoachProfile": "Dopolnite svoj trenerski profil",
     "completeClubProfile": "Dopolnite svoj klubski profil",
     "clubNotVerifiedTitle": "Vaš klub še ni preverjen",
     "clubNotVerifiedBody": "Pred uporabo aplikacije je potrebna verifikacija. Prejeli boste klic za potrditev kluba.",
@@ -71,7 +73,6 @@
     "firstName": "Ime",
     "lastName": "Priimek",
     "dateOfBirth": "Datum rojstva",
-    "coachType": "Typ trenéra",
     "dateOfBirthPlaceholder": "Datum rojstva (LLLL-MM-DD)",
     "nationality": "Državljanstvo",
     "height": "Višina (cm)",
@@ -106,6 +107,13 @@
     "clubName": "Ime kluba",
     "contactPhone": "Kontaktna telefonska številka",
     "phoneNumber": "Telefonska številka",
+    "coachType": "Vrsta trenerja",
+    "licenseLevel": "Raven licence",
+    "yearsOfExperience": "Leta izkušenj",
+    "bio": "Opis",
+    "categories": "Kategorije (ločene z vejico)",
+    "visibility": "Vidnost",
+    "isAvailable": "Na voljo za priložnosti",
     "error": {
       "firstName": "Ime je obvezno.",
       "lastName": "Priimek je obvezen.",
@@ -198,6 +206,25 @@
     "subtitle": "Upravljajte občutljive akcije računa na enem mestu.",
     "deleteSectionTitle": "Izbriši račun",
     "deleteSectionSubtitle": "Izbris računa je nepovraten in trajno odstrani vaše podatke."
+  },
+  "coachTypes": {
+    "head-coach": "Glavni trener",
+    "assistant-coach": "Pomožni trener",
+    "goalkeeping-coach": "Trener vratarjev",
+    "fitness-coach": "Kondicijski trener",
+    "analyst": "Analitik"
+  },
+  "licenseLevels": {
+    "none": "Brez licence",
+    "uefa-c": "UEFA C",
+    "uefa-b": "UEFA B",
+    "uefa-a": "UEFA A",
+    "uefa-pro": "UEFA Pro"
+  },
+  "visibility": {
+    "public": "Javno",
+    "clubs-only": "Samo klubi",
+    "private": "Zasebno"
   },
   "experienceLevels": {
     "youth": "Mladinec",

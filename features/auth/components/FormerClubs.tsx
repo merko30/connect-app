@@ -6,10 +6,8 @@ import React from "react";
 import { Control, useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
-import { PlayerRegisterForm } from "../constants";
-
 type Props = {
-  control: Control<PlayerRegisterForm>;
+  control: Control<any>;
 };
 
 export default function FormerClubsFieldArray({ control }: Props) {

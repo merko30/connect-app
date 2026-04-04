@@ -8,17 +8,9 @@ import { ThemeProvider } from "@/theme";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 
-import { useSubscriptionStatus } from "@/features/auth/hooks/useSubscriptionStatus";
 import "@/i18n/index";
 
 const queryClient = new QueryClient();
-
-function RootContent() {
-  // Load subscription status at app level so it's always available
-  useSubscriptionStatus();
-
-  return <Slot />;
-}
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -29,7 +21,7 @@ export default function RootLayout() {
       <ThemeProvider key={resolvedTheme} initialTheme={resolvedTheme}>
         <BottomSheetModalProvider>
           <QueryClientProvider client={queryClient}>
-            <RootContent />
+            <Slot />
             <Toast topOffset={70} />
           </QueryClientProvider>
         </BottomSheetModalProvider>

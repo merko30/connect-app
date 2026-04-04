@@ -1,6 +1,7 @@
 import Splash from "@/components/Splash";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { ClubProfile } from "@/types/clubs";
+import { CoachProfile } from "@/types/coaches";
 import { PlayerProfile } from "@/types/players";
 import { Role } from "@/types/users";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -30,6 +31,16 @@ const isClubProfileComplete = (club?: ClubProfile | null) => {
   return !!club.clubName?.trim() && !!club.country?.trim() && !!club.level;
 };
 
+const isCoachProfileComplete = (coach?: CoachProfile | null) => {
+  if (!coach) {
+    return false;
+  }
+
+  return (
+    !!coach.firstName?.trim() && !!coach.lastName?.trim() && !!coach.coachType
+  );
+};
+
 const AppIndex = () => {
   const { data, isLoading, error } = useGetCurrentUser();
 
@@ -39,11 +50,6 @@ const AppIndex = () => {
     }
   }, [error]);
 
-  // info log
-  console.log(
-    `User subscription status: ${data?.subscriptionStatus}, role: ${data?.role?.name}`,
-  );
-
   if (isLoading) {
     return <Splash />;
   }
@@ -52,13 +58,13 @@ const AppIndex = () => {
     return <Redirect href="/auth/login" />;
   }
 
-  if (
-    data &&
-    data.subscriptionStatus !== "active" &&
-    data.subscriptionStatus !== "trialing"
-  ) {
-    return <Redirect href="/subscribe" />;
-  }
+  // if (
+  //   data &&
+  //   data.subscriptionStatus !== "active" &&
+  //   data.subscriptionStatus !== "trialing"
+  // ) {
+  //   return <Redirect href="/subscribe" />;
+  // }
 
   if (
     data?.role?.name === Role.ClubStaff.toString() &&
@@ -76,9 +82,13 @@ const AppIndex = () => {
   }
 
   if (
-    [Role.Player.toString(), Role.Coach.toString()].includes(
-      data?.role?.name ?? "",
-    ) &&
+    data.role.name === Role.Coach.toString() &&
+    !isCoachProfileComplete(data?.coach)
+  ) {
+    return <Redirect href="/onboarding/coach?from=app" />;
+  }
+  if (
+    data.role.name === Role.Player.toString() &&
     !isPlayerProfileComplete(data?.player)
   ) {
     return <Redirect href="/onboarding/player?from=app" />;

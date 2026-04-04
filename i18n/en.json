@@ -19,6 +19,7 @@
     "logout": "Logout",
     "editUserInfo": "Edit User Information",
     "editPlayerInfo": "Edit Player Information",
+    "editCoachInfo": "Edit Coach Information",
     "editClubInfo": "Edit Club information",
     "changePassword": "Change password",
     "myPosts": "My Recruitment Posts",
@@ -36,6 +37,7 @@
     "haveAccount": "Already have an account? Sign In",
     "registerAs": "Register as",
     "completePlayerProfile": "Complete your player profile",
+    "completeCoachProfile": "Complete your coach profile",
     "completeClubProfile": "Complete your club profile",
     "clubNotVerifiedTitle": "Your club is not verified yet",
     "clubNotVerifiedBody": "Verification is required before you can use the app. You will receive a call to verify your club.",
@@ -71,7 +73,6 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "dateOfBirth": "Date of birth",
-    "coachType": "Coach type",
     "dateOfBirthPlaceholder": "Date of Birth (YYYY-MM-DD)",
     "nationality": "Nationality",
     "height": "Height (cm)",
@@ -106,6 +107,13 @@
     "clubName": "Club Name",
     "contactPhone": "Contact Phone Number",
     "phoneNumber": "Phone number",
+    "coachType": "Coach type",
+    "licenseLevel": "License level",
+    "yearsOfExperience": "Years of experience",
+    "bio": "Bio",
+    "categories": "Categories (comma separated)",
+    "visibility": "Visibility",
+    "isAvailable": "Available for opportunities",
     "error": {
       "firstName": "First name is required.",
       "lastName": "Last name is required.",
@@ -198,6 +206,25 @@
     "subtitle": "Manage sensitive account actions in one place.",
     "deleteSectionTitle": "Delete account",
     "deleteSectionSubtitle": "Deleting your account is irreversible and permanently removes your data."
+  },
+  "coachTypes": {
+    "head-coach": "Head coach",
+    "assistant-coach": "Assistant coach",
+    "goalkeeping-coach": "Goalkeeping coach",
+    "fitness-coach": "Fitness coach",
+    "analyst": "Analyst"
+  },
+  "licenseLevels": {
+    "none": "None",
+    "uefa-c": "UEFA C",
+    "uefa-b": "UEFA B",
+    "uefa-a": "UEFA A",
+    "uefa-pro": "UEFA Pro"
+  },
+  "visibility": {
+    "public": "Public",
+    "clubs-only": "Clubs only",
+    "private": "Private"
   },
   "experienceLevels": {
     "youth": "Youth",

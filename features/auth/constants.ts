@@ -1,5 +1,9 @@
 // Slovenian phone number regex
-import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "@/constants/validation";
+import {
+  phoneSchema,
+  REGISTER_ERRORS,
+  SLOVENIAN_PHONE_REGEX,
+} from "@/constants/validation";
 import { ClubProfile } from "@/types/clubs";
 import { PlayerProfile } from "@/types/players";
 import { User } from "@/types/users";
@@ -101,6 +105,65 @@ export const getPlayerRegisterDefaults = (
   availabilityFrom: player?.availabilityFrom
     ? new Date(player.availabilityFrom)
     : null,
+});
+
+export const coachRegisterSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  coachType: z.string().min(1, "Coach type is required"),
+  licenseLevel: z.string().optional(),
+  experienceLevel: z.string().optional(),
+  categories: z.string().optional(),
+  currentClub: z.string().optional(),
+  formerClubs: z.array(z.object({ name: z.string().min(1) })).optional(),
+  yearsOfExperience: z
+    .string()
+    .regex(/^\d*$/, "Years of experience must be a number")
+    .optional(),
+  bio: z.string().optional(),
+  dateOfBirth: z.instanceof(Date).nullable(),
+  location: z.string().optional(),
+  nationality: z.string().optional(),
+  contactEmail: z
+    .email({ message: "register.error.contactEmail" })
+    .optional()
+    .or(z.literal("")),
+  contactPhone: phoneSchema,
+  isAvailable: z.boolean().optional(),
+  availableFrom: z.instanceof(Date).nullable(),
+  visibility: z.enum(["public", "clubs-only", "private"]),
+});
+
+export type CoachRegisterForm = z.infer<typeof coachRegisterSchema>;
+
+export const getCoachRegisterDefaults = (
+  coach?: any,
+  user?: User | null,
+): CoachRegisterForm => ({
+  firstName: coach?.firstName ?? user?.firstName ?? "",
+  lastName: coach?.lastName ?? user?.lastName ?? "",
+  coachType: coach?.coachType ?? "",
+  licenseLevel: coach?.licenseLevel ?? "none",
+  experienceLevel: coach?.experienceLevel ?? "",
+  categories: Array.isArray(coach?.categories)
+    ? coach.categories.join(", ")
+    : "",
+  currentClub: coach?.currentClub ?? "",
+  formerClubs:
+    coach?.formerClubs?.map((club: { name: string }) => ({
+      name: club.name,
+    })) ?? [],
+  yearsOfExperience:
+    coach?.yearsOfExperience != null ? String(coach.yearsOfExperience) : "",
+  bio: coach?.bio ?? "",
+  dateOfBirth: coach?.dateOfBirth ? new Date(coach.dateOfBirth) : null,
+  location: coach?.location ?? user?.location ?? "",
+  nationality: coach?.nationality ?? user?.nationality ?? "",
+  contactEmail: coach?.contactEmail ?? user?.email ?? "",
+  contactPhone: coach?.contactPhone ?? user?.phoneNumber ?? "",
+  isAvailable: coach?.isAvailable ?? true,
+  availableFrom: coach?.availableFrom ? new Date(coach.availableFrom) : null,
+  visibility: coach?.visibility ?? "clubs-only",
 });
 
 export const clubSchema = z.object({

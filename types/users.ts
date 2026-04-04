@@ -1,4 +1,5 @@
 import { ClubProfile } from "./clubs";
+import { CoachProfile } from "./coaches";
 import { PlayerProfile } from "./players";
 
 export interface User {
@@ -15,15 +16,16 @@ export interface User {
   nationality: string | null;
   citizenship: string | null;
   player?: PlayerProfile;
+  coach?: CoachProfile;
   club?: ClubProfile;
   subscriptionStatus?: string; // e.g., "active", "inactive", "trial"
 }
 
-export enum Role {
-  ClubStaff = "Club-staff",
-  Player = "Player",
-  Coach = "Coach",
-}
+export const Role = {
+  ClubStaff: "Club-staff",
+  Player: "Player",
+  Coach: "Coach",
+};
 
 export interface LoginValues {
   email: string;

@@ -4,12 +4,14 @@ import { ThemedText } from "@/components/ThemedText";
 import {
   CLUB_PROFILE_MENU_ITEMS,
   CLUB_SECURITY_SETTINGS_ITEMS,
+  COACH_PROFILE_MENU_ITEMS,
   PLAYER_PROFILE_MENU_ITEMS,
   PLAYER_SECURITY_SETTINGS_ITEMS,
 } from "@/constants/profile";
 import MenuSection from "@/features/auth/components/MenuSection";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { createStyle, useStyle } from "@/theme";
+import { Role } from "@/types/users";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname, useRouter } from "expo-router";
@@ -26,6 +28,7 @@ export default function ProfileScreen() {
 
   const pathname = usePathname();
   const isClub = pathname.includes("club");
+  const isCoach = user?.role?.name === Role.Coach.toString();
 
   const queryClient = useQueryClient();
 
@@ -57,7 +60,13 @@ export default function ProfileScreen() {
       <View style={styles.menuSection}>
         <MenuSection
           title={t("profile.title")}
-          items={isClub ? CLUB_PROFILE_MENU_ITEMS : PLAYER_PROFILE_MENU_ITEMS}
+          items={
+            isClub
+              ? CLUB_PROFILE_MENU_ITEMS
+              : isCoach
+                ? COACH_PROFILE_MENU_ITEMS
+                : PLAYER_PROFILE_MENU_ITEMS
+          }
         />
         <MenuSection
           title={t("profile.settings")}

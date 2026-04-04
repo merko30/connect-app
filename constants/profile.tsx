@@ -21,6 +21,19 @@ export const PLAYER_PROFILE_MENU_ITEMS: MenuItem[] = [
   },
 ];
 
+export const COACH_PROFILE_MENU_ITEMS: MenuItem[] = [
+  {
+    label: "profile.editUserInfo",
+    icon: "person",
+    href: "/player/(tabs)/profile/edit",
+  },
+  {
+    label: "profile.editCoachInfo",
+    icon: "sportscourt",
+    href: "/player/(tabs)/profile/coach",
+  },
+];
+
 export const CLUB_PROFILE_MENU_ITEMS: MenuItem[] = [
   {
     label: "profile.editUserInfo",
