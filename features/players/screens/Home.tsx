@@ -26,7 +26,7 @@ export function PlayerHome() {
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
 
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage } =
+  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, error } =
     useInfiniteQuery<StrapiListResponse<RecruitmentPost>>({
       queryKey: ["recruitment-posts", debouncedSearch],
       initialPageParam: 1,
@@ -63,6 +63,8 @@ export function PlayerHome() {
         return page < pageCount ? page + 1 : undefined;
       },
     });
+
+  console.log(error);
 
   const recruitmentPosts = data?.pages.flatMap((page) => page.data) ?? [];
 

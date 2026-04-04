@@ -1,5 +1,5 @@
 import { ClubProfile } from "./clubs";
-import { PlayerProfile } from "./players";
+import { User } from "./users";
 
 export type RecruitmentPosition =
   | "GK"
@@ -28,10 +28,7 @@ export type RecruitmentPost = {
   deadline?: string | null;
   contractType?: "trial" | "short-term" | "full-season" | "permanent" | null;
   requirements?: string | null;
-  interestedPlayers?: Pick<
-    PlayerProfile,
-    "id" | "documentId" | "firstName" | "lastName" | "primaryPosition"
-  >[];
+  interested?: Pick<User, "id" | "documentId">[];
 
   club?: ClubProfile | null;
 

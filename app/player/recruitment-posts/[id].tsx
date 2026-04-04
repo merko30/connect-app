@@ -30,12 +30,16 @@ export default function RecruitmentPostDetailScreen() {
   const [isInterested, setIsInterested] = useState(false);
   const { data: currentUser } = useGetCurrentUser();
 
-  const { data: postData, isPending } = useQuery({
+  const {
+    data: postData,
+    isPending,
+    error,
+  } = useQuery({
     queryKey: ["recruitment-posts", id],
     queryFn: () =>
       recruitmentPostsApi.get(id, {
         populate: {
-          interestedPlayers: {
+          interested: {
             fields: ["id"],
           },
           club: { populate: { logo: true } },
@@ -48,10 +52,8 @@ export default function RecruitmentPostDetailScreen() {
 
   const initialInterest = useMemo(
     () =>
-      (post?.interestedPlayers ?? []).some(
-        (player: any) => player.id === currentUser?.player?.id,
-      ),
-    [post?.interestedPlayers, currentUser?.player?.id],
+      (post?.interested ?? []).some((user: any) => user.id === currentUser?.id),
+    [post?.interested, currentUser?.id],
   );
 
   useEffect(() => {
@@ -122,6 +124,8 @@ export default function RecruitmentPostDetailScreen() {
   const statusColor = post?.postStatus
     ? (statusColors[post.postStatus] ?? "#888")
     : "#888";
+
+  console.log(error);
 
   return (
     <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
