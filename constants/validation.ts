@@ -10,6 +10,15 @@ export const REGISTER_ERRORS = {
   password: "register.error.password",
   clubName: "register.error.clubName",
   contactPhone: "register.error.contactPhone",
+  heightNumber: "register.error.heightNumber",
+  heightRange: "register.error.heightRange",
+  weightNumber: "register.error.weightNumber",
+  weightRange: "register.error.weightRange",
+  primaryPosition: "register.error.primaryPosition",
+  experienceLevel: "register.error.experienceLevel",
+  coachType: "register.error.coachType",
+  yearsOfExperience: "register.error.yearsOfExperience",
+  formerClub: "register.error.formerClub",
 };
 
 // Phone number schema (regex validated contextually in superRefine for clubs)

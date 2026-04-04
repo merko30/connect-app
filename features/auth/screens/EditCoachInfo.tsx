@@ -218,17 +218,6 @@ export default function EditCoachInfo() {
               label={t("register.availableFrom")}
             />
 
-            <FormPicker
-              control={control}
-              name="visibility"
-              label={t("register.visibility")}
-              options={[
-                { label: "visibility.public", value: "public" },
-                { label: "visibility.clubs-only", value: "clubs-only" },
-                { label: "visibility.private", value: "private" },
-              ]}
-            />
-
             <Controller
               control={control}
               name="isAvailable"

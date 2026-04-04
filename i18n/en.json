@@ -125,7 +125,16 @@
       "country": "Country is required.",
       "level": "Level is required.",
       "website": "Invalid website URL.",
-      "contactEmail": "Invalid email address."
+      "contactEmail": "Invalid email address.",
+      "heightNumber": "Height must be a number.",
+      "heightRange": "Height must be between 140 and 220 cm.",
+      "weightNumber": "Weight must be a number.",
+      "weightRange": "Weight must be between 40 and 150 kg.",
+      "primaryPosition": "Primary position is required.",
+      "experienceLevel": "Experience level is required.",
+      "coachType": "Coach type is required.",
+      "yearsOfExperience": "Years of experience must be a number.",
+      "formerClub": "Former club is required."
     },
     "country": "Country",
     "city": "City",

@@ -45,34 +45,36 @@ export const playerRegisterSchema = z.object({
   dateOfBirth: z.instanceof(Date).nullable(),
   heightCm: z
     .string()
-    .regex(/^\d+$/, "Height must be a number")
+    .regex(/^\d+$/, REGISTER_ERRORS.heightNumber)
     .superRefine((val, ctx) => {
       const height = Number(val);
       if (height < 140 || height > 220) {
         ctx.addIssue({
           code: "custom",
-          message: "Height must be between 140 and 220 cm",
+          message: REGISTER_ERRORS.heightRange,
         });
       }
     }),
   weightKg: z
     .string()
-    .regex(/^\d+$/, "Weight must be a number")
+    .regex(/^\d+$/, REGISTER_ERRORS.weightNumber)
     .superRefine((val, ctx) => {
       const weight = Number(val);
       if (weight < 40 || weight > 150) {
         ctx.addIssue({
           code: "custom",
-          message: "Weight must be between 40 and 150 kg",
+          message: REGISTER_ERRORS.weightRange,
         });
       }
     }),
   preferredFoot: z.enum(["left", "right", "both"]),
-  primaryPosition: z.string().min(1, "Primary position is required"),
+  primaryPosition: z.string().min(1, REGISTER_ERRORS.primaryPosition),
   secondaryPositions: z.string().optional(),
-  experienceLevel: z.string().min(1, "Experience level is required"),
+  experienceLevel: z.string().min(1, REGISTER_ERRORS.experienceLevel),
   currentClub: z.string().optional(),
-  formerClubs: z.array(z.object({ name: z.string().min(1) })).optional(),
+  formerClubs: z
+    .array(z.object({ name: z.string().min(1, REGISTER_ERRORS.formerClub) }))
+    .optional(),
   isFreeAgent: z.boolean().optional(),
   availabilityFrom: z.instanceof(Date).nullable(),
 });
@@ -108,17 +110,19 @@ export const getPlayerRegisterDefaults = (
 });
 
 export const coachRegisterSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  coachType: z.string().min(1, "Coach type is required"),
+  firstName: z.string().min(1, REGISTER_ERRORS.firstName),
+  lastName: z.string().min(1, REGISTER_ERRORS.lastName),
+  coachType: z.string().min(1, REGISTER_ERRORS.coachType),
   licenseLevel: z.string().optional(),
   experienceLevel: z.string().optional(),
   categories: z.string().optional(),
   currentClub: z.string().optional(),
-  formerClubs: z.array(z.object({ name: z.string().min(1) })).optional(),
+  formerClubs: z
+    .array(z.object({ name: z.string().min(1, REGISTER_ERRORS.formerClub) }))
+    .optional(),
   yearsOfExperience: z
     .string()
-    .regex(/^\d*$/, "Years of experience must be a number")
+    .regex(/^\d*$/, REGISTER_ERRORS.yearsOfExperience)
     .optional(),
   bio: z.string().optional(),
   dateOfBirth: z.instanceof(Date).nullable(),

@@ -125,7 +125,16 @@
       "country": "Država je obvezna.",
       "level": "Raven je obvezna.",
       "website": "Neveljaven URL spletne strani.",
-      "contactEmail": "Neveljaven e-poštni naslov."
+      "contactEmail": "Neveljaven e-poštni naslov.",
+      "heightNumber": "Višina mora biti številka.",
+      "heightRange": "Višina mora biti med 140 in 220 cm.",
+      "weightNumber": "Teža mora biti številka.",
+      "weightRange": "Teža mora biti med 40 in 150 kg.",
+      "primaryPosition": "Primarni položaj je obvezen.",
+      "experienceLevel": "Raven izkušenj je obvezna.",
+      "coachType": "Vrsta trenerja je obvezna.",
+      "yearsOfExperience": "Leta izkušenj morajo biti številka.",
+      "formerClub": "Prejšnji klub je obvezen."
     },
     "country": "Država",
     "city": "Mesto",
