@@ -1,4 +1,5 @@
 import { ClubProfile } from "./clubs";
+import { CoachType } from "./coaches";
 import { User } from "./users";
 
 export type RecruitmentPosition =
@@ -16,11 +17,15 @@ export type RecruitmentPosition =
   | "ST"
   | "CF";
 
+export type RecruitmentPostType = "player" | "coach";
+
 export type RecruitmentPost = {
   id: number;
   documentId?: string;
   title: string;
+  type?: RecruitmentPostType | null;
   position: RecruitmentPosition;
+  coachType?: CoachType | null;
 
   note?: string | null;
   level?: "youth" | "amateur" | "semi-pro" | "pro" | null;

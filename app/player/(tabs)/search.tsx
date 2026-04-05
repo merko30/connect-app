@@ -2,11 +2,13 @@ import { recruitmentPostsApi } from "@/api/recruitment-posts";
 import { FiltersSheet } from "@/components/FiltersSheet";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { RECRUITMENT_POST_FILTERS } from "@/constants/recruitmentPostFilters";
+import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { RecruitmentPostCard } from "@/features/players/components/RecruitmentPostCard";
 import { useDebounce } from "@/hooks/useDebounce";
 import { createStyle, useStyle } from "@/theme";
 import { RecruitmentPost } from "@/types/recruitment-posts";
 import { StrapiListResponse } from "@/types/strapi";
+import { Role } from "@/types/users";
 import { buildStrapiFilters, toStrapiQueryString } from "@/utils/strapi-query";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
@@ -23,6 +25,9 @@ export default function PlayerSearchScreen() {
 
   const [filters, setFilters] = useState<Record<string, any>>({});
   const router = useRouter();
+  const { data: me } = useGetCurrentUser();
+  const recruitmentType =
+    me?.role?.name === Role.Coach.toString() ? "coach" : "player";
 
   const onApplyFilters = (values: Record<string, any>) => {
     setFilters(values);
@@ -36,6 +41,7 @@ export default function PlayerSearchScreen() {
   const formattedFilters = useMemo(() => {
     return {
       $and: [
+        { type: { $eq: recruitmentType } },
         ...(debouncedSearch
           ? [
               {
@@ -51,7 +57,7 @@ export default function PlayerSearchScreen() {
         ...(Object.keys(strapiFilters).length ? [strapiFilters] : []),
       ],
     };
-  }, [strapiFilters, debouncedSearch]);
+  }, [strapiFilters, debouncedSearch, recruitmentType]);
 
   const {
     data,
@@ -63,9 +69,11 @@ export default function PlayerSearchScreen() {
   } = useInfiniteQuery<StrapiListResponse<RecruitmentPost>>({
     queryKey: [
       "recruitment-posts",
+      recruitmentType,
       debouncedSearch,
       toStrapiQueryString(strapiFilters),
     ],
+    enabled: !!me?.role?.name,
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
       const page =

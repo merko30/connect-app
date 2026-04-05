@@ -9,7 +9,8 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { createStyle, useStyle } from "@/theme";
 import { RecruitmentPost } from "@/types/recruitment-posts";
 import { StrapiListResponse } from "@/types/strapi";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { Role } from "@/types/users";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,53 +26,52 @@ export function PlayerHome() {
 
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 500);
+  const recruitmentType =
+    me?.role?.name === Role.Coach.toString() ? "coach" : "player";
 
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, error } =
-    useInfiniteQuery<StrapiListResponse<RecruitmentPost>>({
-      queryKey: ["recruitment-posts", debouncedSearch],
-      initialPageParam: 1,
-      queryFn: async ({ pageParam = 1 }) => {
-        const page =
-          typeof pageParam === "number" ? pageParam : Number(pageParam);
-
-        return recruitmentPostsApi.list({
-          pagination: { page, pageSize: 20 },
-          populate: {
-            club: true,
-          },
-          filters: debouncedSearch
-            ? ({
-                $or: [
-                  { title: { $containsi: debouncedSearch } },
-                  { note: { $containsi: debouncedSearch } },
-                  { position: { $containsi: debouncedSearch } },
+  const { data, refetch, isPending } = useQuery<
+    StrapiListResponse<RecruitmentPost>
+  >({
+    queryKey: [
+      "recruitment-posts",
+      "featured",
+      recruitmentType,
+      debouncedSearch,
+    ],
+    enabled: !!me?.role?.name,
+    queryFn: async () => {
+      return recruitmentPostsApi.list({
+        // TODO: replace this with a dedicated featured filter once it's defined.
+        pagination: { page: 1, pageSize: 10 },
+        populate: {
+          club: true,
+        },
+        filters: {
+          $and: [
+            { type: { $eq: recruitmentType } },
+            ...(debouncedSearch
+              ? [
                   {
-                    club: {
-                      clubName: { $containsi: debouncedSearch },
-                    },
+                    $or: [
+                      { title: { $containsi: debouncedSearch } },
+                      { note: { $containsi: debouncedSearch } },
+                      { position: { $containsi: debouncedSearch } },
+                      {
+                        club: {
+                          clubName: { $containsi: debouncedSearch },
+                        },
+                      },
+                    ],
                   },
-                ],
-              } as any)
-            : undefined,
-        });
-      },
-      getNextPageParam: (lastPage) => {
-        const pagination = lastPage.meta?.pagination;
-        if (!pagination) return undefined;
+                ]
+              : []),
+          ],
+        } as any,
+      });
+    },
+  });
 
-        const { page, pageCount } = pagination;
-        return page < pageCount ? page + 1 : undefined;
-      },
-    });
-
-  console.log(error);
-
-  const recruitmentPosts = data?.pages.flatMap((page) => page.data) ?? [];
-
-  // TODO: implement onEndReachedThreshold and onMomentumScrollBegin to avoid multiple calls
-  const onEndReached = () => {
-    if (!isFetchingNextPage && hasNextPage) fetchNextPage();
-  };
+  const recruitmentPosts = data?.data ?? [];
 
   return (
     <KeyboardAvoid style={styles.container} keyboardVerticalOffset={insets.top}>
@@ -99,10 +99,11 @@ export function PlayerHome() {
               }
             />
           )}
-          onEndReached={onEndReached}
-          onEndReachedThreshold={0.5}
+          onRefresh={refetch}
+          refreshing={isPending}
           keyboardDismissMode="on-drag"
           keyboardShouldPersistTaps="never"
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </KeyboardAvoid>

@@ -48,11 +48,32 @@ export function RecruitmentPostCard({
   const club = post.club;
   const clubName = club?.clubName ?? "-";
   const logoUrl = club?.logo?.data?.attributes?.url;
-  const positionLabel = post.position;
+  const isCoachPost = post.type === "coach";
+
+  const formatLabel = (value?: string | null) => {
+    if (!value) return "-";
+
+    return value
+      .split("-")
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ");
+  };
+
+  const coachTypeLabel = post.coachType
+    ? t(`coachTypes.${post.coachType}`, {
+        defaultValue: formatLabel(post.coachType),
+      })
+    : formatLabel(post.level);
+
+  const primaryDetail = isCoachPost ? coachTypeLabel : post.position;
+
   const contractTypeLabel = post.contractType
-    ? t(`contractTypes.${post.contractType}`)
+    ? t(`contractTypes.${post.contractType}`, {
+        defaultValue: formatLabel(post.contractType),
+      })
     : "-";
-  const metaLine = `${clubName} - ${positionLabel} - ${contractTypeLabel}`;
+
+  const metaLine = `${clubName} - ${primaryDetail} - ${contractTypeLabel}`;
 
   return (
     <TouchableOpacity
