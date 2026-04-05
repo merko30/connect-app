@@ -3,6 +3,8 @@
   "club": "Klub",
   "player": "Igralec",
   "coach": "Trener",
+  "coaches": "Trenerji",
+  "players": "Igralci",
   "select": "Izberi",
   "remove": "Odstrani",
   "save": "Shrani",
@@ -56,12 +58,15 @@
   "home": {
     "title": "Domača stran",
     "welcome": "Dobrodošli, {{user}}",
-    "findAndRecruit": "Poiščite in rekrutirajte nove igralce",
+    "findAndRecruit": "Poiščite in rekrutirajte nove igralce in trenerje",
     "findYourNextOpportunity": "Poiščite svojo naslednjo priložnost",
     "findYourNextClub": "Poiščite svoj naslednji klub",
     "featuredRecruitmentPosts": "Objave za rekrutacijo",
     "featuredClubs": "Priporočeni klubi",
-    "featuredPlayers": "Priporočeni igralci"
+    "featuredPlayers": "Priporočeni igralci",
+    "featuredCoaches": "Priporočeni trenerji",
+    "noPlayersFound": "Trenutno ni najdenih igralcev.",
+    "noCoachesFound": "Trenutno ni najdenih trenerjev."
   },
   "register": {
     "clubTitle": "Registracija osebja kluba",

@@ -3,6 +3,8 @@
   "club": "Club",
   "player": "Player",
   "coach": "Coach",
+  "coaches": "Coaches",
+  "players": "Players",
   "select": "Select",
   "remove": "Remove",
   "save": "Save",
@@ -56,12 +58,15 @@
   "home": {
     "title": "Home",
     "welcome": "Welcome, {user}",
-    "findAndRecruit": "Find and recruit new players",
+    "findAndRecruit": "Find and recruit new players and coaches",
     "findYourNextOpportunity": "Find your next opportunity",
     "findYourNextClub": "Find your next club",
     "featuredRecruitmentPosts": "Recruitment Posts",
     "featuredClubs": "Featured Clubs",
-    "featuredPlayers": "Featured Players"
+    "featuredPlayers": "Featured Players",
+    "featuredCoaches": "Featured Coaches",
+    "noPlayersFound": "No players found right now.",
+    "noCoachesFound": "No coaches found right now."
   },
   "register": {
     "clubTitle": "Club staff registration",
