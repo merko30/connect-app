@@ -65,7 +65,7 @@ export function RecruitmentPostCard({
       })
     : formatLabel(post.level);
 
-  const primaryDetail = isCoachPost ? coachTypeLabel : post.position;
+  const primaryDetail = isCoachPost ? coachTypeLabel : (post.position ?? "-");
 
   const contractTypeLabel = post.contractType
     ? t(`contractTypes.${post.contractType}`, {

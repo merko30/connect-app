@@ -51,43 +51,45 @@ export default function ClubPostsScreen() {
     );
   };
 
-  const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isPending } =
-    useInfiniteQuery<StrapiListResponse<RecruitmentPost>>({
-      queryKey: ["recruitment-posts", "mine", clubId],
-      initialPageParam: 1,
-      enabled: !!clubId,
-      queryFn: async ({ pageParam = 1 }) => {
-        const page =
-          typeof pageParam === "number" ? pageParam : Number(pageParam);
-        return recruitmentPostsApi.list({
-          pagination: { page, pageSize: 20 },
-          filters: { club: { documentId: { $eq: clubId } } } as any,
-          populate: {
-            club: true,
-            interestedPlayers: {
-              fields: [
-                "id",
-                "documentId",
-                "firstName",
-                "lastName",
-                "primaryPosition",
-              ],
-            },
+  const {
+    data,
+    error,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    isPending,
+  } = useInfiniteQuery<StrapiListResponse<RecruitmentPost>>({
+    queryKey: ["recruitment-posts", "mine", clubId],
+    initialPageParam: 1,
+    enabled: !!clubId,
+    queryFn: async ({ pageParam = 1 }) => {
+      const page =
+        typeof pageParam === "number" ? pageParam : Number(pageParam);
+      return recruitmentPostsApi.list({
+        pagination: { page, pageSize: 20 },
+        filters: { club: { documentId: { $eq: clubId } } } as any,
+        populate: {
+          club: true,
+          interested: {
+            fields: ["id", "documentId", "firstName", "lastName"],
           },
-        });
-      },
-      getNextPageParam: (lastPage) => {
-        const p = lastPage.meta?.pagination;
-        if (!p) return undefined;
-        return p.page < p.pageCount ? p.page + 1 : undefined;
-      },
-    });
+        },
+      });
+    },
+    getNextPageParam: (lastPage) => {
+      const p = lastPage.meta?.pagination;
+      if (!p) return undefined;
+      return p.page < p.pageCount ? p.page + 1 : undefined;
+    },
+  });
 
   const posts = data?.pages.flatMap((page) => page.data) ?? [];
 
   const onEndReached = () => {
     if (!isFetchingNextPage && hasNextPage) fetchNextPage();
   };
+
+  console.log(error);
 
   return (
     <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
@@ -121,7 +123,7 @@ export default function ClubPostsScreen() {
                 />
               </RecruitmentPostCard>
 
-              <InterestedPlayersCard players={item.interestedPlayers} />
+              <InterestedPlayersCard players={item.interested} />
             </View>
           )}
           onEndReached={onEndReached}

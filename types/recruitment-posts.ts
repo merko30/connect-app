@@ -1,5 +1,6 @@
 import { ClubProfile } from "./clubs";
-import { CoachType } from "./coaches";
+import { CoachProfile, CoachType } from "./coaches";
+import { PlayerProfile } from "./players";
 import { User } from "./users";
 
 export type RecruitmentPosition =
@@ -19,13 +20,22 @@ export type RecruitmentPosition =
 
 export type RecruitmentPostType = "player" | "coach";
 
+export type RecruitmentInterestedUser = Pick<
+  User,
+  "id" | "documentId" | "firstName" | "lastName"
+> & {
+  player?: Pick<PlayerProfile, "id" | "documentId" | "primaryPosition"> | null;
+  coach?: Pick<CoachProfile, "id" | "documentId" | "coachType"> | null;
+};
+
 export type RecruitmentPost = {
   id: number;
   documentId?: string;
   title: string;
   type?: RecruitmentPostType | null;
-  position: RecruitmentPosition;
+  position?: RecruitmentPosition | null;
   coachType?: CoachType | null;
+  categories?: string[] | null;
 
   note?: string | null;
   level?: "youth" | "amateur" | "semi-pro" | "pro" | null;
@@ -33,7 +43,7 @@ export type RecruitmentPost = {
   deadline?: string | null;
   contractType?: "trial" | "short-term" | "full-season" | "permanent" | null;
   requirements?: string | null;
-  interested?: Pick<User, "id" | "documentId">[];
+  interested?: RecruitmentInterestedUser[];
 
   club?: ClubProfile | null;
 

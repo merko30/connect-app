@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, View } from "react-native";
 
 type Props = {
-  players?: RecruitmentPost["interestedPlayers"];
+  players?: RecruitmentPost["interested"];
 };
 
 export function InterestedPlayersCard({ players = [] }: Props) {
@@ -47,29 +47,39 @@ export function InterestedPlayersCard({ players = [] }: Props) {
               {t("recruitmentPost.noInterestedPlayers")}
             </ThemedText>
           ) : (
-            players.map((player) => {
+            players.map((user, index) => {
               const fullName =
-                `${player.firstName ?? ""} ${player.lastName ?? ""}`.trim();
-              const playerName = fullName || `${t("player")} #${player.id}`;
-              const playerRouteId = player.documentId ?? player.id;
+                `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim();
+              const fallbackLabel = user.coach ? t("coach") : t("player");
+              const playerName =
+                fullName || `${fallbackLabel} #${user.id ?? index + 1}`;
+              const playerRouteId = user.player?.documentId ?? user.player?.id;
+              const detailLabel =
+                user.player?.primaryPosition ??
+                (user.coach?.coachType
+                  ? t(`coachTypes.${user.coach.coachType}`)
+                  : null);
 
               return (
                 <Pressable
-                  key={player.id}
+                  key={String(user.documentId ?? user.id ?? index)}
                   style={styles.playerRow}
-                  onPress={() =>
+                  disabled={!playerRouteId}
+                  onPress={() => {
+                    if (!playerRouteId) return;
+
                     router.push({
                       pathname: "/club/player/[id]",
                       params: { id: String(playerRouteId) },
-                    })
-                  }
+                    });
+                  }}
                 >
                   <ThemedText style={styles.playerName}>
                     {playerName}
                   </ThemedText>
-                  {player.primaryPosition ? (
+                  {detailLabel ? (
                     <ThemedText style={styles.playerPosition}>
-                      {player.primaryPosition}
+                      {detailLabel}
                     </ThemedText>
                   ) : null}
                 </Pressable>
