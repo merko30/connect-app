@@ -3,7 +3,7 @@ import { PlayerCard } from "@/features/players/components/PlayerCard";
 import { createStyle, useStyle } from "@/theme";
 import { PlayerProfile } from "@/types/players";
 import { StrapiListResponse } from "@/types/strapi";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { FlatList, Text } from "react-native";
 
@@ -16,22 +16,14 @@ export function PlayerList({ search }: PlayerListProps) {
   const { t } = useTranslation();
   const normalizedSearch = search.trim();
 
-  const {
-    data,
-    fetchNextPage,
-    isFetchingNextPage,
-    refetch,
-    isPending,
-    hasNextPage,
-  } = useInfiniteQuery<StrapiListResponse<PlayerProfile>>({
-    queryKey: ["players", normalizedSearch],
-    initialPageParam: 1,
-    queryFn: async ({ pageParam = 1 }) => {
-      const page =
-        typeof pageParam === "number" ? pageParam : Number(pageParam);
-
+  const { data, refetch, isPending } = useQuery<
+    StrapiListResponse<PlayerProfile>
+  >({
+    queryKey: ["players", "featured", normalizedSearch],
+    queryFn: async () => {
       return playersApi.list({
-        pagination: { page, pageSize: 20 },
+        // TODO: replace this with a dedicated featured filter once it's defined.
+        pagination: { page: 1, pageSize: 10 },
         filters: normalizedSearch
           ? {
               $or: [
@@ -42,16 +34,9 @@ export function PlayerList({ search }: PlayerListProps) {
           : undefined,
       });
     },
-    getNextPageParam: (lastPage) => {
-      const pagination = lastPage.meta?.pagination;
-      if (!pagination) return undefined;
-
-      const { page, pageCount } = pagination;
-      return page < pageCount ? page + 1 : undefined;
-    },
   });
 
-  const players = data?.pages.flatMap((page) => page.data) ?? [];
+  const players = data?.data ?? [];
 
   return (
     <FlatList
@@ -60,12 +45,6 @@ export function PlayerList({ search }: PlayerListProps) {
       renderItem={({ item }) => <PlayerCard player={item} />}
       onRefresh={refetch}
       refreshing={isPending}
-      onEndReached={() => {
-        if (!isFetchingNextPage && hasNextPage) {
-          fetchNextPage();
-        }
-      }}
-      onEndReachedThreshold={0.5}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}

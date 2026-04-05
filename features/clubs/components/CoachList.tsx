@@ -2,7 +2,7 @@ import { coachesApi } from "@/api/coaches";
 import { createStyle, useStyle } from "@/theme";
 import { CoachProfile } from "@/types/coaches";
 import { StrapiListResponse } from "@/types/strapi";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { FlatList, Text } from "react-native";
 import { CoachCard } from "./CoachCard";
@@ -16,22 +16,14 @@ export function CoachList({ search }: CoachListProps) {
   const { t } = useTranslation();
   const normalizedSearch = search.trim();
 
-  const {
-    data,
-    fetchNextPage,
-    isFetchingNextPage,
-    refetch,
-    isPending,
-    hasNextPage,
-  } = useInfiniteQuery<StrapiListResponse<CoachProfile>>({
-    queryKey: ["coaches", normalizedSearch],
-    initialPageParam: 1,
-    queryFn: async ({ pageParam = 1 }) => {
-      const page =
-        typeof pageParam === "number" ? pageParam : Number(pageParam);
-
+  const { data, refetch, isPending } = useQuery<
+    StrapiListResponse<CoachProfile>
+  >({
+    queryKey: ["coaches", "featured", normalizedSearch],
+    queryFn: async () => {
       return coachesApi.list({
-        pagination: { page, pageSize: 20 },
+        // TODO: replace this with a dedicated featured filter once it's defined.
+        pagination: { page: 1, pageSize: 10 },
         filters: normalizedSearch
           ? {
               $and: [
@@ -40,7 +32,6 @@ export function CoachList({ search }: CoachListProps) {
                   $or: [
                     { firstName: { $containsi: normalizedSearch } },
                     { lastName: { $containsi: normalizedSearch } },
-                    { currentClub: { $containsi: normalizedSearch } },
                     { location: { $containsi: normalizedSearch } },
                   ],
                 },
@@ -49,16 +40,9 @@ export function CoachList({ search }: CoachListProps) {
           : { visibility: { $ne: "private" } },
       });
     },
-    getNextPageParam: (lastPage) => {
-      const pagination = lastPage.meta?.pagination;
-      if (!pagination) return undefined;
-
-      const { page, pageCount } = pagination;
-      return page < pageCount ? page + 1 : undefined;
-    },
   });
 
-  const coaches = data?.pages.flatMap((page) => page.data) ?? [];
+  const coaches = data?.data ?? [];
 
   return (
     <FlatList
@@ -67,12 +51,6 @@ export function CoachList({ search }: CoachListProps) {
       renderItem={({ item }) => <CoachCard coach={item} />}
       onRefresh={refetch}
       refreshing={isPending}
-      onEndReached={() => {
-        if (!isFetchingNextPage && hasNextPage) {
-          fetchNextPage();
-        }
-      }}
-      onEndReachedThreshold={0.5}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
