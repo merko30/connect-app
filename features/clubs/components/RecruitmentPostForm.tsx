@@ -6,7 +6,7 @@ import { PRIMARY_POSITIONS } from "@/features/auth/constants";
 import { createStyle, useStyle } from "@/theme";
 import { RecruitmentPostType } from "@/types/recruitment-posts";
 import React, { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
@@ -73,8 +73,17 @@ export function RecruitmentPostForm({
   const styles = useStyle(stylesheet);
   const form = useFormContext<RecruitmentPostFormValues>();
 
-  const selectedType = form.watch("type");
-  const selectedCategories = form.watch("categories") ?? [];
+  const selectedType = useWatch({
+    control: form.control,
+    name: "type",
+    defaultValue: "player",
+  });
+
+  const selectedCategories = useWatch({
+    control: form.control,
+    name: "categories",
+    defaultValue: [],
+  });
 
   useEffect(() => {
     if (selectedType === "player") {

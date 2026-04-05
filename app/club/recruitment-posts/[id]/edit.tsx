@@ -13,6 +13,20 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Alert, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const getFormValues = (post?: any): RecruitmentPostFormValues => ({
+  title: post?.title ?? "",
+  type: post?.type ?? "player",
+  position: post?.position ?? "",
+  coachType: post?.coachType ?? "",
+  categories: Array.isArray(post?.categories) ? post.categories : [],
+  note: post?.note ?? "",
+  level: (post?.level as string) ?? "",
+  postStatus: (post?.postStatus as string) ?? "open",
+  deadline: post?.deadline ? new Date(post.deadline) : null,
+  contractType: (post?.contractType as string) ?? "",
+  requirements: post?.requirements ?? "",
+});
+
 export default function EditRecruitmentPostScreen() {
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
@@ -29,38 +43,14 @@ export default function EditRecruitmentPostScreen() {
   const post = postData?.data;
 
   const form = useForm<RecruitmentPostFormValues>({
-    defaultValues: {
-      title: "",
-      type: "player",
-      position: "",
-      coachType: "",
-      categories: [],
-      note: "",
-      level: "",
-      postStatus: "open",
-      deadline: null,
-      contractType: "",
-      requirements: "",
-    },
+    defaultValues: getFormValues(),
   });
 
   useEffect(() => {
     if (post) {
-      form.reset({
-        title: post.title ?? "",
-        type: post.type ?? "player",
-        position: post.position ?? "",
-        coachType: post.coachType ?? "",
-        categories: post.categories ?? [],
-        note: post.note ?? "",
-        level: (post.level as string) ?? "",
-        postStatus: (post.postStatus as string) ?? "open",
-        deadline: post.deadline ? new Date(post.deadline) : null,
-        contractType: (post.contractType as string) ?? "",
-        requirements: post.requirements ?? "",
-      });
+      form.reset(getFormValues(post));
     }
-  }, [form, post]);
+  }, [form, id, post, post?.type]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (values: RecruitmentPostFormValues) =>
@@ -109,6 +99,7 @@ export default function EditRecruitmentPostScreen() {
       <Header title={t("recruitmentPost.editTitle")} />
       <FormProvider {...form}>
         <RecruitmentPostForm
+          key={String(post?.documentId ?? id ?? "edit-post")}
           submitLabel={t("recruitmentPost.save")}
           onSubmit={mutate}
           isPending={isPending}
