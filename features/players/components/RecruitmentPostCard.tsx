@@ -8,6 +8,7 @@ type Props = {
   post: RecruitmentPost;
   children?: ReactNode;
   hideLogo?: boolean;
+  isClub?: boolean;
   onPress?: () => void;
 };
 
@@ -15,6 +16,7 @@ export function RecruitmentPostCard({
   post,
   children,
   hideLogo,
+  isClub,
   onPress,
 }: Props) {
   const { t } = useTranslation();
@@ -73,7 +75,14 @@ export function RecruitmentPostCard({
       })
     : "-";
 
-  const metaLine = `${clubName} - ${primaryDetail} - ${contractTypeLabel}`;
+  const shouldHideLogo = hideLogo || isClub;
+  const metaLine = [
+    !isClub ? clubName : null,
+    primaryDetail !== "-" ? primaryDetail : null,
+    contractTypeLabel !== "-" ? contractTypeLabel : null,
+  ]
+    .filter(Boolean)
+    .join(" - ");
 
   return (
     <TouchableOpacity
@@ -82,7 +91,7 @@ export function RecruitmentPostCard({
       activeOpacity={onPress ? 0.7 : 1}
       disabled={!onPress}
     >
-      {!hideLogo && (
+      {!shouldHideLogo && (
         <Image
           source={{
             uri:

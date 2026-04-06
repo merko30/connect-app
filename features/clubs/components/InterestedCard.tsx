@@ -8,19 +8,19 @@ import { useTranslation } from "react-i18next";
 import { Pressable, View } from "react-native";
 
 type Props = {
-  players?: RecruitmentPost["interested"];
+  users?: RecruitmentPost["interested"];
 };
 
-export function InterestedPlayersCard({ players = [] }: Props) {
+export function InterestedCard({ users = [] }: Props) {
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
   const [expanded, setExpanded] = useState(false);
   const router = useRouter();
 
-  const count = players.length;
+  const count = users.length;
 
   const title = useMemo(
-    () => `${t("recruitmentPost.interestedPlayers")} (${count})`,
+    () => `${t("recruitmentPost.interested")} (${count})`,
     [count, t],
   );
 
@@ -44,10 +44,10 @@ export function InterestedPlayersCard({ players = [] }: Props) {
         <View style={styles.content}>
           {count === 0 ? (
             <ThemedText style={styles.emptyText}>
-              {t("recruitmentPost.noInterestedPlayers")}
+              {t("recruitmentPost.noInterested")}
             </ThemedText>
           ) : (
-            players.map((user, index) => {
+            users.map((user, index) => {
               const fullName =
                 `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim();
               const fallbackLabel = user.coach ? t("coach") : t("player");
