@@ -4,15 +4,21 @@ import { TranslationKey } from "@/i18n";
 import React from "react";
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { TextInputProps, View, ViewStyle } from "react-native";
+import {
+  StyleProp,
+  TextInputProps,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
 
 export type FormInputProps<T extends FieldValues> = {
   control: Control<T>;
   name: FieldPath<T>;
   placeholder: string;
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad";
-  style?: ViewStyle;
-  containerStyle?: ViewStyle;
+  style?: StyleProp<TextStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
   objectKey?: string;
 };
 
@@ -35,10 +41,11 @@ export function FormInput<T extends FieldValues>({
         name={name}
         render={({ field: { onChange, value }, fieldState: { error } }) => {
           return (
-            <View style={style}>
+            <View>
               <ThemedTextInput
                 value={value}
                 onChangeText={onChange}
+                style={style}
                 {...props}
               />
               {error && (

@@ -7,7 +7,7 @@ export interface ThemedTextInputProps extends TextInputProps {
 }
 
 export const ThemedTextInput = forwardRef<TextInput, ThemedTextInputProps>(
-  ({ error, style, ...props }, ref) => {
+  ({ error, style, multiline, ...props }, ref) => {
     const themed = useStyleThemed((t) => ({
       input: {
         backgroundColor: t.colors.surface,
@@ -20,11 +20,16 @@ export const ThemedTextInput = forwardRef<TextInput, ThemedTextInputProps>(
         borderColor: error ? "#E53935" : t.colors.text + "33",
         marginBottom: 12,
       },
+      multilineInput: {
+        minHeight: 110,
+        textAlignVertical: "top",
+      },
     }));
     return (
       <TextInput
-        style={[themed.input, style]}
+        style={[themed.input, multiline && themed.multilineInput, style]}
         placeholderTextColor="#888"
+        multiline={multiline}
         {...props}
         ref={ref}
       />

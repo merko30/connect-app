@@ -125,6 +125,9 @@ export function RecruitmentPostForm({
         control={form.control}
         name="title"
         placeholder={t("recruitmentPost.title")}
+        multiline
+        numberOfLines={2}
+        style={styles.titleInput}
       />
 
       <FormPicker
@@ -209,6 +212,7 @@ export function RecruitmentPostForm({
         placeholder={t("recruitmentPost.note")}
         multiline
         numberOfLines={3}
+        style={styles.textArea}
       />
 
       <FormInput
@@ -217,6 +221,7 @@ export function RecruitmentPostForm({
         placeholder={t("recruitmentPost.requirements")}
         multiline
         numberOfLines={4}
+        style={styles.textAreaLarge}
       />
 
       <ThemedButton
@@ -236,6 +241,15 @@ const stylesheet = createStyle((t) => ({
   content: {
     padding: t.spacing.lg,
     paddingBottom: t.spacing.xl,
+  },
+  titleInput: {
+    minHeight: 72,
+  },
+  textArea: {
+    minHeight: 96,
+  },
+  textAreaLarge: {
+    minHeight: 120,
   },
   categoriesSection: {
     marginBottom: t.spacing.sm,

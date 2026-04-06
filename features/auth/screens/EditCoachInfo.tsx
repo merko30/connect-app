@@ -246,6 +246,7 @@ export default function EditCoachInfo() {
               placeholder={t("register.bio")}
               multiline
               numberOfLines={5}
+              style={styles.textArea}
             />
 
             <RoleBasedButton
@@ -282,6 +283,9 @@ const stylesheet = createStyle((t) => ({
     flexGrow: 1,
     justifyContent: "center",
     paddingBottom: 100,
+  },
+  textArea: {
+    minHeight: 120,
   },
   saveButton: {
     marginTop: 12,

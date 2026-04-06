@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Alert } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function SecuritySettingsScreen() {
   const { t } = useTranslation();
@@ -59,32 +60,45 @@ export default function SecuritySettingsScreen() {
         title={t("security.title")}
         subtitle={t("security.subtitle")}
       >
-        <SettingsSectionCard
-          title={t("security.passwordSectionTitle")}
-          subtitle={t("security.passwordSectionSubtitle")}
-          style={styles.section}
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+          keyboardShouldPersistTaps="handled"
         >
-          <ChangePasswordForm />
-        </SettingsSectionCard>
+          <SettingsSectionCard
+            title={t("security.passwordSectionTitle")}
+            subtitle={t("security.passwordSectionSubtitle")}
+            style={styles.section}
+          >
+            <ChangePasswordForm />
+          </SettingsSectionCard>
 
-        <SettingsSectionCard
-          title={t("security.deleteSectionTitle")}
-          subtitle={t("security.deleteSectionSubtitle")}
-          style={styles.section}
-        >
-          <RoleBasedButton
-            title={t("deleteAccount.button")}
-            onPress={onPressDelete}
-            loading={isPending}
-            style={styles.deleteButton}
-          />
-        </SettingsSectionCard>
+          <SettingsSectionCard
+            title={t("security.deleteSectionTitle")}
+            subtitle={t("security.deleteSectionSubtitle")}
+            style={styles.section}
+          >
+            <RoleBasedButton
+              title={t("deleteAccount.button")}
+              onPress={onPressDelete}
+              loading={isPending}
+              style={styles.deleteButton}
+            />
+          </SettingsSectionCard>
+        </ScrollView>
       </SettingsScreenLayout>
     </KeyboardAvoid>
   );
 }
 
 const stylesheet = createStyle((t) => ({
+  container: {
+    flex: 1,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    paddingBottom: 120,
+  },
   section: {
     marginTop: t.spacing.md,
     marginBottom: t.spacing.md,
