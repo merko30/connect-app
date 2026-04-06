@@ -3,7 +3,7 @@ import Search from "@/components/Search";
 import Welcome from "@/components/Welcome";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { useDebounce } from "@/hooks/useDebounce";
-import { createStyle, useStyle } from "@/theme";
+import { createStyle, useStyle, useTheme } from "@/theme";
 import { useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,6 +25,7 @@ type HomeRoute = {
 
 export function ClubHome() {
   const styles = useStyle(stylesheet);
+  const theme = useTheme();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const layout = useWindowDimensions();
@@ -76,6 +77,8 @@ export function ClubHome() {
               style={styles.tabBar}
               indicatorStyle={styles.tabIndicator}
               pressColor="transparent"
+              activeColor={theme.t.colors.text}
+              inactiveColor={theme.t.colors.text}
             />
           )}
         />
