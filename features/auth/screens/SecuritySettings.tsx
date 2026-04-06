@@ -1,15 +1,16 @@
 import { usersApi } from "@/api/auth";
-import Header from "@/components/Header";
+import KeyboardAvoid from "@/components/KeyboardAvoid";
 import RoleBasedButton from "@/components/RoleBasedButton";
-import { ThemedText } from "@/components/ThemedText";
+import ChangePasswordForm from "@/features/auth/components/ChangePasswordForm";
+import SettingsScreenLayout from "@/features/auth/components/SettingsScreenLayout";
+import SettingsSectionCard from "@/features/auth/components/SettingsSectionCard";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { createStyle, useStyle } from "@/theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Alert } from "react-native";
 
 export default function SecuritySettingsScreen() {
   const { t } = useTranslation();
@@ -52,69 +53,41 @@ export default function SecuritySettingsScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
-      <Header title={t("profile.security")} />
+    <KeyboardAvoid>
+      <SettingsScreenLayout
+        headerTitle={t("profile.security")}
+        title={t("security.title")}
+        subtitle={t("security.subtitle")}
+      >
+        <SettingsSectionCard
+          title={t("security.passwordSectionTitle")}
+          subtitle={t("security.passwordSectionSubtitle")}
+          style={styles.section}
+        >
+          <ChangePasswordForm />
+        </SettingsSectionCard>
 
-      <View style={styles.content}>
-        <ThemedText variant="subtitle" style={styles.title}>
-          {t("security.title")}
-        </ThemedText>
-
-        <ThemedText style={styles.subtitle}>
-          {t("security.subtitle")}
-        </ThemedText>
-
-        <View style={styles.section}>
-          <ThemedText variant="subtitle" style={styles.sectionTitle}>
-            {t("security.deleteSectionTitle")}
-          </ThemedText>
-          <ThemedText style={styles.sectionSubtitle}>
-            {t("security.deleteSectionSubtitle")}
-          </ThemedText>
-
+        <SettingsSectionCard
+          title={t("security.deleteSectionTitle")}
+          subtitle={t("security.deleteSectionSubtitle")}
+          style={styles.section}
+        >
           <RoleBasedButton
             title={t("deleteAccount.button")}
             onPress={onPressDelete}
             loading={isPending}
             style={styles.deleteButton}
           />
-        </View>
-      </View>
-    </SafeAreaView>
+        </SettingsSectionCard>
+      </SettingsScreenLayout>
+    </KeyboardAvoid>
   );
 }
 
 const stylesheet = createStyle((t) => ({
-  container: {
-    flex: 1,
-    backgroundColor: t.colors.background,
-  },
-  content: {
-    flex: 1,
-    paddingHorizontal: t.spacing.lg,
-    paddingTop: t.spacing.lg,
-  },
-  title: {
-    marginBottom: t.spacing.sm,
-    fontWeight: "700",
-  },
-  subtitle: {
-    color: t.colors.gray[500],
-    marginBottom: t.spacing.lg,
-  },
   section: {
     marginTop: t.spacing.md,
     marginBottom: t.spacing.md,
-    backgroundColor: t.colors.surface,
-    padding: t.spacing.md,
-    borderRadius: t.radii.md,
-  },
-  sectionTitle: {
-    fontWeight: "700",
-    marginBottom: t.spacing.xs,
-  },
-  sectionSubtitle: {
-    color: t.colors.gray[500],
   },
   deleteButton: {
     marginTop: t.spacing.lg,

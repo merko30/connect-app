@@ -59,9 +59,9 @@ export const CLUB_SECURITY_SETTINGS_ITEMS: MenuItem[] = [
   //   href: "/club/profile/subscription",
   // },
   {
-    label: "profile.changePassword",
-    icon: "key.fill",
-    href: "/club/profile/change-password",
+    label: "profile.appearance",
+    icon: "slider.horizontal.3",
+    href: "/club/(tabs)/profile/appearance",
   },
   {
     label: "profile.security",
@@ -77,9 +77,9 @@ export const PLAYER_SECURITY_SETTINGS_ITEMS: MenuItem[] = [
   //   href: "/player/profile/subscription",
   // },
   {
-    label: "profile.changePassword",
-    icon: "key.fill",
-    href: "/player/profile/change-password",
+    label: "profile.appearance",
+    icon: "slider.horizontal.3",
+    href: "/player/(tabs)/profile/appearance",
   },
   {
     label: "profile.security",

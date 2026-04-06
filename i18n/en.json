@@ -26,7 +26,8 @@
     "changePassword": "Change password",
     "myPosts": "My Recruitment Posts",
     "deleteAccount": "Delete account",
-    "security": "Security"
+    "security": "Security",
+    "appearance": "Appearance"
   },
   "auth": {
     "signIn": "Sign In",
@@ -224,8 +225,24 @@
   "security": {
     "title": "Security settings",
     "subtitle": "Manage sensitive account actions in one place.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "passwordSectionTitle": "Change password",
+    "passwordSectionSubtitle": "Update your password to keep your account secure.",
     "deleteSectionTitle": "Delete account",
     "deleteSectionSubtitle": "Deleting your account is irreversible and permanently removes your data."
+  },
+  "appearance": {
+    "title": "Appearance",
+    "subtitle": "Choose how the app looks on your device.",
+    "theme": "Theme",
+    "system": "Automatic",
+    "light": "Light",
+    "dark": "Dark",
+    "systemDescription": "Match your device settings automatically.",
+    "lightDescription": "Always use the light theme.",
+    "darkDescription": "Always use the dark theme."
   },
   "coachTypes": {
     "head-coach": "Head coach",

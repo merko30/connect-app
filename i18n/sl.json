@@ -26,7 +26,8 @@
     "changePassword": "Spremeni geslo",
     "myPosts": "Moji oglasi za rekrutacijo",
     "deleteAccount": "Izbriši račun",
-    "security": "Varnost"
+    "security": "Varnost",
+    "appearance": "Videz"
   },
   "auth": {
     "signIn": "Prijava",
@@ -224,8 +225,24 @@
   "security": {
     "title": "Varnostne nastavitve",
     "subtitle": "Upravljajte občutljive akcije računa na enem mestu.",
+    "currentPassword": "Trenutno geslo",
+    "newPassword": "Novo geslo",
+    "confirmNewPassword": "Potrdite novo geslo",
+    "passwordSectionTitle": "Spremeni geslo",
+    "passwordSectionSubtitle": "Posodobite svoje geslo, da bo vaš račun bolj varen.",
     "deleteSectionTitle": "Izbriši račun",
     "deleteSectionSubtitle": "Izbris računa je nepovraten in trajno odstrani vaše podatke."
+  },
+  "appearance": {
+    "title": "Videz",
+    "subtitle": "Izberite, kako naj aplikacija izgleda na vaši napravi.",
+    "theme": "Tema",
+    "system": "Samodejno",
+    "light": "Svetla",
+    "dark": "Temna",
+    "systemDescription": "Samodejno sledi nastavitvam vaše naprave.",
+    "lightDescription": "Vedno uporabi svetlo temo.",
+    "darkDescription": "Vedno uporabi temno temo."
   },
   "coachTypes": {
     "head-coach": "Glavni trener",
