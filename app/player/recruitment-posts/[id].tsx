@@ -157,9 +157,11 @@ export default function RecruitmentPostDetailScreen() {
 
           {/* Badges row */}
           <View style={styles.badgeRow}>
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>{post.position}</Text>
-            </View>
+            {post.position && (
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>{post.position}</Text>
+              </View>
+            )}
             {contractTypeLabel && (
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>{contractTypeLabel}</Text>

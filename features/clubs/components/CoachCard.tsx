@@ -1,6 +1,7 @@
 import AvatarOrInitials from "@/components/AvatarOrInitials";
 import { useStyleThemed } from "@/theme";
 import { CoachProfile } from "@/types/coaches";
+import { Link } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
@@ -11,6 +12,9 @@ type CoachCardProps = {
 export function CoachCard({ coach }: CoachCardProps) {
   const { t } = useTranslation();
   const styles = useStyleThemed((theme) => ({
+    link: {
+      marginBottom: theme.spacing.sm,
+    },
     card: {
       backgroundColor: theme.colors.surface,
       borderRadius: 14,
@@ -62,34 +66,44 @@ export function CoachCard({ coach }: CoachCardProps) {
     : null;
 
   return (
-    <View style={styles.card}>
-      <AvatarOrInitials
-        avatarUrl={imageUrl}
-        name={name}
-        size={56}
-        style={styles.avatar}
-      />
+    <Link
+      href={{
+        pathname: "/club/coach/[id]",
+        params: {
+          id: coach.documentId ?? coach.id,
+        },
+      }}
+      style={styles.link}
+    >
+      <View style={styles.card}>
+        <AvatarOrInitials
+          avatarUrl={imageUrl}
+          name={name}
+          size={56}
+          style={styles.avatar}
+        />
 
-      <View style={styles.infoContainer}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.subtitle}>
-          {coachType}
-          {experience ? ` • ${experience}` : ""}
-        </Text>
-        {!!coach.location && (
-          <Text style={styles.meta}>📍 {coach.location}</Text>
-        )}
-        {!!coach.currentClub && (
-          <Text style={styles.meta}>⚽ {coach.currentClub}</Text>
-        )}
-        {!!license && <Text style={styles.meta}>🎓 {license}</Text>}
-      </View>
-
-      {coach.isAvailable && (
-        <View style={styles.status}>
-          <Text style={styles.statusText}>{t("register.availableNow")}</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.subtitle}>
+            {coachType}
+            {experience ? ` • ${experience}` : ""}
+          </Text>
+          {!!coach.location && (
+            <Text style={styles.meta}>📍 {coach.location}</Text>
+          )}
+          {!!coach.currentClub && (
+            <Text style={styles.meta}>⚽ {coach.currentClub}</Text>
+          )}
+          {!!license && <Text style={styles.meta}>🎓 {license}</Text>}
         </View>
-      )}
-    </View>
+
+        {coach.isAvailable && (
+          <View style={styles.status}>
+            <Text style={styles.statusText}>{t("register.availableNow")}</Text>
+          </View>
+        )}
+      </View>
+    </Link>
   );
 }

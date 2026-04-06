@@ -72,6 +72,14 @@ export default function ClubPostsScreen() {
           club: true,
           interested: {
             fields: ["id", "documentId", "firstName", "lastName"],
+            populate: {
+              playerProfile: {
+                fields: ["id", "documentId", "primaryPosition"],
+              },
+              coachProfile: {
+                fields: ["id", "documentId", "coachType"],
+              },
+            },
           },
         },
       });

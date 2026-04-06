@@ -24,8 +24,11 @@ export type RecruitmentInterestedUser = Pick<
   User,
   "id" | "documentId" | "firstName" | "lastName"
 > & {
-  player?: Pick<PlayerProfile, "id" | "documentId" | "primaryPosition"> | null;
-  coach?: Pick<CoachProfile, "id" | "documentId" | "coachType"> | null;
+  playerProfile?: Pick<
+    PlayerProfile,
+    "id" | "documentId" | "primaryPosition"
+  > | null;
+  coachProfile?: Pick<CoachProfile, "id" | "documentId" | "coachType"> | null;
 };
 
 export type RecruitmentPost = {

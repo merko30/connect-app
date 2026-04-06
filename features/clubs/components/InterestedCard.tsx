@@ -50,27 +50,40 @@ export function InterestedCard({ users = [] }: Props) {
             users.map((user, index) => {
               const fullName =
                 `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim();
-              const fallbackLabel = user.coach ? t("coach") : t("player");
+              const fallbackLabel = user.coachProfile
+                ? t("coach")
+                : t("player");
               const playerName =
                 fullName || `${fallbackLabel} #${user.id ?? index + 1}`;
-              const playerRouteId = user.player?.documentId ?? user.player?.id;
+              const isCoach = !!user.coachProfile && !user.playerProfile;
+              const playerRouteId =
+                user.playerProfile?.documentId ?? user.playerProfile?.id;
+              const coachRouteId =
+                user.coachProfile?.documentId ?? user.coachProfile?.id;
+              const routeId = isCoach ? coachRouteId : playerRouteId;
+              const routePath = isCoach
+                ? "/club/coach/[id]"
+                : "/club/player/[id]";
               const detailLabel =
-                user.player?.primaryPosition ??
-                (user.coach?.coachType
-                  ? t(`coachTypes.${user.coach.coachType}`)
+                user.playerProfile?.primaryPosition ??
+                (user.coachProfile?.coachType
+                  ? t(`coachTypes.${user.coachProfile.coachType}`)
                   : null);
 
               return (
                 <Pressable
                   key={String(user.documentId ?? user.id ?? index)}
-                  style={styles.playerRow}
-                  disabled={!playerRouteId}
+                  style={[
+                    styles.playerRow,
+                    index === users.length - 1 && styles.playerRowLast,
+                  ]}
+                  disabled={!routeId}
                   onPress={() => {
-                    if (!playerRouteId) return;
+                    if (!routeId) return;
 
                     router.push({
-                      pathname: "/club/player/[id]",
-                      params: { id: String(playerRouteId) },
+                      pathname: routePath as any,
+                      params: { id: String(routeId) },
                     });
                   }}
                 >
@@ -127,6 +140,9 @@ const stylesheet = createStyle((t) => ({
     paddingVertical: 6,
     borderBottomWidth: 1,
     borderBottomColor: t.colors.background,
+  },
+  playerRowLast: {
+    borderBottomWidth: 0,
   },
   playerName: {
     fontSize: 14,
