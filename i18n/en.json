@@ -117,7 +117,7 @@
     "licenseLevel": "License level",
     "yearsOfExperience": "Years of experience",
     "bio": "Bio",
-    "categories": "Categories (comma separated)",
+    "categories": "Categories",
     "visibility": "Visibility",
     "isAvailable": "Available for opportunities",
     "error": {

@@ -1,4 +1,5 @@
 import { coachesApi } from "@/api/coaches";
+import CategoriesSelector from "@/components/CategoriesSelector";
 import { FormDatePicker } from "@/components/FormDatepicker";
 import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
@@ -53,12 +54,7 @@ export default function EditCoachInfo() {
         yearsOfExperience: data.yearsOfExperience
           ? Number(data.yearsOfExperience)
           : undefined,
-        categories: data.categories
-          ? data.categories
-              .split(",")
-              .map((item) => item.trim())
-              .filter(Boolean)
-          : [],
+        categories: data.categories ?? [],
         formerClubs:
           data.formerClubs?.filter((club) => club.name?.trim().length > 0) ??
           [],
@@ -204,10 +200,16 @@ export default function EditCoachInfo() {
               keyboardType="phone-pad"
             />
 
-            <FormInput
+            <Controller
               control={control}
               name="categories"
-              placeholder={t("register.categories")}
+              render={({ field: { value, onChange } }) => (
+                <CategoriesSelector
+                  label={t("register.categories")}
+                  value={value ?? []}
+                  onChange={onChange}
+                />
+              )}
             />
 
             <FormerClubsFieldArray control={control as any} />

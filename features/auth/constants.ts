@@ -111,7 +111,7 @@ export const coachRegisterSchema = z.object({
   coachType: z.string().min(1, REGISTER_ERRORS.coachType),
   licenseLevel: z.string().optional(),
   experienceLevel: z.string().min(1, REGISTER_ERRORS.experienceLevel),
-  categories: z.string().optional(),
+  categories: z.array(z.string()).optional(),
   currentClub: z.string().optional(),
   formerClubs: z
     .array(z.object({ name: z.string().min(1, REGISTER_ERRORS.formerClub) }))
@@ -151,9 +151,7 @@ export const getCoachRegisterDefaults = (
   coachType: coach?.coachType ?? "",
   licenseLevel: coach?.licenseLevel ?? "none",
   experienceLevel: coach?.experienceLevel ?? "",
-  categories: Array.isArray(coach?.categories)
-    ? coach.categories.join(", ")
-    : "",
+  categories: Array.isArray(coach?.categories) ? coach.categories : [],
   currentClub: coach?.currentClub ?? "",
   formerClubs:
     coach?.formerClubs?.map((club: { name: string }) => ({

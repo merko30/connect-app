@@ -1,3 +1,4 @@
+import CategoriesSelector from "@/components/CategoriesSelector";
 import { FormDatePicker } from "@/components/FormDatepicker";
 import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
@@ -8,7 +9,7 @@ import { RecruitmentPostType } from "@/types/recruitment-posts";
 import React, { useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView } from "react-native";
 
 export type RecruitmentPostFormValues = {
   title: string;
@@ -29,8 +30,6 @@ type RecruitmentPostFormProps = {
   submitLabel: string;
   onSubmit: (values: RecruitmentPostFormValues) => void;
 };
-
-const CATEGORY_OPTIONS = ["u9", "u12", "u15", "u17", "u19", "senior"];
 
 const typeOptions = [
   { label: "player", value: "player" },
@@ -104,17 +103,6 @@ export function RecruitmentPostForm({
     }
   }, [form, selectedType]);
 
-  const toggleCategory = (category: string) => {
-    const nextCategories = selectedCategories.includes(category)
-      ? selectedCategories.filter((item) => item !== category)
-      : [...selectedCategories, category];
-
-    form.setValue("categories", nextCategories, {
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  };
-
   return (
     <ScrollView
       style={styles.scroll}
@@ -153,36 +141,16 @@ export function RecruitmentPostForm({
             options={coachTypeOptions}
           />
 
-          <View style={styles.categoriesSection}>
-            <Text style={styles.categoriesLabel}>
-              {t("recruitmentPost.categories")}
-            </Text>
-            <View style={styles.chipsWrap}>
-              {CATEGORY_OPTIONS.map((category) => {
-                const isSelected = selectedCategories.includes(category);
-
-                return (
-                  <TouchableOpacity
-                    key={category}
-                    style={[styles.chip, isSelected && styles.chipSelected]}
-                    onPress={() => toggleCategory(category)}
-                    activeOpacity={0.85}
-                  >
-                    <Text
-                      style={[
-                        styles.chipText,
-                        isSelected && styles.chipTextSelected,
-                      ]}
-                    >
-                      {category === "senior"
-                        ? "Senior"
-                        : category.toUpperCase()}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          </View>
+          <CategoriesSelector
+            label={t("recruitmentPost.categories")}
+            value={selectedCategories}
+            onChange={(nextCategories) =>
+              form.setValue("categories", nextCategories, {
+                shouldDirty: true,
+                shouldTouch: true,
+              })
+            }
+          />
         </>
       )}
 
@@ -250,39 +218,6 @@ const stylesheet = createStyle((t) => ({
   },
   textAreaLarge: {
     minHeight: 120,
-  },
-  categoriesSection: {
-    marginBottom: t.spacing.sm,
-  },
-  categoriesLabel: {
-    color: t.colors.text,
-    marginBottom: t.spacing.xs,
-    fontWeight: "600",
-  },
-  chipsWrap: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  chip: {
-    paddingHorizontal: t.spacing.sm,
-    paddingVertical: t.spacing.xs,
-    borderRadius: t.radii.full,
-    borderWidth: 1,
-    borderColor: t.colors.text + "22",
-    backgroundColor: t.colors.surface,
-    marginRight: t.spacing.xs,
-    marginBottom: t.spacing.xs,
-  },
-  chipSelected: {
-    backgroundColor: t.colors.primary,
-    borderColor: t.colors.primary,
-  },
-  chipText: {
-    color: t.colors.text,
-    fontWeight: "500",
-  },
-  chipTextSelected: {
-    color: "#fff",
   },
   submitButton: {
     marginTop: t.spacing.md,
