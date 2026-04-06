@@ -1,7 +1,10 @@
 import { recruitmentPostsApi } from "@/api/recruitment-posts";
 import { FiltersSheet } from "@/components/FiltersSheet";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
-import { RECRUITMENT_POST_FILTERS } from "@/constants/recruitmentPostFilters";
+import {
+  COACH_RECRUITMENT_POST_FILTERS,
+  PLAYER_RECRUITMENT_POST_FILTERS,
+} from "@/constants/recruitmentPostFilters";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { RecruitmentPostCard } from "@/features/players/components/RecruitmentPostCard";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -28,14 +31,18 @@ export default function PlayerSearchScreen() {
   const { data: me } = useGetCurrentUser();
   const recruitmentType =
     me?.role?.name === Role.Coach.toString() ? "coach" : "player";
+  const activeFilters =
+    recruitmentType === "coach"
+      ? COACH_RECRUITMENT_POST_FILTERS
+      : PLAYER_RECRUITMENT_POST_FILTERS;
 
   const onApplyFilters = (values: Record<string, any>) => {
     setFilters(values);
   };
 
   const strapiFilters = useMemo(
-    () => buildStrapiFilters(filters, RECRUITMENT_POST_FILTERS),
-    [filters],
+    () => buildStrapiFilters(filters, activeFilters),
+    [filters, activeFilters],
   );
 
   const formattedFilters = useMemo(() => {
@@ -49,6 +56,7 @@ export default function PlayerSearchScreen() {
                   { title: { $containsi: debouncedSearch } },
                   { note: { $containsi: debouncedSearch } },
                   { position: { $containsi: debouncedSearch } },
+                  { coachType: { $containsi: debouncedSearch } },
                   { club: { clubName: { $containsi: debouncedSearch } } },
                 ],
               },
@@ -61,6 +69,7 @@ export default function PlayerSearchScreen() {
 
   const {
     data,
+    error,
     fetchNextPage,
     isFetchingNextPage,
     refetch,
@@ -104,6 +113,8 @@ export default function PlayerSearchScreen() {
     if (!isFetchingNextPage && hasNextPage) fetchNextPage();
   };
 
+  console.log(error);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchRow}>
@@ -114,7 +125,9 @@ export default function PlayerSearchScreen() {
           style={styles.input}
         />
         <FiltersSheet
-          filters={RECRUITMENT_POST_FILTERS}
+          key={recruitmentType}
+          filters={activeFilters}
+          initialValues={filters}
           onApply={onApplyFilters}
         />
       </View>
