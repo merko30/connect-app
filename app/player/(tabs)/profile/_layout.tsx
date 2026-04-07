@@ -7,7 +7,6 @@ const Layout = () => (
     <Stack.Screen name="coach" />
     <Stack.Screen name="edit" />
     <Stack.Screen name="appearance" />
-    <Stack.Screen name="change-password" />
     <Stack.Screen name="subscription" />
     <Stack.Screen name="security" />
   </Stack>
