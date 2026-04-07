@@ -10,7 +10,13 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const getFormValues = (post?: any): RecruitmentPostFormValues => ({
@@ -96,15 +102,20 @@ export default function EditRecruitmentPostScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
-      <Header title={t("recruitmentPost.editTitle")} />
-      <FormProvider {...form}>
-        <RecruitmentPostForm
-          key={String(post?.documentId ?? id ?? "edit-post")}
-          submitLabel={t("recruitmentPost.save")}
-          onSubmit={mutate}
-          isPending={isPending}
-        />
-      </FormProvider>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <Header title={t("recruitmentPost.editTitle")} />
+        <FormProvider {...form}>
+          <RecruitmentPostForm
+            key={String(post?.documentId ?? id ?? "edit-post")}
+            submitLabel={t("recruitmentPost.save")}
+            onSubmit={mutate}
+            isPending={isPending}
+          />
+        </FormProvider>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

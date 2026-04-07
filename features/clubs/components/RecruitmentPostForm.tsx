@@ -6,10 +6,10 @@ import { ThemedButton } from "@/components/ThemedButton";
 import { PRIMARY_POSITIONS } from "@/features/auth/constants";
 import { createStyle, useStyle } from "@/theme";
 import { RecruitmentPostType } from "@/types/recruitment-posts";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView } from "react-native";
+import { Platform, ScrollView, View } from "react-native";
 
 export type RecruitmentPostFormValues = {
   title: string;
@@ -71,6 +71,18 @@ export function RecruitmentPostForm({
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
   const form = useFormContext<RecruitmentPostFormValues>();
+  const scrollRef = useRef<ScrollView>(null);
+  const noteY = useRef(0);
+  const requirementsY = useRef(0);
+
+  const scrollToField = useCallback((y: number) => {
+    requestAnimationFrame(() => {
+      scrollRef.current?.scrollTo({
+        y: Math.max(y - 100, 0),
+        animated: true,
+      });
+    });
+  }, []);
 
   const selectedType = useWatch({
     control: form.control,
@@ -105,9 +117,12 @@ export function RecruitmentPostForm({
 
   return (
     <ScrollView
+      ref={scrollRef}
       style={styles.scroll}
       contentContainerStyle={styles.content}
       keyboardShouldPersistTaps="handled"
+      keyboardDismissMode={Platform.OS === "ios" ? "interactive" : "on-drag"}
+      automaticallyAdjustKeyboardInsets
     >
       <FormInput
         control={form.control}
@@ -174,23 +189,37 @@ export function RecruitmentPostForm({
         label={t("recruitmentPost.deadline")}
       />
 
-      <FormInput
-        control={form.control}
-        name="note"
-        placeholder={t("recruitmentPost.note")}
-        multiline
-        numberOfLines={3}
-        style={styles.textArea}
-      />
+      <View
+        onLayout={(event) => {
+          noteY.current = event.nativeEvent.layout.y;
+        }}
+      >
+        <FormInput
+          control={form.control}
+          name="note"
+          placeholder={t("recruitmentPost.note")}
+          multiline
+          numberOfLines={3}
+          style={styles.textArea}
+          onFocus={() => scrollToField(noteY.current)}
+        />
+      </View>
 
-      <FormInput
-        control={form.control}
-        name="requirements"
-        placeholder={t("recruitmentPost.requirements")}
-        multiline
-        numberOfLines={4}
-        style={styles.textAreaLarge}
-      />
+      <View
+        onLayout={(event) => {
+          requirementsY.current = event.nativeEvent.layout.y;
+        }}
+      >
+        <FormInput
+          control={form.control}
+          name="requirements"
+          placeholder={t("recruitmentPost.requirements")}
+          multiline
+          numberOfLines={4}
+          style={styles.textAreaLarge}
+          onFocus={() => scrollToField(requirementsY.current)}
+        />
+      </View>
 
       <ThemedButton
         title={submitLabel}
@@ -208,7 +237,7 @@ const stylesheet = createStyle((t) => ({
   },
   content: {
     padding: t.spacing.lg,
-    paddingBottom: t.spacing.xl,
+    paddingBottom: t.spacing.xl * 5,
   },
   titleInput: {
     minHeight: 72,

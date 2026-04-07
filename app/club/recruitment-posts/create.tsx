@@ -11,7 +11,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Alert } from "react-native";
+import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CreateRecruitmentPostScreen() {
@@ -68,14 +68,19 @@ export default function CreateRecruitmentPostScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
-      <Header title={t("recruitmentPost.createTitle")} />
-      <FormProvider {...form}>
-        <RecruitmentPostForm
-          submitLabel={t("recruitmentPost.publish")}
-          onSubmit={mutate}
-          isPending={isPending}
-        />
-      </FormProvider>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <Header title={t("recruitmentPost.createTitle")} />
+        <FormProvider {...form}>
+          <RecruitmentPostForm
+            submitLabel={t("recruitmentPost.publish")}
+            onSubmit={mutate}
+            isPending={isPending}
+          />
+        </FormProvider>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
