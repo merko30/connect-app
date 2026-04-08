@@ -1,16 +1,26 @@
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
+import { Role } from "@/types/users";
 import { ThemedButton, ThemedButtonProps } from "./ThemedButton";
 
-const RoleBasedButton = (props: ThemedButtonProps) => {
+const RoleBasedButton = ({
+  variant = "primary",
+  ...props
+}: ThemedButtonProps) => {
   const { data: user } = useGetCurrentUser();
-  const isClubOrCoach = !!user?.club || !!user?.coach;
+  const isClubStaff = user?.role?.name === Role.ClubStaff;
 
-  return (
-    <ThemedButton
-      variant={!isClubOrCoach ? "outlineSecondary" : "outline"}
-      {...props}
-    />
-  );
+  const resolvedVariant =
+    variant === "primary"
+      ? isClubStaff
+        ? "primary"
+        : "secondary"
+      : variant === "outline"
+        ? isClubStaff
+          ? "outline"
+          : "outlineSecondary"
+        : variant;
+
+  return <ThemedButton variant={resolvedVariant} {...props} />;
 };
 
 export default RoleBasedButton;

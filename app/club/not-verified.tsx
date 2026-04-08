@@ -1,4 +1,4 @@
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { createStyle, useStyle, useTheme } from "@/theme";
@@ -37,7 +37,7 @@ const ClubNotVerified = () => {
         <ThemedText style={styles.body}>
           {t("auth.clubNotVerifiedBody")}
         </ThemedText>
-        <ThemedButton
+        <RoleBasedButton
           title={t("profile.logout")}
           onPress={onLogout}
           variant="secondary"

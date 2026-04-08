@@ -2,7 +2,7 @@ import { usersApi } from "@/api/auth";
 import { FormInput } from "@/components/FormInput";
 import Header from "@/components/Header";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { editUserInfoSchema } from "@/constants/validation";
 import { createStyle, useStyle } from "@/theme";
 import { User } from "@/types/users";
@@ -88,7 +88,7 @@ export default function EditUserInfo() {
           name="nationality"
           placeholder={t("register.nationality")}
         />
-        <ThemedButton title={t("save")} onPress={handleSubmit(onSubmit)} />
+        <RoleBasedButton title={t("save")} onPress={handleSubmit(onSubmit)} />
       </View>
     </KeyboardAvoid>
   );

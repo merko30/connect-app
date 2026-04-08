@@ -2,7 +2,7 @@ import CategoriesSelector from "@/components/CategoriesSelector";
 import { FormDatePicker } from "@/components/FormDatepicker";
 import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { PRIMARY_POSITIONS } from "@/features/auth/constants";
 import { createStyle, useStyle } from "@/theme";
 import { RecruitmentPostType } from "@/types/recruitment-posts";
@@ -221,7 +221,7 @@ export function RecruitmentPostForm({
         />
       </View>
 
-      <ThemedButton
+      <RoleBasedButton
         title={submitLabel}
         onPress={form.handleSubmit(onSubmit)}
         loading={isPending}

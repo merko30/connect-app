@@ -4,7 +4,7 @@ import {
   removeRecruitmentPostInterest,
 } from "@/api/recruitment-posts";
 import Header from "@/components/Header";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { createStyle, useStyle } from "@/theme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -213,7 +213,7 @@ export default function RecruitmentPostDetailScreen() {
             </View>
           ) : null}
 
-          <ThemedButton
+          <RoleBasedButton
             title={
               isInterested
                 ? t("recruitmentPost.interestedSelected")

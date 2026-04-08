@@ -7,7 +7,7 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ThemedButton } from "../components/ThemedButton";
+import RoleBasedButton from "../components/RoleBasedButton";
 import { createStyle, useStyle } from "../theme";
 
 const portalUrl =
@@ -100,7 +100,7 @@ const SubscribePage = () => {
         </View>
 
         <View style={themed.buttonContainer}>
-          <ThemedButton
+          <RoleBasedButton
             title={t("subscription.subscribe")}
             onPress={handleOpenSubscriptionPortal}
             variant="primary"

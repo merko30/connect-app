@@ -1,10 +1,11 @@
 import { ThemedText } from "@/components/ThemedText";
 import SettingsScreenLayout from "@/features/auth/components/SettingsScreenLayout";
 import SettingsSectionCard from "@/features/auth/components/SettingsSectionCard";
-import { createStyle, useStyle } from "@/theme";
+import { createStyle, useStyle, useTheme } from "@/theme";
 import { AppearanceMode, useAppearanceSettings } from "@/theme/appearance";
 import { useTranslation } from "react-i18next";
 import { Pressable, View } from "react-native";
+import useGetCurrentUser from "../hooks/useGetCurrentUser";
 
 const OPTIONS: {
   value: AppearanceMode;
@@ -34,7 +35,14 @@ const OPTIONS: {
 export default function AppearanceSettingsScreen() {
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
+  const { t: theme } = useTheme();
   const { mode, setMode } = useAppearanceSettings();
+  const { data: user } = useGetCurrentUser();
+
+  const themedColorBorder =
+    user?.role?.name === "ClubStaff"
+      ? theme.colors.primary
+      : theme.colors.secondary;
 
   return (
     <SettingsScreenLayout
@@ -50,7 +58,15 @@ export default function AppearanceSettingsScreen() {
             <Pressable
               key={option.value}
               onPress={() => void setMode(option.value)}
-              style={[styles.option, isSelected && styles.optionSelected]}
+              style={[
+                styles.option,
+                isSelected && styles.optionSelected,
+                {
+                  borderColor: isSelected
+                    ? themedColorBorder
+                    : theme.colors.spacer,
+                },
+              ]}
             >
               <View style={styles.optionText}>
                 <ThemedText style={styles.optionLabel}>
@@ -61,8 +77,27 @@ export default function AppearanceSettingsScreen() {
                 </ThemedText>
               </View>
 
-              <View style={[styles.radio, isSelected && styles.radioSelected]}>
-                {isSelected ? <View style={styles.radioInner} /> : null}
+              <View
+                style={[
+                  styles.radio,
+                  isSelected && styles.radioSelected,
+                  {
+                    borderColor: isSelected
+                      ? themedColorBorder
+                      : theme.colors.gray[300],
+                  },
+                ]}
+              >
+                {isSelected ? (
+                  <View
+                    style={[
+                      styles.radioInner,
+                      {
+                        backgroundColor: themedColorBorder,
+                      },
+                    ]}
+                  />
+                ) : null}
               </View>
             </Pressable>
           );

@@ -1,6 +1,6 @@
 import { ReusableBottomSheet } from "@/components/BottomSheet";
 import { FilterFieldRenderer } from "@/components/FilterFieldRenderer";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { createStyle, useStyle } from "@/theme";
@@ -89,16 +89,16 @@ export function FiltersSheet({
                 numberInputStyle={styles.numberInput}
               />
             ))}
-            <ThemedButton
+            <RoleBasedButton
               title={t("apply")}
               onPress={form.handleSubmit(handleApply)}
               style={{ marginTop: 16 }}
             />
             {form.formState.isDirty && (
-              <ThemedButton
+              <RoleBasedButton
                 title={t("reset")}
                 onPress={handleReset}
-                variant="secondary"
+                variant="outline"
                 style={{ marginTop: 8 }}
               />
             )}

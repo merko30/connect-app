@@ -1,13 +1,13 @@
 import { FormInput } from "@/components/FormInput";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { createStyle, useStyle } from "@/theme";
 import React from "react";
-import { Control, useFieldArray } from "react-hook-form";
+import { useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 type Props = {
-  control: Control<any>;
+  control: any;
 };
 
 export default function FormerClubsFieldArray({ control }: Props) {
@@ -25,10 +25,11 @@ export default function FormerClubsFieldArray({ control }: Props) {
       <View style={styles.header}>
         <ThemedText variant="subtitle">{t("register.formerClubs")}</ThemedText>
 
-        <ThemedButton
+        <RoleBasedButton
           title="+"
           onPress={() => append({ name: "" })}
           style={styles.addButton}
+          textStyle={styles.addButtonText}
         />
       </View>
 
@@ -44,9 +45,9 @@ export default function FormerClubsFieldArray({ control }: Props) {
           />
 
           {/* Optional remove button */}
-          <ThemedButton
+          <RoleBasedButton
             title={t("remove")}
-            variant="secondary"
+            variant="outline"
             onPress={() => remove(index)}
             style={styles.removeButton}
           />
@@ -64,9 +65,18 @@ const stylesheet = createStyle(() => ({
     marginBottom: 12,
   },
   addButton: {
-    width: 50,
-    height: 50,
+    width: 42,
+    height: 42,
+    minHeight: 42,
     borderRadius: 9999,
+    marginTop: 0,
+    paddingVertical: 0,
+    paddingHorizontal: 0,
+  },
+  addButtonText: {
+    fontSize: 24,
+    lineHeight: 24,
+    fontWeight: "800",
   },
   inputRow: {
     marginBottom: 8,
@@ -79,6 +89,7 @@ const stylesheet = createStyle(() => ({
     paddingVertical: 4,
     height: 48,
     flex: 1,
+    marginTop: 0,
   },
   input: {
     flex: 4,

@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { TranslationKey } from "@/i18n";
 import { createStyle, useStyle } from "@/theme";
@@ -112,7 +112,7 @@ function SubscriptionSettings() {
         </View>
 
         {portalUrl && (
-          <ThemedButton
+          <RoleBasedButton
             title={t("subscription.settings.manageSubscription")}
             onPress={handleOpenSubscriptionPortal}
             variant="primary"

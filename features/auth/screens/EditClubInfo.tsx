@@ -3,7 +3,7 @@ import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
 import Header from "@/components/Header";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { createStyle, useStyle } from "@/theme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -118,7 +118,7 @@ export default function EditPlayerInfo() {
             style={styles.field}
           />
 
-          <ThemedButton
+          <RoleBasedButton
             title={t("save")}
             onPress={handleSubmit(onSubmit)}
             variant="primary"

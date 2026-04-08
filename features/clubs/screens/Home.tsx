@@ -114,7 +114,7 @@ const stylesheet = createStyle((t) => ({
     overflow: "hidden",
   },
   tabIndicator: {
-    backgroundColor: t.colors.secondary,
+    backgroundColor: t.colors.primary,
     height: 3,
     borderRadius: 999,
   },

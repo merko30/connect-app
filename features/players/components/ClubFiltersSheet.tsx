@@ -2,7 +2,7 @@ import { ReusableBottomSheet } from "@/components/BottomSheet";
 import { FormDatePicker } from "@/components/FormDatepicker";
 import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
-import { ThemedButton } from "@/components/ThemedButton";
+import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { createStyle, useStyle } from "@/theme";
@@ -146,20 +146,20 @@ const ClubFiltersSheet = ({
               }
               return renderFilter(filter);
             })}
-            <ThemedButton
+            <RoleBasedButton
               title={t("apply")}
               onPress={form.handleSubmit(handleApply)}
               style={{ marginTop: 16 }}
             />
             {form.formState.isDirty && (
-              <ThemedButton
+              <RoleBasedButton
                 title={t("reset")}
                 onPress={() => {
                   form.reset(defaultValues);
                   onApply({});
                   ref?.current?.close();
                 }}
-                variant="secondary"
+                variant="outline"
                 style={{ marginTop: 8 }}
               />
             )}
