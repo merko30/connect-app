@@ -53,7 +53,7 @@ export function FiltersSheet({
   };
 
   const handleApply = (values: Record<string, any>) => {
-    onApply(values);
+    onApply({ ...values });
     ref.current?.close();
   };
 

@@ -43,10 +43,18 @@ export function buildStrapiFilters(
       if (!def.strapiOperator) {
         throw new Error("No operator");
       }
+
+      const normalizedValue =
+        def.type === "number" && value !== ""
+          ? Number(value)
+          : def.type === "date" && value instanceof Date
+            ? value.toISOString().split("T")[0]
+            : value;
+
       if (isNested) {
-        filters[def.strapiOperator] = value;
+        filters[def.strapiOperator] = normalizedValue;
       } else {
-        filters[def.name][def.strapiOperator] = value;
+        filters[def.name][def.strapiOperator] = normalizedValue;
       }
     }
   }

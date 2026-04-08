@@ -39,7 +39,7 @@ export default function PlayerSearchScreen() {
   );
 
   const onApplyFilters = (values: Record<string, any>) => {
-    setFilters(values);
+    setFilters({ ...values });
   };
 
   const strapiFilters = useMemo(
@@ -86,7 +86,11 @@ export default function PlayerSearchScreen() {
   }, [strapiFilters, debouncedSearch]);
 
   const playerQuery = useInfiniteQuery<StrapiListResponse<PlayerProfile>>({
-    queryKey: ["players", debouncedSearch, toStrapiQueryString(strapiFilters)],
+    queryKey: [
+      "players",
+      debouncedSearch,
+      toStrapiQueryString(formattedPlayerFilters as any),
+    ],
     enabled: mode === "players",
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
@@ -106,7 +110,11 @@ export default function PlayerSearchScreen() {
   });
 
   const coachQuery = useInfiniteQuery<StrapiListResponse<CoachProfile>>({
-    queryKey: ["coaches", debouncedSearch, toStrapiQueryString(strapiFilters)],
+    queryKey: [
+      "coaches",
+      debouncedSearch,
+      toStrapiQueryString(formattedCoachFilters as any),
+    ],
     enabled: mode === "coaches",
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {

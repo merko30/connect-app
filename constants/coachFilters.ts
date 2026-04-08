@@ -31,8 +31,8 @@ export const COACH_FILTERS: FilterField[] = [
     label: "register.isAvailable",
     type: "select",
     options: [
-      { label: "common.yes", value: 1 },
-      { label: "common.no", value: 0 },
+      { label: "common.yes", value: true },
+      { label: "common.no", value: false },
     ],
     strapiOperator: "$eq",
   },
@@ -40,6 +40,6 @@ export const COACH_FILTERS: FilterField[] = [
     name: "location",
     label: "register.city",
     type: "text",
-    strapiOperator: "$contains",
+    strapiOperator: "$containsi",
   },
 ];

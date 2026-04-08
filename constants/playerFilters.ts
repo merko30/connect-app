@@ -56,8 +56,8 @@ export const PLAYER_FILTERS: FilterField[] = [
     label: "register.isFreeAgent", // translation key
     type: "select",
     options: [
-      { label: "common.yes", value: 1 }, // Add "common.yes" to i18n if not present
-      { label: "common.no", value: 0 }, // Add "common.no" to i18n if not present
+      { label: "common.yes", value: true },
+      { label: "common.no", value: false },
     ],
     strapiOperator: "$eq",
   },
