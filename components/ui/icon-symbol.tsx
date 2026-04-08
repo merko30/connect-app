@@ -36,6 +36,7 @@ const MAPPING = {
   "exclamationmark.triangle.fill": "warning",
   trash: "delete",
   pencil: "edit",
+  "list.bullet": "list",
 } as IconMapping;
 
 /**
