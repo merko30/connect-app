@@ -97,8 +97,6 @@ export default function ClubPostsScreen() {
     if (!isFetchingNextPage && hasNextPage) fetchNextPage();
   };
 
-  console.log(error);
-
   return (
     <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
       <Header title={t("profile.myPosts")} />

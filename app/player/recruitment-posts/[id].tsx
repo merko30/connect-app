@@ -125,8 +125,6 @@ export default function RecruitmentPostDetailScreen() {
     ? (statusColors[post.postStatus] ?? "#888")
     : "#888";
 
-  console.log(error);
-
   return (
     <SafeAreaView style={styles.container} edges={["left", "right", "bottom"]}>
       <Header title={t("recruitmentPost.detail")} />

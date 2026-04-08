@@ -2,15 +2,21 @@ import { Tabs } from "expo-router";
 import React from "react";
 
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { useTheme } from "@/theme";
+import { Role } from "@/types/users";
 import { Pressable } from "react-native";
 
 export default function TabLayout() {
   const { t } = useTheme();
+  const { data: user } = useGetCurrentUser();
+  const tabAccentColor =
+    user?.role?.name === Role.ClubStaff ? t.colors.primary : t.colors.secondary;
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: t.colors.secondary,
+        tabBarActiveTintColor: tabAccentColor,
         tabBarStyle: {
           position: "absolute", // so we can float buttons
           height: 70,
@@ -43,7 +49,7 @@ export default function TabLayout() {
             <Pressable
               onPress={props.onPress}
               style={{
-                backgroundColor: t.colors.secondary,
+                backgroundColor: tabAccentColor,
                 top: -30, // float above tab bar
                 justifyContent: "center",
                 alignItems: "center",

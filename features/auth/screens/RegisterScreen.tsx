@@ -73,8 +73,6 @@ export default function RegisterScreenContent() {
       });
     },
     onError: (error: { error: { message: string } }) => {
-      console.log(error);
-
       const message = error.error?.message;
       if (message.includes("taken")) {
         Toast.show({
@@ -89,8 +87,6 @@ export default function RegisterScreenContent() {
       }
     },
     onSuccess: async (data) => {
-      console.log(data);
-
       // Save token and then start subscription flow
       await AsyncStorage.setItem("token", data.jwt);
 
@@ -126,11 +122,8 @@ export default function RegisterScreenContent() {
 
   const onSubmit = async (data: StrapiRegisterForm) => {
     setError(null);
-    console.log(data);
     mutate(data);
   };
-
-  console.log(form.formState.errors);
 
   return (
     <FormProvider {...form}>

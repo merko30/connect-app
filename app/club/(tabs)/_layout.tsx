@@ -2,7 +2,6 @@ import { Tabs } from "expo-router";
 import React from "react";
 
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { useTheme } from "@/theme";
 import { useTranslation } from "react-i18next";
 import { Pressable } from "react-native";
@@ -11,10 +10,7 @@ export default function TabLayout() {
   const { t } = useTheme();
   const { t: translate } = useTranslation();
 
-  const { data: user } = useGetCurrentUser();
-  const isClubOrCoach = !!user?.club || !!user?.coach;
-
-  const tintColor = isClubOrCoach ? t.colors.secondary : t.colors.primary;
+  const tintColor = t.colors.primary;
   return (
     <Tabs
       screenOptions={{

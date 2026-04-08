@@ -29,7 +29,7 @@ export function PlayerHome() {
   const recruitmentType =
     me?.role?.name === Role.Coach.toString() ? "coach" : "player";
 
-  const { data, refetch, isPending } = useQuery<
+  const { data, error, refetch, isPending } = useQuery<
     StrapiListResponse<RecruitmentPost>
   >({
     queryKey: [

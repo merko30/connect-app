@@ -23,8 +23,6 @@ const SubscribePage = () => {
 
   useEffect(() => {
     const handleUrl = async ({ url }: { url: string }) => {
-      console.log(url);
-
       if (url?.includes("refresh=true")) {
         qClient.invalidateQueries({ queryKey: ["current-user"] }).then(() => {
           router.replace("/");

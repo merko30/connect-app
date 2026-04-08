@@ -54,8 +54,6 @@ export default function EditPlayerInfo() {
     onError: (error: { error: { details: { message: string } } }) => {
       const message = error.error?.details?.message;
 
-      console.log(JSON.stringify(error));
-
       Toast.show({ type: "error", text1: message });
     },
     onSuccess: () => {
@@ -72,9 +70,7 @@ export default function EditPlayerInfo() {
       ...getPlayerRegisterDefaults(user?.player),
     },
   });
-  const { control, handleSubmit, formState: fs } = form;
-
-  console.log(fs.errors);
+  const { control, handleSubmit } = form;
 
   const onSubmit = (data: PlayerRegisterForm) => {
     updatePlayer(data);

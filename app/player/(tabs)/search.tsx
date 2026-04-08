@@ -113,8 +113,6 @@ export default function PlayerSearchScreen() {
     if (!isFetchingNextPage && hasNextPage) fetchNextPage();
   };
 
-  console.log(error);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.searchRow}>
