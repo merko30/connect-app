@@ -58,7 +58,8 @@
   },
   "home": {
     "title": "Home",
-    "welcome": "Welcome, {user}",
+    "welcome": "Welcome, {{user}}",
+    "welcomeBack": "Welcome back, {{user}}",
     "findAndRecruit": "Find and recruit new players and coaches",
     "findYourNextOpportunity": "Find your next opportunity",
     "findYourNextClub": "Find your next club",
@@ -67,7 +68,14 @@
     "featuredPlayers": "Featured Players",
     "featuredCoaches": "Featured Coaches",
     "noPlayersFound": "No players found right now.",
-    "noCoachesFound": "No coaches found right now."
+    "noCoachesFound": "No coaches found right now.",
+    "roleBadge": {
+      "signedInAs": "Signed in as",
+      "clubStaff": "Club Staff",
+      "recruiterMode": "Recruiter mode",
+      "tacticalBoard": "Tactics board",
+      "careerMode": "Career mode"
+    }
   },
   "register": {
     "clubTitle": "Club staff registration",

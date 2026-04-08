@@ -76,7 +76,7 @@ export function PlayerHome() {
   return (
     <KeyboardAvoid style={styles.container} keyboardVerticalOffset={insets.top}>
       <Welcome
-        title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
+        title={t("home.welcomeBack", { user: me?.firstName ?? "" })}
         subtitle={t("home.findYourNextOpportunity")}
         color="secondary"
       >

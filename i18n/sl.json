@@ -59,6 +59,7 @@
   "home": {
     "title": "Domača stran",
     "welcome": "Dobrodošli, {{user}}",
+    "welcomeBack": "Dobrodošli nazaj, {{user}}",
     "findAndRecruit": "Poiščite in rekrutirajte nove igralce in trenerje",
     "findYourNextOpportunity": "Poiščite svojo naslednjo priložnost",
     "findYourNextClub": "Poiščite svoj naslednji klub",
@@ -67,7 +68,14 @@
     "featuredPlayers": "Priporočeni igralci",
     "featuredCoaches": "Priporočeni trenerji",
     "noPlayersFound": "Trenutno ni najdenih igralcev.",
-    "noCoachesFound": "Trenutno ni najdenih trenerjev."
+    "noCoachesFound": "Trenutno ni najdenih trenerjev.",
+    "roleBadge": {
+      "signedInAs": "Prijavljeni kot",
+      "clubStaff": "Osebje kluba",
+      "recruiterMode": "Način rekrutacije",
+      "tacticalBoard": "Taktična tabla",
+      "careerMode": "Karierni način"
+    }
   },
   "register": {
     "clubTitle": "Registracija osebja kluba",

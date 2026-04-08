@@ -57,7 +57,7 @@ export function ClubHome() {
   return (
     <KeyboardAvoid style={styles.container} keyboardVerticalOffset={insets.top}>
       <Welcome
-        title={t("home.welcome", { user: `${me?.firstName} ${me?.lastName}` })}
+        title={t("home.welcomeBack", { user: me?.firstName ?? "" })}
         subtitle={t("home.findAndRecruit")}
       >
         <Search value={searchText} onChangeText={setSearchText} />
