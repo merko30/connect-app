@@ -122,7 +122,6 @@ export default function EditPlayerInfo() {
               placeholder={t("register.currentClub")}
             />
 
-            <FormerClubsFieldArray control={control} />
             {/* Preferred Foot */}
             <FormPicker
               control={control}
@@ -189,6 +188,8 @@ export default function EditPlayerInfo() {
                 </View>
               )}
             />
+
+            <FormerClubsFieldArray control={control} />
 
             <RoleBasedButton
               title={t("save")}

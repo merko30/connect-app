@@ -27,7 +27,9 @@ export default function FormerClubsFieldArray({ control }: Props) {
 
         <RoleBasedButton
           title="+"
-          onPress={() => append({ name: "" })}
+          onPress={() =>
+            append({ name: "", appearances: "", goals: "", assists: "" })
+          }
           style={styles.addButton}
           textStyle={styles.addButtonText}
         />
@@ -35,34 +37,80 @@ export default function FormerClubsFieldArray({ control }: Props) {
 
       {/* Inputs */}
       {fields.map((field, index) => (
-        <View key={field.id} style={styles.inputRow}>
-          <FormInput
-            control={control}
-            objectKey="name"
-            name={`formerClubs.${index}.name`}
-            placeholder={`${t("register.formerClub")} ${index + 1}`}
-            containerStyle={styles.input}
-          />
+        <View key={field.id} style={styles.container}>
+          <View style={styles.card}>
+            <ThemedText variant="subtitle">
+              {t("register.formerClub") + " " + (index + 1)}
+            </ThemedText>
 
-          {/* Optional remove button */}
-          <RoleBasedButton
-            title={t("remove")}
-            variant="outline"
-            onPress={() => remove(index)}
-            style={styles.removeButton}
-          />
+            {/* Optional remove button */}
+            <RoleBasedButton
+              title={"X"}
+              variant="outline"
+              onPress={() => remove(index)}
+              style={styles.removeButton}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <FormInput
+              control={control}
+              objectKey="name"
+              name={`formerClubs.${index}.name`}
+              placeholder={"Naziv"}
+              containerStyle={styles.input}
+            />
+            <View style={styles.row}>
+              <FormInput
+                control={control}
+                objectKey="appearances"
+                name={`formerClubs.${index}.appearances`}
+                placeholder={t("register.appearances")}
+                containerStyle={styles.input}
+              />
+              <FormInput
+                control={control}
+                objectKey="goals"
+                name={`formerClubs.${index}.goals`}
+                placeholder={t("register.scoredGoals")}
+                containerStyle={styles.input}
+              />
+              <FormInput
+                control={control}
+                objectKey="assists"
+                name={`formerClubs.${index}.assists`}
+                placeholder={t("register.assists")}
+                containerStyle={styles.input}
+              />
+            </View>
+          </View>
         </View>
       ))}
     </View>
   );
 }
 
-const stylesheet = createStyle(() => ({
+const stylesheet = createStyle((t) => ({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 12,
+  },
+  container: {
+    backgroundColor: t.colors.surface,
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 12,
+  },
+  card: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 4,
+  },
+  row: {
+    flexDirection: "row",
+    gap: 8,
   },
   addButton: {
     width: 42,
@@ -83,12 +131,14 @@ const stylesheet = createStyle(() => ({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+    backgroundColor: t.colors.surface + "33",
   },
   removeButton: {
-    padding: 4,
-    paddingVertical: 4,
-    height: 48,
-    flex: 1,
+    width: 36,
+    height: 36,
+    padding: 0,
+    paddingVertical: 0,
+    borderRadius: t.radii.full,
     marginTop: 0,
   },
   input: {

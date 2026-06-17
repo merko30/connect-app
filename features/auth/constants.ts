@@ -69,7 +69,14 @@ export const playerRegisterSchema = z.object({
   experienceLevel: z.string().min(1, REGISTER_ERRORS.experienceLevel),
   currentClub: z.string().optional(),
   formerClubs: z
-    .array(z.object({ name: z.string().min(1, REGISTER_ERRORS.formerClub) }))
+    .array(
+      z.object({
+        name: z.string().min(1, REGISTER_ERRORS.formerClub),
+        appearances: z.string().optional(),
+        goals: z.string().optional(),
+        assists: z.string().optional(),
+      }),
+    )
     .optional(),
   isFreeAgent: z.boolean().optional(),
   availabilityFrom: z.instanceof(Date).nullable(),
@@ -96,7 +103,7 @@ export const getPlayerRegisterDefaults = (
 
   currentClub: player?.currentClub ?? "",
 
-  formerClubs: player?.formerClubs?.map((club) => ({ name: club.name })) ?? [],
+  formerClubs: player?.formerClubs ?? [],
 
   isFreeAgent: player?.isFreeAgent ?? false,
 
@@ -125,7 +132,6 @@ export const coachRegisterSchema = z.object({
   location: z.string().min(1, "register.error.location"),
   nationality: z.string().optional(),
   contactEmail: z
-    .string()
     .email({ message: "register.error.contactEmail" })
     .optional()
     .or(z.literal("")),
@@ -179,12 +185,10 @@ export const clubSchema = z.object({
     message: "register.error.level",
   }),
   website: z
-    .string()
     .url({ message: "register.error.website" })
     .optional()
     .or(z.literal("")),
   contactEmail: z
-    .string()
     .email({ message: "register.error.contactEmail" })
     .optional()
     .or(z.literal("")),
