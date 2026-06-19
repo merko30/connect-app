@@ -14,10 +14,17 @@ import { ExperienceLevel, PlayerPosition } from "@/types/players";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { ScrollView, Switch, View } from "react-native";
+import {
+  Pressable,
+  ScrollView,
+  Switch,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import { TabBar, TabView } from "react-native-tab-view";
 import Toast from "react-native-toast-message";
 import {
   getPlayerRegisterDefaults,
@@ -27,6 +34,65 @@ import {
   SECONDARY_POSITIONS,
 } from "../constants";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
+
+const PositionPicker = () => {
+  const form = useForm<PlayerRegisterForm>();
+  const styles = useStyle(stylesheet);
+  const { t } = useTranslation();
+
+  const selectedPositions = form.watch("secondaryPositions", []) ?? [];
+
+  console.log(selectedPositions);
+
+  return (
+    <>
+      <ThemedText style={{ marginBottom: 4, marginTop: 12 }}>
+        {t("register.secondaryPosition")}
+      </ThemedText>
+
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: 8,
+          marginBottom: 4,
+        }}
+      >
+        {SECONDARY_POSITIONS.map((pos) => {
+          const selected = selectedPositions.includes(pos);
+
+          return (
+            <Pressable
+              key={pos}
+              style={[styles.pillow, selected && styles.activePillow]}
+              onPress={() => {
+                const updated = selected
+                  ? selectedPositions.filter((p) => p !== pos)
+                  : [...selectedPositions, pos];
+
+                if (updated.length > 3) {
+                  Toast.show({
+                    type: "error",
+                    text1: t("register.maxSecondaryPositions"),
+                  });
+                  return;
+                }
+
+                form.setValue("secondaryPositions", updated, {
+                  shouldDirty: true,
+                  shouldTouch: true,
+                  shouldValidate: true,
+                });
+              }}
+            >
+              <ThemedText>{pos}</ThemedText>
+            </Pressable>
+          );
+        })}
+      </View>
+    </>
+  );
+};
 
 export default function EditPlayerInfo() {
   const { t } = useTranslation();
@@ -43,7 +109,7 @@ export default function EditPlayerInfo() {
       await playersApi.update(user?.player?.documentId as string, {
         ...data,
         primaryPosition: data.primaryPosition as PlayerPosition,
-        secondaryPositions: data.secondaryPositions as PlayerPosition,
+        secondaryPositions: data.secondaryPositions as PlayerPosition[],
         experienceLevel: data.experienceLevel as ExperienceLevel,
         dateOfBirth: data.dateOfBirth?.toISOString().split("T")[0],
         availabilityFrom: data.availabilityFrom?.toISOString().split("T")[0],
@@ -64,6 +130,15 @@ export default function EditPlayerInfo() {
     },
   });
 
+  const layout = useWindowDimensions();
+
+  const [index, setIndex] = useState(0);
+
+  const routes = [
+    { key: "profile", title: t("mainInformation") },
+    { key: "history", title: t("careerHistory") },
+  ];
+
   const form = useForm<PlayerRegisterForm>({
     resolver: zodResolver(playerRegisterSchema) as any,
     defaultValues: {
@@ -76,20 +151,24 @@ export default function EditPlayerInfo() {
     updatePlayer(data);
   };
 
-  return (
-    <FormProvider {...form}>
-      <KeyboardAvoid style={styles.container}>
-        {!isOnboarding && <Header title={t("auth.editPlayerInfo")} />}
-        <ScrollView contentContainerStyle={styles.scrollContentContainer}>
-          <View style={styles.container}>
+  const renderScene = ({
+    route,
+  }: {
+    route: { key: string; title: string };
+  }) => {
+    switch (route.key) {
+      case "profile":
+        return (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.tabContent}
+          >
             <FormDatePicker
               control={control}
               name="dateOfBirth"
               label={t("register.dateOfBirth")}
-              placeholder={"register.dateOfBirth"}
             />
 
-            {/* Height and Weight */}
             <View style={styles.row}>
               <FormInput
                 control={control}
@@ -97,15 +176,14 @@ export default function EditPlayerInfo() {
                 placeholder={t("register.height")}
                 keyboardType="numeric"
                 containerStyle={{ flex: 1 }}
-                style={{ flex: 1 }}
               />
+
               <FormInput
                 control={control}
                 name="weightKg"
                 placeholder={t("register.weight")}
                 keyboardType="numeric"
                 containerStyle={{ flex: 1 }}
-                style={{ flex: 1 }}
               />
             </View>
 
@@ -115,14 +193,12 @@ export default function EditPlayerInfo() {
               label={t("register.availableFrom")}
             />
 
-            {/* Current Club */}
             <FormInput
               control={control}
               name="currentClub"
               placeholder={t("register.currentClub")}
             />
 
-            {/* Preferred Foot */}
             <FormPicker
               control={control}
               name="preferredFoot"
@@ -139,7 +215,6 @@ export default function EditPlayerInfo() {
               ]}
             />
 
-            {/* Primary Position */}
             <FormPicker
               control={control}
               name="primaryPosition"
@@ -150,8 +225,8 @@ export default function EditPlayerInfo() {
               }))}
             />
 
-            {/* Secondary Positions (multi-select) */}
-            <FormPicker
+            <PositionPicker />
+            {/* <FormPicker
               control={control}
               name="secondaryPositions"
               label={t("register.secondaryPosition")}
@@ -159,9 +234,8 @@ export default function EditPlayerInfo() {
                 label: pos,
                 value: pos,
               }))}
-            />
+            /> */}
 
-            {/* Experience Level */}
             <FormPicker
               control={control}
               name="experienceLevel"
@@ -174,29 +248,67 @@ export default function EditPlayerInfo() {
               ]}
             />
 
-            {/* Free Agent Checkbox */}
             <Controller
               control={control}
               name="isFreeAgent"
               render={({ field: { onChange, value } }) => (
                 <View style={styles.checkboxRow}>
                   <ThemedText>{t("register.isFreeAgent")}</ThemedText>
-                  <Switch
-                    value={value}
-                    onValueChange={(value) => onChange(value)}
-                  />
+
+                  <Switch value={value} onValueChange={onChange} />
                 </View>
               )}
             />
+          </ScrollView>
+        );
 
+      case "history":
+        return (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.tabContent}
+          >
             <FormerClubsFieldArray control={control} />
+          </ScrollView>
+        );
 
-            <RoleBasedButton
-              title={t("save")}
-              onPress={handleSubmit(onSubmit)}
-              style={styles.saveButton}
-            />
-          </View>
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <FormProvider {...form}>
+      <KeyboardAvoid style={styles.container}>
+        {!isOnboarding && <Header title={t("auth.editPlayerInfo")} />}
+        <ScrollView contentContainerStyle={styles.scrollContentContainer}>
+          <TabView
+            navigationState={{
+              index,
+              routes,
+            }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{
+              width: layout.width,
+            }}
+            lazy
+            renderTabBar={(props) => (
+              <TabBar
+                {...props}
+                style={styles.tabBar}
+                indicatorStyle={styles.tabIndicator}
+                activeColor={styles.tabActive.color}
+                inactiveColor={styles.tabInactive.color}
+              />
+            )}
+          />
+
+          <RoleBasedButton
+            title={t("save")}
+            onPress={handleSubmit(onSubmit)}
+            style={styles.saveButton}
+          />
         </ScrollView>
       </KeyboardAvoid>
     </FormProvider>
@@ -217,6 +329,20 @@ const stylesheet = createStyle((t) => ({
     fontSize: 12,
     opacity: 0.7,
     maxWidth: 320,
+  },
+  tabContent: { padding: 12 },
+  tabBar: { backgroundColor: t.colors.surface },
+  tabIndicator: { backgroundColor: t.colors.primary },
+  tabActive: { color: t.colors.text },
+  tabInactive: { color: t.colors.text + "99" },
+  pillow: {
+    backgroundColor: t.colors.surface,
+    padding: 8,
+    borderRadius: 8,
+    marginBottom: 4,
+  },
+  activePillow: {
+    backgroundColor: t.colors.primary,
   },
   field: { marginBottom: 12 },
   error: { color: "#ff5252", fontSize: 12, marginBottom: 4 },

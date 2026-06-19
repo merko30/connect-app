@@ -93,7 +93,8 @@ export default function PlayerDetailsScreen() {
               </ThemedText>
             </View>
             {player.secondaryPositions &&
-              player.secondaryPositions !== player.primaryPosition && (
+              player.primaryPosition &&
+              player.secondaryPositions.includes(player.primaryPosition) && (
                 <ThemedText style={styles.position}>
                   {player?.secondaryPositions}
                 </ThemedText>

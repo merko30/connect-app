@@ -1,7 +1,7 @@
 // Slovenian phone number regex
 import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "@/constants/validation";
 import { ClubProfile } from "@/types/clubs";
-import { PlayerProfile } from "@/types/players";
+import { PlayerPosition, PlayerProfile } from "@/types/players";
 import { User } from "@/types/users";
 import * as z from "zod";
 
@@ -65,7 +65,7 @@ export const playerRegisterSchema = z.object({
     }),
   preferredFoot: z.enum(["left", "right", "both"]),
   primaryPosition: z.string().min(1, REGISTER_ERRORS.primaryPosition),
-  secondaryPositions: z.string().optional(),
+  secondaryPositions: z.array(z.string()).optional(),
   experienceLevel: z.string().min(1, REGISTER_ERRORS.experienceLevel),
   currentClub: z.string().optional(),
   formerClubs: z
@@ -97,7 +97,7 @@ export const getPlayerRegisterDefaults = (
 
   primaryPosition: player?.primaryPosition ?? "",
 
-  secondaryPositions: player?.secondaryPositions ?? undefined,
+  secondaryPositions: player?.secondaryPositions ?? ([] as PlayerPosition[]),
 
   experienceLevel: player?.experienceLevel ?? "",
 

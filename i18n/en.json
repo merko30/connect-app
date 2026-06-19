@@ -11,6 +11,8 @@
   "apply": "Apply",
   "loading": "Loading",
   "reset": "Reset",
+  "careerHistory": "Career History",
+  "mainInformation": "Main Information",
   "errorOccurred": "An error occurred. Please try again.",
   "profile": {
     "title": "Profile",
@@ -100,6 +102,7 @@
     "formerClub": "Former club",
     "primaryPosition": "Primary position",
     "secondaryPosition": "Secondary position",
+    "maxSecondaryPositions": "You can select up to 3 secondary positions.",
     "experienceLevel": "Experience Level",
     "youth": "Youth",
     "amateur": "Amateur",

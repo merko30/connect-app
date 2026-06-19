@@ -29,7 +29,7 @@ export type PlayerProfile = {
   location?: string | null;
 
   primaryPosition: PlayerPosition | null;
-  secondaryPositions: PlayerPosition | null;
+  secondaryPositions: PlayerPosition[] | null;
   preferredFoot?: PreferredFoot | null;
 
   heightCm: number | null;

@@ -11,6 +11,8 @@
   "apply": "Uporabi",
   "loading": "Nalaganje",
   "reset": "Ponastavi",
+  "careerHistory": "Karierna zgodovina",
+  "mainInformation": "Glavne informace",
   "errorOccurred": "Prišlo je do napake. Poskusite znova.",
   "profile": {
     "title": "Profil",
@@ -101,6 +103,7 @@
     "secondaryPosition": "Sekundarni položaj",
     "experienceLevel": "Raven izkušenj",
     "youth": "Mladinec",
+    "maxSecondaryPositions": "Maksimalno 3 sekundarni položaji",
     "amateur": "Amater",
     "semiPro": "Pol-profesionalec",
     "pro": "Profesionalec",
