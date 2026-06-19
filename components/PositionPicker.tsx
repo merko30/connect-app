@@ -3,20 +3,19 @@ import {
   SECONDARY_POSITIONS,
 } from "@/features/auth/constants";
 import { createStyle, useStyle } from "@/theme";
-import { useForm } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Pressable, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { ThemedText } from "./ThemedText";
 
 const PositionPicker = () => {
-  const form = useForm<PlayerRegisterForm>();
+  const form = useFormContext<PlayerRegisterForm>();
   const styles = useStyle(stylesheet);
   const { t } = useTranslation();
 
-  const selectedPositions = form.watch("secondaryPositions", []) ?? [];
-
-  console.log(selectedPositions);
+  const selectedPositions =
+    useWatch({ name: "secondaryPositions", control: form.control }) || [];
 
   return (
     <>
@@ -51,6 +50,8 @@ const PositionPicker = () => {
                   });
                   return;
                 }
+
+                console.log(updated);
 
                 form.setValue("secondaryPositions", updated, {
                   shouldDirty: true,

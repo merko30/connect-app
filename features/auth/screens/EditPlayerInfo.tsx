@@ -83,6 +83,11 @@ export default function EditPlayerInfo() {
   const { control, handleSubmit } = form;
 
   const onSubmit = (data: PlayerRegisterForm) => {
+    console.log(
+      "Submitting player info:",
+      data,
+      form.getValues("secondaryPositions"),
+    );
     updatePlayer(data);
   };
 
