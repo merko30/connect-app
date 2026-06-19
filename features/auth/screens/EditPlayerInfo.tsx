@@ -6,6 +6,7 @@ import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
 import Header from "@/components/Header";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
+import PositionPicker from "@/components/PositionPicker";
 import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
 import FormerClubsFieldArray from "@/features/auth/components/FormerClubs";
@@ -17,13 +18,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import {
-  Pressable,
-  ScrollView,
-  Switch,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { ScrollView, Switch, useWindowDimensions, View } from "react-native";
 import { TabBar, TabView } from "react-native-tab-view";
 import Toast from "react-native-toast-message";
 import {
@@ -31,68 +26,8 @@ import {
   PlayerRegisterForm,
   playerRegisterSchema,
   PRIMARY_POSITIONS,
-  SECONDARY_POSITIONS,
 } from "../constants";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
-
-const PositionPicker = () => {
-  const form = useForm<PlayerRegisterForm>();
-  const styles = useStyle(stylesheet);
-  const { t } = useTranslation();
-
-  const selectedPositions = form.watch("secondaryPositions", []) ?? [];
-
-  console.log(selectedPositions);
-
-  return (
-    <>
-      <ThemedText style={{ marginBottom: 4, marginTop: 12 }}>
-        {t("register.secondaryPosition")}
-      </ThemedText>
-
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: 8,
-          marginBottom: 4,
-        }}
-      >
-        {SECONDARY_POSITIONS.map((pos) => {
-          const selected = selectedPositions.includes(pos);
-
-          return (
-            <Pressable
-              key={pos}
-              style={[styles.pillow, selected && styles.activePillow]}
-              onPress={() => {
-                const updated = selected
-                  ? selectedPositions.filter((p) => p !== pos)
-                  : [...selectedPositions, pos];
-
-                if (updated.length > 3) {
-                  Toast.show({
-                    type: "error",
-                    text1: t("register.maxSecondaryPositions"),
-                  });
-                  return;
-                }
-
-                form.setValue("secondaryPositions", updated, {
-                  shouldDirty: true,
-                  shouldTouch: true,
-                  shouldValidate: true,
-                });
-              }}
-            >
-              <ThemedText>{pos}</ThemedText>
-            </Pressable>
-          );
-        })}
-      </View>
-    </>
-  );
-};
 
 export default function EditPlayerInfo() {
   const { t } = useTranslation();
@@ -335,15 +270,6 @@ const stylesheet = createStyle((t) => ({
   tabIndicator: { backgroundColor: t.colors.primary },
   tabActive: { color: t.colors.text },
   tabInactive: { color: t.colors.text + "99" },
-  pillow: {
-    backgroundColor: t.colors.surface,
-    padding: 8,
-    borderRadius: 8,
-    marginBottom: 4,
-  },
-  activePillow: {
-    backgroundColor: t.colors.primary,
-  },
   field: { marginBottom: 12 },
   error: { color: "#ff5252", fontSize: 12, marginBottom: 4 },
   row: {
