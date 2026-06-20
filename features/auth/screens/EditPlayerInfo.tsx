@@ -83,11 +83,6 @@ export default function EditPlayerInfo() {
   const { control, handleSubmit } = form;
 
   const onSubmit = (data: PlayerRegisterForm) => {
-    console.log(
-      "Submitting player info:",
-      data,
-      form.getValues("secondaryPositions"),
-    );
     updatePlayer(data);
   };
 
@@ -166,16 +161,6 @@ export default function EditPlayerInfo() {
             />
 
             <PositionPicker />
-            {/* <FormPicker
-              control={control}
-              name="secondaryPositions"
-              label={t("register.secondaryPosition")}
-              options={SECONDARY_POSITIONS.map((pos) => ({
-                label: pos,
-                value: pos,
-              }))}
-            /> */}
-
             <FormPicker
               control={control}
               name="experienceLevel"
@@ -271,8 +256,8 @@ const stylesheet = createStyle((t) => ({
     maxWidth: 320,
   },
   tabContent: { padding: 12 },
-  tabBar: { backgroundColor: t.colors.surface },
-  tabIndicator: { backgroundColor: t.colors.primary },
+  tabBar: { backgroundColor: t.colors.background },
+  tabIndicator: { backgroundColor: t.colors.secondary },
   tabActive: { color: t.colors.text },
   tabInactive: { color: t.colors.text + "99" },
   field: { marginBottom: 12 },

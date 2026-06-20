@@ -50,7 +50,15 @@ export type PlayerProfile = {
 
   visibility: PlayerVisibility;
 
-  formerClubs?: { name: string }[] | null;
+  formerClubs?:
+    | {
+        name: string;
+        appearances: number | null;
+        goals: number | null;
+        assists: number | null;
+      }[]
+    | null
+    | undefined;
 
   user?: User;
 

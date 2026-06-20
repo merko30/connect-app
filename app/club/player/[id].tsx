@@ -94,11 +94,14 @@ export default function PlayerDetailsScreen() {
             </View>
             {player.secondaryPositions &&
               player.primaryPosition &&
-              player.secondaryPositions.includes(player.primaryPosition) && (
-                <ThemedText style={styles.position}>
-                  {player?.secondaryPositions}
-                </ThemedText>
-              )}
+              player.secondaryPositions.includes(player.primaryPosition) &&
+              player.secondaryPositions.map((position, index) => (
+                <View key={index} style={styles.positionBadge}>
+                  <ThemedText style={styles.positionShort}>
+                    {position}
+                  </ThemedText>
+                </View>
+              ))}
           </View>
 
           <View style={styles.infoRow}>
@@ -183,14 +186,22 @@ export default function PlayerDetailsScreen() {
               <ThemedText style={styles.sectionTitle}>
                 {t("register.formerClubs")}
               </ThemedText>
-              {player.formerClubs.map(
-                (club: { name: string }, index: number) => (
-                  <View key={index} style={styles.clubItem}>
-                    <View style={styles.clubDot} />
-                    <ThemedText style={styles.clubName}>{club.name}</ThemedText>
+              {player.formerClubs.map((club, index) => (
+                <View key={index} style={styles.clubItem}>
+                  <ThemedText style={styles.clubName}>{club.name}</ThemedText>
+                  <View style={styles.clubStats}>
+                    <ThemedText style={styles.clubStat}>
+                      {t("register.appearances")}: {club.appearances}
+                    </ThemedText>
+                    <ThemedText style={styles.clubStat}>
+                      {t("register.scoredGoals")}: {club.goals}
+                    </ThemedText>
+                    <ThemedText style={styles.clubStat}>
+                      {t("register.assists")}: {club.assists}
+                    </ThemedText>
                   </View>
-                ),
-              )}
+                </View>
+              ))}
             </View>
           )}
         </View>
@@ -358,6 +369,15 @@ const stylesheet = createStyle((t) => ({
     paddingVertical: t.spacing.md,
     marginTop: t.spacing.md,
     gap: t.spacing.xs,
+  },
+  clubStats: {
+    flexDirection: "row",
+    gap: t.spacing.sm,
+    marginLeft: "auto",
+  },
+  clubStat: {
+    color: t.colors.gray[600],
+    fontSize: 12,
   },
   contactBtnText: {
     color: t.colors.background,

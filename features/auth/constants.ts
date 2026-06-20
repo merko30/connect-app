@@ -72,9 +72,9 @@ export const playerRegisterSchema = z.object({
     .array(
       z.object({
         name: z.string().min(1, REGISTER_ERRORS.formerClub),
-        appearances: z.string().optional(),
-        goals: z.string().optional(),
-        assists: z.string().optional(),
+        appearances: z.number().nullable(),
+        goals: z.number().nullable(),
+        assists: z.number().nullable(),
       }),
     )
     .optional(),

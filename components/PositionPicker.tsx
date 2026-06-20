@@ -19,7 +19,7 @@ const PositionPicker = () => {
 
   return (
     <>
-      <ThemedText style={{ marginBottom: 4, marginTop: 12 }}>
+      <ThemedText style={styles.label}>
         {t("register.secondaryPosition")}
       </ThemedText>
 
@@ -51,8 +51,6 @@ const PositionPicker = () => {
                   return;
                 }
 
-                console.log(updated);
-
                 form.setValue("secondaryPositions", updated, {
                   shouldDirty: true,
                   shouldTouch: true,
@@ -77,8 +75,9 @@ const stylesheet = createStyle((t) => ({
     marginBottom: 4,
   },
   activePillow: {
-    backgroundColor: t.colors.primary,
+    backgroundColor: t.colors.secondary,
   },
+  label: {},
 }));
 
 export default PositionPicker;
