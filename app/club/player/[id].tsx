@@ -1,4 +1,5 @@
 import { playersApi } from "@/api/players";
+import FormerClubs from "@/components/FormerClubs";
 import { InfoBox } from "@/components/InfoBox";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/icon-symbol";
@@ -181,29 +182,7 @@ export default function PlayerDetailsScreen() {
             </Pressable>
           )}
 
-          {player?.formerClubs && player.formerClubs.length > 0 && (
-            <View style={styles.formerClubsSection}>
-              <ThemedText style={styles.sectionTitle}>
-                {t("register.formerClubs")}
-              </ThemedText>
-              {player.formerClubs.map((club, index) => (
-                <View key={index} style={styles.clubItem}>
-                  <ThemedText style={styles.clubName}>{club.name}</ThemedText>
-                  <View style={styles.clubStats}>
-                    <ThemedText style={styles.clubStat}>
-                      {t("register.appearances")}: {club.appearances}
-                    </ThemedText>
-                    <ThemedText style={styles.clubStat}>
-                      {t("register.scoredGoals")}: {club.goals}
-                    </ThemedText>
-                    <ThemedText style={styles.clubStat}>
-                      {t("register.assists")}: {club.assists}
-                    </ThemedText>
-                  </View>
-                </View>
-              ))}
-            </View>
-          )}
+          <FormerClubs formerClubs={player?.formerClubs} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -370,48 +349,10 @@ const stylesheet = createStyle((t) => ({
     marginTop: t.spacing.md,
     gap: t.spacing.xs,
   },
-  clubStats: {
-    flexDirection: "row",
-    gap: t.spacing.sm,
-    marginLeft: "auto",
-  },
-  clubStat: {
-    color: t.colors.gray[600],
-    fontSize: 12,
-  },
   contactBtnText: {
     color: t.colors.background,
     fontWeight: "bold",
     fontSize: 16,
-  },
-  formerClubsSection: {
-    width: "100%",
-    marginTop: t.spacing.xl,
-    paddingTop: t.spacing.lg,
-    borderTopWidth: 1,
-    borderTopColor: t.colors.gray[200],
-  },
-  sectionTitle: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: t.colors.text,
-    marginBottom: t.spacing.md,
-  },
-  clubItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: t.spacing.md,
-  },
-  clubDot: {
-    width: 8,
-    height: 8,
-    borderRadius: t.radii.full,
-    backgroundColor: t.colors.primary,
-    marginRight: t.spacing.md,
-  },
-  clubName: {
-    color: t.colors.text,
-    fontSize: 14,
   },
   centerContainer: {
     flex: 1,
