@@ -14,6 +14,8 @@
   "careerHistory": "Karierna zgodovina",
   "mainInformation": "Glavne informace",
   "errorOccurred": "Prišlo je do napake. Poskusite znova.",
+  "invalidUrl": "Neveljaven URL.",
+  "required": "To polje je obvezno.",
   "profile": {
     "title": "Profil",
     "editProfile": "Uredi profil",
@@ -31,8 +33,12 @@
     "myPosts": "Moji oglasi za rekrutacijo",
     "deleteAccount": "Izbriši račun",
     "security": "Varnost",
-    "appearance": "Videz"
+    "appearance": "Videz",
+    "media": "Mediji",
+    "mediaLinks": "Medijski linkovi",
+    "mediaLink": "Medijski link"
   },
+  "title": "Naslov",
   "auth": {
     "signIn": "Prijava",
     "signInDescription": "Prijavite se v svoj račun za dostop do svojega profila in povezovanje s skupnostjo.",

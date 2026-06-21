@@ -6,6 +6,7 @@ import { FormInput } from "@/components/FormInput";
 import { FormPicker } from "@/components/FormPicker";
 import Header from "@/components/Header";
 import KeyboardAvoid from "@/components/KeyboardAvoid";
+import MediaLinks from "@/components/MediaLinks";
 import PositionPicker from "@/components/PositionPicker";
 import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
@@ -72,6 +73,7 @@ export default function EditPlayerInfo() {
   const routes = [
     { key: "profile", title: t("mainInformation") },
     { key: "history", title: t("careerHistory") },
+    { key: "media", title: t("profile.media") },
   ];
 
   const form = useForm<PlayerRegisterForm>({
@@ -197,6 +199,16 @@ export default function EditPlayerInfo() {
           </ScrollView>
         );
 
+      case "media":
+        return (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.tabContent}
+          >
+            <MediaLinks control={control} />
+          </ScrollView>
+        );
+
       default:
         return null;
     }
@@ -225,6 +237,12 @@ export default function EditPlayerInfo() {
                 indicatorStyle={styles.tabIndicator}
                 activeColor={styles.tabActive.color}
                 inactiveColor={styles.tabInactive.color}
+                tabStyle={{
+                  flex: 1,
+                  width: "auto",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               />
             )}
           />

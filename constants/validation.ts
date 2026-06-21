@@ -2,6 +2,11 @@ import { z } from "zod";
 
 export const SLOVENIAN_PHONE_REGEX = /^((\+386|0)[1-9][0-9]{7,8})$/;
 
+export const COMMON_ERRORS = {
+  url: "invalidUrl",
+  required: "required",
+};
+
 export const REGISTER_ERRORS = {
   firstName: "register.error.firstName",
   lastName: "register.error.lastName",

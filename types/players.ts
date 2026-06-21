@@ -1,3 +1,4 @@
+import { MediaLink } from "@/features/auth/constants";
 import { StrapiMedia } from "./strapi";
 import { User } from "./users";
 
@@ -43,6 +44,8 @@ export type PlayerProfile = {
   profilePhoto?: {
     data: StrapiMedia | null;
   };
+
+  mediaLinks: MediaLink[];
 
   highlights?: {
     data: StrapiMedia[];

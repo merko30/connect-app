@@ -14,6 +14,8 @@
   "careerHistory": "Career History",
   "mainInformation": "Main Information",
   "errorOccurred": "An error occurred. Please try again.",
+  "invalidUrl": "Invalid URL",
+  "required": "This field is required",
   "profile": {
     "title": "Profile",
     "editProfile": "Edit Profile",
@@ -31,8 +33,12 @@
     "myPosts": "My Recruitment Posts",
     "deleteAccount": "Delete account",
     "security": "Security",
-    "appearance": "Appearance"
+    "appearance": "Appearance",
+    "media": "Media",
+    "mediaLinks": "Media Links",
+    "mediaLink": "Media Link"
   },
+  "title": "Title",
   "auth": {
     "signIn": "Sign In",
     "signInDescription": "Sign in to your account to access your profile and connect with the community.",

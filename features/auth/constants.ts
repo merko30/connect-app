@@ -1,5 +1,9 @@
 // Slovenian phone number regex
-import { REGISTER_ERRORS, SLOVENIAN_PHONE_REGEX } from "@/constants/validation";
+import {
+  COMMON_ERRORS,
+  REGISTER_ERRORS,
+  SLOVENIAN_PHONE_REGEX,
+} from "@/constants/validation";
 import { ClubProfile } from "@/types/clubs";
 import { PlayerPosition, PlayerProfile } from "@/types/players";
 import { User } from "@/types/users";
@@ -37,6 +41,11 @@ export const SECONDARY_POSITIONS = [
   "ST",
 ];
 
+export const mediaLinkSchema = z.object({
+  title: z.string().trim().min(1, COMMON_ERRORS.required),
+  url: z.url(COMMON_ERRORS.url),
+});
+
 export const playerRegisterSchema = z.object({
   dateOfBirth: z.instanceof(Date).nullable(),
   heightCm: z
@@ -68,13 +77,14 @@ export const playerRegisterSchema = z.object({
   secondaryPositions: z.array(z.string()).optional(),
   experienceLevel: z.string().min(1, REGISTER_ERRORS.experienceLevel),
   currentClub: z.string().optional(),
+  mediaLinks: z.array(mediaLinkSchema),
   formerClubs: z
     .array(
       z.object({
         name: z.string().min(1, REGISTER_ERRORS.formerClub),
-        appearances: z.number().nullable(),
-        goals: z.number().nullable(),
-        assists: z.number().nullable(),
+        appearances: z.coerce.number().nullable(),
+        goals: z.coerce.number().nullable(),
+        assists: z.coerce.number().nullable(),
       }),
     )
     .optional(),
@@ -105,12 +115,16 @@ export const getPlayerRegisterDefaults = (
 
   formerClubs: player?.formerClubs ?? [],
 
+  mediaLinks: player?.mediaLinks ?? [],
+
   isFreeAgent: player?.isFreeAgent ?? false,
 
   availabilityFrom: player?.availabilityFrom
     ? new Date(player.availabilityFrom)
     : null,
 });
+
+export type MediaLink = z.infer<typeof mediaLinkSchema>;
 
 export const coachRegisterSchema = z.object({
   firstName: z.string().min(1, REGISTER_ERRORS.firstName),

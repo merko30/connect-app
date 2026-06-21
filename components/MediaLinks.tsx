@@ -6,91 +6,74 @@ import React from "react";
 import { useFieldArray } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
+
 type Props = {
   control: any;
 };
 
-export default function FormerClubsFieldArray({ control }: Props) {
+const MediaLinks = ({ control }: Props) => {
   const { t } = useTranslation();
   const styles = useStyle(stylesheet);
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "formerClubs",
+    name: "mediaLinks",
   });
+
+  console.log({ fields });
 
   return (
     <View>
-      {/* Header */}
       <View style={styles.header}>
-        <ThemedText variant="subtitle">{t("register.formerClubs")}</ThemedText>
+        <ThemedText variant="subtitle">{t("profile.mediaLinks")}</ThemedText>
 
         <RoleBasedButton
           title="+"
-          onPress={() =>
-            append({ name: "", appearances: "0", goals: "0", assists: "0" })
-          }
+          onPress={() => append({ title: "", url: "" })}
           style={styles.addButton}
           textStyle={styles.addButtonText}
         />
       </View>
 
-      {/* Inputs */}
       {fields.map((field, index) => (
         <View key={field.id} style={styles.container}>
           <View style={styles.card}>
             <ThemedText variant="subtitle">
-              {t("register.formerClub") + " " + (index + 1)}
+              {t("profile.mediaLink")} {index + 1}
             </ThemedText>
 
-            {/* Optional remove button */}
             <RoleBasedButton
-              title={"X"}
+              title="X"
               variant="outline"
               onPress={() => remove(index)}
               style={styles.removeButton}
             />
           </View>
-          <View style={{ flex: 1 }}>
-            <FormInput
-              control={control}
-              objectKey="name"
-              keyboardType="numeric"
-              name={`formerClubs.${index}.name`}
-              placeholder={"Naziv"}
-              containerStyle={styles.input}
-            />
-            <View style={styles.row}>
-              <FormInput
-                control={control}
-                objectKey="appearances"
-                keyboardType="numeric"
-                name={`formerClubs.${index}.appearances`}
-                placeholder={t("register.appearances")}
-                containerStyle={styles.input}
-              />
-              <FormInput
-                control={control}
-                objectKey="goals"
-                keyboardType="numeric"
-                name={`formerClubs.${index}.goals`}
-                placeholder={t("register.scoredGoals")}
-                containerStyle={styles.input}
-              />
-              <FormInput
-                control={control}
-                objectKey="assists"
-                name={`formerClubs.${index}.assists`}
-                placeholder={t("register.assists")}
-                containerStyle={styles.input}
-              />
-            </View>
-          </View>
+
+          <FormInput
+            control={control}
+            objectKey="title"
+            name={`mediaLinks.${index}.title`}
+            placeholder={t("title")}
+            containerStyle={styles.input}
+          />
+
+          <FormInput
+            control={control}
+            objectKey="url"
+            name={`mediaLinks.${index}.url`}
+            placeholder={t("profile.mediaLink")}
+            containerStyle={styles.input}
+            // keyboardType="url"
+            autoCapitalize="none"
+          />
         </View>
       ))}
     </View>
   );
-}
+};
+
+export default MediaLinks;
 
 const stylesheet = createStyle((t) => ({
   header: {
@@ -109,11 +92,7 @@ const stylesheet = createStyle((t) => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 4,
-  },
-  row: {
-    flexDirection: "row",
-    gap: 8,
+    marginBottom: 8,
   },
   addButton: {
     width: 42,
@@ -129,13 +108,6 @@ const stylesheet = createStyle((t) => ({
     lineHeight: 24,
     fontWeight: "800",
   },
-  inputRow: {
-    marginBottom: 8,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    backgroundColor: t.colors.surface + "33",
-  },
   removeButton: {
     width: 36,
     height: 36,
@@ -145,6 +117,6 @@ const stylesheet = createStyle((t) => ({
     marginTop: 0,
   },
   input: {
-    flex: 4,
+    marginBottom: 8,
   },
 }));
