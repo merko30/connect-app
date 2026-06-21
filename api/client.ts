@@ -3,24 +3,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 type RequestOptions = {
-  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-  body?: unknown;
+  method?: string;
+  body?: any;
 };
 
 export async function api<T>(
   path: string,
-  { method = "GET", body }: RequestOptions = {}
+  { method = "GET", body }: RequestOptions = {},
 ): Promise<T> {
   const token = await AsyncStorage.getItem("token");
+
+  const isFormData = body instanceof FormData;
 
   const res = await fetch(`${API_URL}${path}`, {
     method,
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...(token && { Authorization: `Bearer ${token}` }),
     },
-    ...(["POST", "PUT"].includes(method)
-      ? { body: body ? JSON.stringify(body) : undefined }
+    ...(["POST", "PUT", "PATCH"].includes(method)
+      ? {
+          body: isFormData ? body : body ? JSON.stringify(body) : undefined,
+        }
       : {}),
   });
 

@@ -21,6 +21,8 @@
     "settings": "Settings",
     "subscription": "Subscription",
     "logout": "Logout",
+    "avatarUpdated": "Your profile photo has been updated.",
+    "avatarUpdateFailed": "Failed to update profile photo. Please try again.",
     "editUserInfo": "Edit User Information",
     "editPlayerInfo": "Edit Player Information",
     "editCoachInfo": "Edit Coach Information",

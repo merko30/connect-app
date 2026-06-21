@@ -1,6 +1,8 @@
+import { usersApi } from "@/api/auth";
 import AvatarOrInitials from "@/components/AvatarOrInitials";
 import RoleBasedButton from "@/components/RoleBasedButton";
 import { ThemedText } from "@/components/ThemedText";
+import { IconSymbol } from "@/components/ui/icon-symbol";
 import {
   CLUB_PROFILE_MENU_ITEMS,
   CLUB_SECURITY_SETTINGS_ITEMS,
@@ -11,14 +13,18 @@ import {
 import MenuSection from "@/features/auth/components/MenuSection";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { createStyle, useStyle } from "@/theme";
+import { StrapiMediaType } from "@/types/strapi";
 import { Role } from "@/types/users";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
+import * as ImagePicker from "expo-image-picker";
 import { usePathname, useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { Alert, Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
+import useUpdateAvatar from "../hooks/useUpdateAvatar";
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
@@ -38,16 +44,78 @@ export default function ProfileScreen() {
     router.navigate("/auth/login");
   };
 
+  const { mutateAsync } = useUpdateAvatar();
+
+  const pickImage = async () => {
+    if (!user) return;
+    // No permissions request is necessary for launching the image library.
+    // Manually request permissions for videos on iOS when `allowsEditing` is set to `false`
+    // and `videoExportPreset` is `'Passthrough'` (the default), ideally before launching the picker
+    // so the app users aren't surprised by a system dialog after picking a video.
+    // See "Invoke permissions for videos" sub section for more details.
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      Alert.alert(
+        "Permission required",
+        "Permission to access the media library is required.",
+      );
+      return;
+    }
+
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images", "videos"],
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (result.canceled) return;
+
+      const img = result.assets[0];
+
+      const formData = new FormData();
+
+      formData.append("files", {
+        uri: img.uri,
+        name: `${user?.id}-profile-photo-${Date.now()}.jpg`,
+        type: img.mimeType || "image/jpeg",
+      } as any);
+
+      const response = await usersApi.custom<{ url: string; id: number }[]>(
+        "/upload",
+        {
+          body: formData,
+          method: "POST",
+        },
+      );
+
+      await mutateAsync(response[0].id);
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: t("profile.avatarUpdateFailed"),
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarSection}>
         {/* Show a circle for avatar */}
-        <AvatarOrInitials
-          avatarUrl={null}
-          name={user?.firstName + " " + user?.lastName}
-          size={96}
-          style={styles.avatarCircle}
-        />
+        <View style={styles.avatarCircle}>
+          <AvatarOrInitials
+            avatarUrl={(user?.profilePhoto as StrapiMediaType)?.url}
+            name={user?.firstName + " " + user?.lastName}
+            size={96}
+            style={styles.avatarCircle}
+          />
+          <Pressable style={styles.editAvatarBtn} onPress={pickImage}>
+            <IconSymbol name="pencil" size={20} color="#ededed" />
+          </Pressable>
+        </View>
         <ThemedText variant="title" style={{ marginTop: 8 }}>
           {user?.firstName + " " + user?.lastName}
         </ThemedText>
@@ -98,10 +166,15 @@ const stylesheet = createStyle((theme) => ({
     marginBottom: 32,
   },
   avatarCircle: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    backgroundColor: "#eee",
+    position: "relative",
+  },
+  editAvatarBtn: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: theme.colors.gray[500],
+    borderRadius: theme.radii.full,
+    padding: 6,
   },
   menuSection: {
     width: "100%",

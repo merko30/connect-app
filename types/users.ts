@@ -2,6 +2,8 @@ import { ClubProfile } from "./clubs";
 import { CoachProfile } from "./coaches";
 import { PlayerProfile } from "./players";
 
+import { StrapiMediaType } from "./strapi";
+
 export interface User {
   id?: string;
   documentId?: string;
@@ -19,6 +21,7 @@ export interface User {
   coach?: CoachProfile;
   club?: ClubProfile;
   subscriptionStatus?: string; // e.g., "active", "inactive", "trial"
+  profilePhoto: StrapiMediaType | string | number;
 }
 
 export const Role = {

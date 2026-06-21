@@ -81,3 +81,40 @@ export type StrapiInfiniteResponse<T> = {
   pages: StrapiListResponse<T>[];
   pageParams: number[];
 };
+
+export type StrapiMediaType = {
+  id: number;
+  documentId?: string;
+  name: string;
+  alternativeText: string | null;
+  caption: string | null;
+  width: number | null;
+  height: number | null;
+  formats?: {
+    thumbnail?: StrapiMediaFormat;
+    small?: StrapiMediaFormat;
+    medium?: StrapiMediaFormat;
+    large?: StrapiMediaFormat;
+  };
+  hash: string;
+  ext: string;
+  mime: string;
+  size: number;
+  url: string;
+  previewUrl: string | null;
+  provider: string;
+  provider_metadata?: unknown;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type StrapiMediaFormat = {
+  name: string;
+  hash: string;
+  ext: string;
+  mime: string;
+  width: number;
+  height: number;
+  size: number;
+  url: string;
+};

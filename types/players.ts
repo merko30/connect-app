@@ -40,7 +40,7 @@ export type PlayerProfile = {
   experienceLevel: ExperienceLevel | null;
   availabilityFrom?: string | null;
 
-  profileImage?: {
+  profilePhoto?: {
     data: StrapiMedia | null;
   };
 
