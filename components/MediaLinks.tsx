@@ -20,8 +20,6 @@ const MediaLinks = ({ control }: Props) => {
     name: "mediaLinks",
   });
 
-  console.log({ fields });
-
   return (
     <View>
       <View style={styles.header}>

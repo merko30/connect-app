@@ -1,6 +1,7 @@
 import { playersApi } from "@/api/players";
 import FormerClubs from "@/components/FormerClubs";
 import { InfoBox } from "@/components/InfoBox";
+import MediaLinkList from "@/components/MediaLinkList";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { createStyle, useStyle } from "@/theme";
@@ -183,6 +184,7 @@ export default function PlayerDetailsScreen() {
           )}
 
           <FormerClubs formerClubs={player?.formerClubs} />
+          {player.mediaLinks && <MediaLinkList links={player.mediaLinks} />}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -272,7 +274,7 @@ const stylesheet = createStyle((t) => ({
     color: t.colors.secondary,
   },
   position: {
-    color: t.colors.gray[600],
+    color: t.colors.gray[400],
     fontSize: 13,
   },
   infoRow: {

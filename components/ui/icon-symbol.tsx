@@ -37,6 +37,8 @@ const MAPPING = {
   trash: "delete",
   pencil: "edit",
   "list.bullet": "list",
+  "link.circle": "link",
+  video: "video-label",
 } as IconMapping;
 
 /**
