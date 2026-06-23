@@ -55,7 +55,7 @@ export default function FormerClubsFieldArray({ control }: Props) {
             <FormInput
               control={control}
               objectKey="name"
-              keyboardType="numeric"
+              keyboardType="default"
               name={`formerClubs.${index}.name`}
               placeholder={"Naziv"}
               containerStyle={styles.input}
