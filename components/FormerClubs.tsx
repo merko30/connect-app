@@ -31,7 +31,7 @@ const FormerClubs = ({
           </ThemedText>
         </View>
       </View>
-      {formerClubs?.length ? (
+      {!formerClubs?.length ? (
         formerClubs?.map((club, index) => (
           <View key={index} style={styles.clubItem}>
             <ThemedText style={styles.clubName}>{club.name}</ThemedText>
@@ -107,6 +107,8 @@ const stylesheet = createStyle((t) => ({
   noClubsText: {
     color: t.colors.gray[600],
     fontStyle: "italic",
+    fontSize: 12,
+    marginBottom: t.spacing.md,
   },
 }));
 
