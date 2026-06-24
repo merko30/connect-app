@@ -1,4 +1,4 @@
-import { StrapiMedia } from "./strapi";
+import { StrapiMediaType } from "./strapi";
 import { User } from "./users";
 
 export type CoachType =
@@ -31,9 +31,7 @@ export type CoachProfile = {
   formerClubs?: { name: string }[] | null;
   yearsOfExperience?: number | null;
   bio?: string | null;
-  profilePhoto?: {
-    data: StrapiMedia | null;
-  };
+  profilePhoto?: StrapiMediaType;
   dateOfBirth?: string | null;
   location?: string | null;
   nationality?: string | null;

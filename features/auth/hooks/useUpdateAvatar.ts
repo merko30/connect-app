@@ -7,11 +7,12 @@ const useUpdateAvatar = () => {
   const client = useQueryClient();
   const { t } = useTranslation();
   return useMutation({
-    mutationFn: async (fileId: number) =>
+    mutationFn: async ({ fileId, type }: { fileId: number; type: string }) =>
       await usersApi.custom("/custom/profile-photo", {
         method: "PUT",
         body: {
           fileId,
+          type,
         },
       }),
     onSuccess: () => {

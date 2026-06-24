@@ -1,5 +1,5 @@
 import { MediaLink } from "@/features/auth/constants";
-import { StrapiMedia } from "./strapi";
+import { StrapiMedia, StrapiMediaType } from "./strapi";
 import { User } from "./users";
 
 export type PlayerPosition =
@@ -41,9 +41,7 @@ export type PlayerProfile = {
   experienceLevel: ExperienceLevel | null;
   availabilityFrom?: string | null;
 
-  profilePhoto?: {
-    data: StrapiMedia | null;
-  };
+  profilePhoto?: StrapiMediaType | null;
 
   mediaLinks: MediaLink[];
 

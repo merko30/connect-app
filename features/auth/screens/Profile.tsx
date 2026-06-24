@@ -13,7 +13,6 @@ import {
 import MenuSection from "@/features/auth/components/MenuSection";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
 import { createStyle, useStyle } from "@/theme";
-import { StrapiMediaType } from "@/types/strapi";
 import { Role } from "@/types/users";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQueryClient } from "@tanstack/react-query";
@@ -31,12 +30,14 @@ export default function ProfileScreen() {
   const { data: user } = useGetCurrentUser();
   const router = useRouter();
   const styles = useStyle(stylesheet);
+  const queryClient = useQueryClient();
 
   const pathname = usePathname();
   const isClub = pathname.includes("club");
   const isCoach = user?.role?.name === Role.Coach.toString();
-
-  const queryClient = useQueryClient();
+  const image = isClub
+    ? user?.club?.logo
+    : user?.player?.profilePhoto || user?.coach?.profilePhoto;
 
   const handleLogout = () => {
     AsyncStorage.removeItem("token");
@@ -92,7 +93,7 @@ export default function ProfileScreen() {
         },
       );
 
-      await mutateAsync(response[0].id);
+      await mutateAsync({ fileId: response[0].id, type: user.role.name });
     } catch (error) {
       Toast.show({
         type: "error",
@@ -107,7 +108,7 @@ export default function ProfileScreen() {
         {/* Show a circle for avatar */}
         <View style={styles.avatarCircle}>
           <AvatarOrInitials
-            avatarUrl={(user?.profilePhoto as StrapiMediaType)?.url}
+            avatarUrl={image?.url}
             name={user?.firstName + " " + user?.lastName}
             size={96}
             style={styles.avatarCircle}

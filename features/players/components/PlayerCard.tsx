@@ -57,7 +57,7 @@ export function PlayerCard({ player, onPress }: Props) {
   const experience = player.experienceLevel;
   const location = player.location;
   const isFreeAgent = player.isFreeAgent;
-  const imageUrl = player.profileImage?.data?.attributes.url;
+  const imageUrl = player.profilePhoto?.url;
 
   return (
     <Link

@@ -1,4 +1,4 @@
-import { StrapiMedia, StrapiUser } from "./strapi";
+import { StrapiMediaType, StrapiUser } from "./strapi";
 
 export type ClubLevel = "amateur" | "semi-pro" | "pro";
 
@@ -11,9 +11,7 @@ export type ClubProfile = {
   league?: string;
   level: ClubLevel;
 
-  logo?: {
-    data: StrapiMedia | null;
-  };
+  logo?: StrapiMediaType | null;
 
   website?: string;
   contactEmail?: string;
