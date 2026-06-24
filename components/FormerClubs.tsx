@@ -31,7 +31,7 @@ const FormerClubs = ({
           </ThemedText>
         </View>
       </View>
-      {!formerClubs?.length ? (
+      {formerClubs?.length ? (
         formerClubs?.map((club, index) => (
           <View key={index} style={styles.clubItem}>
             <ThemedText style={styles.clubName}>{club.name}</ThemedText>
