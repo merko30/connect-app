@@ -16,7 +16,7 @@ const AvatarOrInitials = ({
       source={{
         uri:
           typeof avatarUrl !== "undefined"
-            ? `${process.env.EXPO_PUBLIC_API_URL?.replace("/api", "")}${avatarUrl}`
+            ? `${process.env.EXPO_PUBLIC_MEDIA_URL}${avatarUrl}`
             : `https://ui-avatars.com/api/?name=${name}&background=ddd`,
       }}
       style={[

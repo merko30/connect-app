@@ -40,6 +40,8 @@
     "mediaLink": "Medijski link"
   },
   "title": "Naslov",
+  "permissionRequired": "Potrebno dovoljenje",
+  "permissionRequiredDescription": "Za dostop do medijske knjižnice je potrebno dovoljenje.",
   "auth": {
     "signIn": "Prijava",
     "signInDescription": "Prijavite se v svoj račun za dostop do svojega profila in povezovanje s skupnostjo.",

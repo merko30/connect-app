@@ -40,6 +40,8 @@
     "mediaLink": "Media Link"
   },
   "title": "Title",
+  "permissionRequired": "Permission required",
+  "permissionRequiredDescription": "Permission to access the media library is required.",
   "auth": {
     "signIn": "Sign In",
     "signInDescription": "Sign in to your account to access your profile and connect with the community.",

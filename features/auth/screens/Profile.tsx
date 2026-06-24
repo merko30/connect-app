@@ -58,10 +58,7 @@ export default function ProfileScreen() {
       await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (!permissionResult.granted) {
-      Alert.alert(
-        "Permission required",
-        "Permission to access the media library is required.",
-      );
+      Alert.alert(t("permissionRequired"), t("permissionRequiredDescription"));
       return;
     }
 
@@ -117,10 +114,15 @@ export default function ProfileScreen() {
             <IconSymbol name="pencil" size={20} color="#ededed" />
           </Pressable>
         </View>
-        <ThemedText variant="title" style={{ marginTop: 8 }}>
-          {user?.club?.clubName}
-        </ThemedText>
-        <ThemedText variant="subtitle">
+        {user?.club && (
+          <ThemedText variant="title" style={{ marginTop: 8 }}>
+            {user?.club?.clubName}
+          </ThemedText>
+        )}
+        <ThemedText
+          variant={user?.club ? "subtitle" : "title"}
+          style={{ marginTop: user?.club ? 0 : 8 }}
+        >
           {user?.firstName + " " + user?.lastName}
         </ThemedText>
         {user?.email && (
