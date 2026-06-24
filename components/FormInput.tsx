@@ -31,6 +31,7 @@ export function FormInput<T extends FieldValues>({
   ...props
 }: FormInputProps<T> & TextInputProps) {
   const { t } = useTranslation();
+
   return (
     <View style={[{ marginBottom: 4 }, containerStyle]}>
       {placeholder && (
@@ -43,7 +44,9 @@ export function FormInput<T extends FieldValues>({
           return (
             <View>
               <ThemedTextInput
-                value={value}
+                value={
+                  typeof value === "number" ? value.toString() : (value ?? "")
+                }
                 onChangeText={onChange}
                 style={style}
                 {...props}

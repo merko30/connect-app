@@ -17,7 +17,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import {
+  Controller,
+  FieldErrors,
+  FormProvider,
+  useForm,
+} from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ScrollView, Switch, useWindowDimensions, View } from "react-native";
 import { TabBar, TabView } from "react-native-tab-view";
@@ -70,6 +75,36 @@ export default function EditPlayerInfo() {
 
   const [index, setIndex] = useState(0);
 
+  const onInvalid = (errors: FieldErrors<PlayerRegisterForm>) => {
+    // Profile tab
+    if (
+      errors.dateOfBirth ||
+      errors.heightCm ||
+      errors.weightKg ||
+      errors.preferredFoot ||
+      errors.primaryPosition ||
+      errors.secondaryPositions ||
+      errors.experienceLevel ||
+      errors.currentClub ||
+      errors.isFreeAgent ||
+      errors.availabilityFrom
+    ) {
+      setIndex(0);
+      return;
+    }
+
+    // History tab
+    if (errors.formerClubs) {
+      setIndex(1);
+      return;
+    }
+
+    // Media tab
+    if (errors.mediaLinks) {
+      setIndex(2);
+      return;
+    }
+  };
   const routes = [
     { key: "profile", title: t("mainInformation") },
     { key: "history", title: t("careerHistory") },
@@ -249,7 +284,7 @@ export default function EditPlayerInfo() {
 
           <RoleBasedButton
             title={t("save")}
-            onPress={handleSubmit(onSubmit)}
+            onPress={handleSubmit(onSubmit, onInvalid)}
             style={styles.saveButton}
           />
         </ScrollView>
