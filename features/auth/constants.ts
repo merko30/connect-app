@@ -240,3 +240,20 @@ export type UserForm = Pick<
   User,
   "firstName" | "lastName" | "phoneNumber" | "location" | "email"
 >;
+
+export const TAB_ERROR_MAP = [
+  [
+    "dateOfBirth",
+    "heightCm",
+    "weightKg",
+    "preferredFoot",
+    "primaryPosition",
+    "secondaryPositions",
+    "experienceLevel",
+    "currentClub",
+    "isFreeAgent",
+    "availabilityFrom",
+  ],
+  ["formerClubs"],
+  ["mediaLinks"],
+] as const;

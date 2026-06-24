@@ -16,7 +16,7 @@ import { ExperienceLevel, PlayerPosition } from "@/types/players";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   Controller,
   FieldErrors,
@@ -32,6 +32,7 @@ import {
   PlayerRegisterForm,
   playerRegisterSchema,
   PRIMARY_POSITIONS,
+  TAB_ERROR_MAP,
 } from "../constants";
 import useGetCurrentUser from "../hooks/useGetCurrentUser";
 
@@ -76,40 +77,25 @@ export default function EditPlayerInfo() {
   const [index, setIndex] = useState(0);
 
   const onInvalid = (errors: FieldErrors<PlayerRegisterForm>) => {
-    // Profile tab
-    if (
-      errors.dateOfBirth ||
-      errors.heightCm ||
-      errors.weightKg ||
-      errors.preferredFoot ||
-      errors.primaryPosition ||
-      errors.secondaryPositions ||
-      errors.experienceLevel ||
-      errors.currentClub ||
-      errors.isFreeAgent ||
-      errors.availabilityFrom
-    ) {
-      setIndex(0);
-      return;
-    }
+    const errorKeys = Object.keys(errors);
 
-    // History tab
-    if (errors.formerClubs) {
-      setIndex(1);
-      return;
-    }
+    const tabIndex = TAB_ERROR_MAP.findIndex((fields) =>
+      fields.some((field) => errorKeys.includes(field)),
+    );
 
-    // Media tab
-    if (errors.mediaLinks) {
-      setIndex(2);
-      return;
+    if (tabIndex >= 0) {
+      setIndex(tabIndex);
     }
   };
-  const routes = [
-    { key: "profile", title: t("mainInformation") },
-    { key: "history", title: t("careerHistory") },
-    { key: "media", title: t("profile.media") },
-  ];
+
+  const routes = useMemo(
+    () => [
+      { key: "profile", title: t("mainInformation") },
+      { key: "history", title: t("careerHistory") },
+      { key: "media", title: t("profile.media") },
+    ],
+    [],
+  );
 
   const form = useForm<PlayerRegisterForm>({
     resolver: zodResolver(playerRegisterSchema) as any,
@@ -123,131 +109,130 @@ export default function EditPlayerInfo() {
     updatePlayer(data);
   };
 
-  const renderScene = ({
-    route,
-  }: {
-    route: { key: string; title: string };
-  }) => {
-    switch (route.key) {
-      case "profile":
-        return (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.tabContent}
-          >
-            <FormDatePicker
-              control={control}
-              name="dateOfBirth"
-              label={t("register.dateOfBirth")}
-            />
-
-            <View style={styles.row}>
-              <FormInput
+  const renderScene = useCallback(
+    ({ route }: { route: { key: string; title: string } }) => {
+      switch (route.key) {
+        case "profile":
+          return (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.tabContent}
+            >
+              <FormDatePicker
                 control={control}
-                name="heightCm"
-                placeholder={t("register.height")}
-                keyboardType="numeric"
-                containerStyle={{ flex: 1 }}
+                name="dateOfBirth"
+                label={t("register.dateOfBirth")}
+              />
+
+              <View style={styles.row}>
+                <FormInput
+                  control={control}
+                  name="heightCm"
+                  placeholder={t("register.height")}
+                  keyboardType="numeric"
+                  containerStyle={{ flex: 1 }}
+                />
+
+                <FormInput
+                  control={control}
+                  name="weightKg"
+                  placeholder={t("register.weight")}
+                  keyboardType="numeric"
+                  containerStyle={{ flex: 1 }}
+                />
+              </View>
+
+              <FormDatePicker
+                control={control}
+                name="availabilityFrom"
+                label={t("register.availableFrom")}
               />
 
               <FormInput
                 control={control}
-                name="weightKg"
-                placeholder={t("register.weight")}
-                keyboardType="numeric"
-                containerStyle={{ flex: 1 }}
+                name="currentClub"
+                placeholder={t("register.currentClub")}
               />
-            </View>
 
-            <FormDatePicker
-              control={control}
-              name="availabilityFrom"
-              label={t("register.availableFrom")}
-            />
+              <FormPicker
+                control={control}
+                name="preferredFoot"
+                label={t("register.preferredFoot")}
+                options={[
+                  {
+                    label: "register.left",
+                    value: "left",
+                  },
+                  {
+                    label: "register.right",
+                    value: "right",
+                  },
+                ]}
+              />
 
-            <FormInput
-              control={control}
-              name="currentClub"
-              placeholder={t("register.currentClub")}
-            />
+              <FormPicker
+                control={control}
+                name="primaryPosition"
+                label={t("register.primaryPosition")}
+                options={PRIMARY_POSITIONS.map((pos) => ({
+                  label: pos,
+                  value: pos,
+                }))}
+              />
 
-            <FormPicker
-              control={control}
-              name="preferredFoot"
-              label={t("register.preferredFoot")}
-              options={[
-                {
-                  label: "register.left",
-                  value: "left",
-                },
-                {
-                  label: "register.right",
-                  value: "right",
-                },
-              ]}
-            />
+              <PositionPicker />
+              <FormPicker
+                control={control}
+                name="experienceLevel"
+                label={t("register.experienceLevel")}
+                options={[
+                  { label: t("register.youth"), value: "youth" },
+                  { label: t("register.amateur"), value: "amateur" },
+                  { label: t("register.semiPro"), value: "semi-pro" },
+                  { label: t("register.pro"), value: "pro" },
+                ]}
+              />
 
-            <FormPicker
-              control={control}
-              name="primaryPosition"
-              label={t("register.primaryPosition")}
-              options={PRIMARY_POSITIONS.map((pos) => ({
-                label: pos,
-                value: pos,
-              }))}
-            />
+              <Controller
+                control={control}
+                name="isFreeAgent"
+                render={({ field: { onChange, value } }) => (
+                  <View style={styles.checkboxRow}>
+                    <ThemedText>{t("register.isFreeAgent")}</ThemedText>
 
-            <PositionPicker />
-            <FormPicker
-              control={control}
-              name="experienceLevel"
-              label={t("register.experienceLevel")}
-              options={[
-                { label: t("register.youth"), value: "youth" },
-                { label: t("register.amateur"), value: "amateur" },
-                { label: t("register.semiPro"), value: "semi-pro" },
-                { label: t("register.pro"), value: "pro" },
-              ]}
-            />
+                    <Switch value={value} onValueChange={onChange} />
+                  </View>
+                )}
+              />
+            </ScrollView>
+          );
 
-            <Controller
-              control={control}
-              name="isFreeAgent"
-              render={({ field: { onChange, value } }) => (
-                <View style={styles.checkboxRow}>
-                  <ThemedText>{t("register.isFreeAgent")}</ThemedText>
+        case "history":
+          return (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.tabContent}
+            >
+              <FormerClubsFieldArray control={control} />
+            </ScrollView>
+          );
 
-                  <Switch value={value} onValueChange={onChange} />
-                </View>
-              )}
-            />
-          </ScrollView>
-        );
+        case "media":
+          return (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.tabContent}
+            >
+              <MediaLinks control={control} />
+            </ScrollView>
+          );
 
-      case "history":
-        return (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.tabContent}
-          >
-            <FormerClubsFieldArray control={control} />
-          </ScrollView>
-        );
-
-      case "media":
-        return (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.tabContent}
-          >
-            <MediaLinks control={control} />
-          </ScrollView>
-        );
-
-      default:
-        return null;
-    }
-  };
+        default:
+          return null;
+      }
+    },
+    [control, t],
+  );
 
   return (
     <FormProvider {...form}>
@@ -272,12 +257,7 @@ export default function EditPlayerInfo() {
                 indicatorStyle={styles.tabIndicator}
                 activeColor={styles.tabActive.color}
                 inactiveColor={styles.tabInactive.color}
-                tabStyle={{
-                  flex: 1,
-                  width: "auto",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                tabStyle={styles.tab}
               />
             )}
           />
@@ -307,6 +287,12 @@ const stylesheet = createStyle((t) => ({
     fontSize: 12,
     opacity: 0.7,
     maxWidth: 320,
+  },
+  tab: {
+    flex: 1,
+    width: "auto",
+    alignItems: "center",
+    justifyContent: "center",
   },
   tabContent: { padding: 12 },
   tabBar: { backgroundColor: t.colors.background },
