@@ -29,7 +29,7 @@ export function PlayerHome() {
   const recruitmentType =
     me?.role?.name === Role.Coach.toString() ? "coach" : "player";
 
-  const { data, error, refetch, isPending } = useQuery<
+  const { data, refetch, isPending } = useQuery<
     StrapiListResponse<RecruitmentPost>
   >({
     queryKey: [
@@ -44,7 +44,9 @@ export function PlayerHome() {
         // TODO: replace this with a dedicated featured filter once it's defined.
         pagination: { page: 1, pageSize: 10 },
         populate: {
-          club: true,
+          club: {
+            populate: { logo: true },
+          },
         },
         filters: {
           $and: [

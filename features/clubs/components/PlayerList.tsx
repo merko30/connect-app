@@ -22,6 +22,7 @@ export function PlayerList({ search }: PlayerListProps) {
     queryKey: ["players", "featured", normalizedSearch],
     queryFn: async () => {
       return playersApi.list({
+        populate: ["profilePhoto"],
         // TODO: replace this with a dedicated featured filter once it's defined.
         pagination: { page: 1, pageSize: 10 },
         filters: normalizedSearch

@@ -24,6 +24,8 @@ export function CoachList({ search }: CoachListProps) {
       return coachesApi.list({
         // TODO: replace this with a dedicated featured filter once it's defined.
         pagination: { page: 1, pageSize: 10 },
+        populate: ["profilePhoto"],
+
         filters: normalizedSearch
           ? {
               $and: [

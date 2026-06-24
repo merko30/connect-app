@@ -54,7 +54,7 @@ export function CoachCard({ coach }: CoachCardProps) {
   }));
 
   const name = `${coach.firstName} ${coach.lastName}`;
-  const imageUrl = coach.profilePhoto?.data?.attributes?.url;
+  const imageUrl = coach.profilePhoto?.url;
   const coachType = coach.coachType
     ? t(`coachTypes.${coach.coachType}`)
     : t("coach");

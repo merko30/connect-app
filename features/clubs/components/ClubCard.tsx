@@ -1,6 +1,7 @@
+import AvatarOrInitials from "@/components/AvatarOrInitials";
 import { useStyleThemed } from "@/theme";
 import { ClubProfile } from "@/types/clubs";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 export type ClubCardProps = {
   club: ClubProfile;
@@ -49,7 +50,7 @@ export function ClubCard({ club, onPress }: ClubCardProps) {
   }));
 
   const { clubName, country, city, league, level, logo, verified } = club;
-  const logoUrl = logo?.data?.attributes?.url;
+  const logoUrl = logo?.url;
   const location = city ? `${city}, ${country}` : country;
 
   return (
@@ -58,14 +59,7 @@ export function ClubCard({ club, onPress }: ClubCardProps) {
       activeOpacity={0.85}
       style={styles.card}
     >
-      <Image
-        source={{
-          uri:
-            logoUrl ??
-            `https://ui-avatars.com/api/?name=${encodeURIComponent(clubName)}&background=ddd`,
-        }}
-        style={styles.logo}
-      />
+      <AvatarOrInitials avatarUrl={logoUrl} name={clubName} />
 
       <View style={styles.infoContainer}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>

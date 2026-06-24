@@ -26,6 +26,7 @@
     "avatarUpdated": "Your profile photo has been updated.",
     "avatarUpdateFailed": "Failed to update profile photo. Please try again.",
     "editUserInfo": "Edit User Information",
+    "editContactInfo": "Edit Contact information",
     "editPlayerInfo": "Edit Player Information",
     "editCoachInfo": "Edit Coach Information",
     "editClubInfo": "Edit Club information",

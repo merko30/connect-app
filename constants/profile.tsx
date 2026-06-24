@@ -36,7 +36,7 @@ export const COACH_PROFILE_MENU_ITEMS: MenuItem[] = [
 
 export const CLUB_PROFILE_MENU_ITEMS: MenuItem[] = [
   {
-    label: "profile.editUserInfo",
+    label: "profile.editContactInfo",
     icon: "person",
     href: "/club/profile/edit",
   },

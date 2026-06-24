@@ -118,6 +118,9 @@ export default function ProfileScreen() {
           </Pressable>
         </View>
         <ThemedText variant="title" style={{ marginTop: 8 }}>
+          {user?.club?.clubName}
+        </ThemedText>
+        <ThemedText variant="subtitle">
           {user?.firstName + " " + user?.lastName}
         </ThemedText>
         {user?.email && (

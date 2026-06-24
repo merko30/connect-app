@@ -1,8 +1,9 @@
+import AvatarOrInitials from "@/components/AvatarOrInitials";
 import { useStyleThemed } from "@/theme";
 import { RecruitmentPost } from "@/types/recruitment-posts";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
   post: RecruitmentPost;
@@ -49,7 +50,7 @@ export function RecruitmentPostCard({
 
   const club = post.club;
   const clubName = club?.clubName ?? "-";
-  const logoUrl = club?.logo?.data?.attributes?.url;
+  const logoUrl = club?.logo?.url;
   const isCoachPost = post.type === "coach";
 
   const formatLabel = (value?: string | null) => {
@@ -92,12 +93,9 @@ export function RecruitmentPostCard({
       disabled={!onPress}
     >
       {!shouldHideLogo && (
-        <Image
-          source={{
-            uri:
-              logoUrl ??
-              `https://ui-avatars.com/api/?name=${encodeURIComponent(clubName)}&background=ddd`,
-          }}
+        <AvatarOrInitials
+          name={clubName}
+          avatarUrl={logoUrl}
           style={styles.logo}
         />
       )}
