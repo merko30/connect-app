@@ -94,7 +94,7 @@ export default function EditPlayerInfo() {
       { key: "history", title: t("careerHistory") },
       { key: "media", title: t("profile.media") },
     ],
-    [],
+    [t],
   );
 
   const form = useForm<PlayerRegisterForm>({

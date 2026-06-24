@@ -1,6 +1,7 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { TranslationKey } from "@/i18n";
+import { createStyle, useStyle } from "@/theme";
 import React from "react";
 import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -31,11 +32,12 @@ export function FormInput<T extends FieldValues>({
   ...props
 }: FormInputProps<T> & TextInputProps) {
   const { t } = useTranslation();
+  const styles = useStyle(stylesheet);
 
   return (
-    <View style={[{ marginBottom: 4 }, containerStyle]}>
+    <View style={[styles.container, containerStyle]}>
       {placeholder && (
-        <ThemedText style={{ marginBottom: 0 }}>{placeholder}</ThemedText>
+        <ThemedText style={styles.label}>{placeholder}</ThemedText>
       )}
       <Controller
         control={control}
@@ -52,14 +54,7 @@ export function FormInput<T extends FieldValues>({
                 {...props}
               />
               {error && (
-                <ThemedText
-                  style={{
-                    color: "#ff5252",
-                    fontWeight: "500",
-                    fontSize: 12,
-                    marginBottom: 4,
-                  }}
-                >
+                <ThemedText style={styles.error}>
                   {t(error.message as TranslationKey) ?? error.message}
                 </ThemedText>
               )}
@@ -70,3 +65,14 @@ export function FormInput<T extends FieldValues>({
     </View>
   );
 }
+
+const stylesheet = createStyle((t) => ({
+  container: { marginBottom: 4 },
+  label: { marginBottom: 0 },
+  error: {
+    color: "#ff5252",
+    fontWeight: "500",
+    fontSize: 12,
+    marginBottom: 4,
+  },
+}));

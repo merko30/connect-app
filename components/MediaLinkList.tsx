@@ -18,10 +18,8 @@ const MediaLinkList = ({ links }: { links: MediaLink[] }) => {
   };
 
   return (
-    <View style={{ flex: 1, width: "100%" }}>
-      <ThemedText style={{ fontWeight: "bold", fontSize: 16, marginBottom: 8 }}>
-        {t("profile.mediaLinks")}
-      </ThemedText>
+    <View style={styles.container}>
+      <ThemedText style={styles.title}>{t("profile.mediaLinks")}</ThemedText>
       {links.map((link) => (
         <Pressable
           key={link.url}
@@ -37,6 +35,8 @@ const MediaLinkList = ({ links }: { links: MediaLink[] }) => {
 };
 
 const stylesheet = createStyle((t) => ({
+  container: { flex: 1, width: "100%" },
+  title: { fontWeight: "bold", fontSize: 16, marginBottom: t.spacing.md },
   linkContainer: {
     flexDirection: "row",
     alignItems: "center",
