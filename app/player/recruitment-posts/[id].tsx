@@ -3,6 +3,7 @@ import {
   recruitmentPostsApi,
   removeRecruitmentPostInterest,
 } from "@/api/recruitment-posts";
+import AvatarOrInitials from "@/components/AvatarOrInitials";
 import Header from "@/components/Header";
 import RoleBasedButton from "@/components/RoleBasedButton";
 import useGetCurrentUser from "@/features/auth/hooks/useGetCurrentUser";
@@ -11,14 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 
@@ -106,7 +100,7 @@ export default function RecruitmentPostDetailScreen() {
 
   const club = post?.club;
   const clubName = club?.clubName ?? "-";
-  const logoUrl = (club as any)?.logo?.data?.attributes?.url;
+  const logoUrl = club?.logo?.url;
 
   const contractTypeLabel = post?.contractType
     ? t(`contractTypes.${post.contractType}`)
@@ -139,14 +133,7 @@ export default function RecruitmentPostDetailScreen() {
         >
           {/* Club header */}
           <View style={styles.clubRow}>
-            <Image
-              source={{
-                uri:
-                  logoUrl ??
-                  `https://ui-avatars.com/api/?name=${encodeURIComponent(clubName)}&background=ddd`,
-              }}
-              style={styles.logo}
-            />
+            <AvatarOrInitials name={clubName} avatarUrl={logoUrl} size={56} />
             <Text style={styles.clubName}>{clubName}</Text>
           </View>
 
@@ -261,6 +248,7 @@ const stylesheet = createStyle((t) => ({
     fontWeight: "600",
     color: t.colors.text,
     flex: 1,
+    marginLeft: t.spacing.md,
   },
   title: {
     fontSize: 22,
