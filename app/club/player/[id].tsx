@@ -125,6 +125,12 @@ export default function PlayerDetailsScreen() {
             />
           </View>
 
+          {player.bio && (
+            <View style={styles.bioContainer}>
+              <ThemedText style={styles.bio}>{player.bio}</ThemedText>
+            </View>
+          )}
+
           <View style={styles.detailsRow}>
             <View style={styles.detailItem}>
               <ThemedText style={styles.detailLabel}>
@@ -305,6 +311,15 @@ const stylesheet = createStyle((t) => ({
   detailValue: {
     color: t.colors.text,
     fontWeight: "600",
+    fontSize: 14,
+  },
+  bioContainer: {
+    paddingVertical: t.spacing.md,
+    borderTopWidth: 1,
+    borderColor: t.colors.gray[200],
+    marginBottom: -t.spacing.md,
+  },
+  bio: {
     fontSize: 14,
   },
   infoSection: {
