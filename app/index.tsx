@@ -7,7 +7,7 @@ import { Role } from "@/types/users";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Redirect } from "expo-router";
 import { useEffect } from "react";
-import Purchases from "react-native-purchases/dist/purchases";
+// import Purchases from "react-native-purchases/dist/purchases";
 
 const isPlayerProfileComplete = (player?: PlayerProfile | null) => {
   if (!player) {
@@ -58,19 +58,19 @@ const AppIndex = () => {
     }
   }, [error]);
 
-  useEffect(() => {
-    const loadCustomerInfo = async () => {
-      try {
-        const customerInfo = await Purchases.getCustomerInfo();
-        // access latest customerInfo
-        console.log("Customer Info:", customerInfo);
-      } catch (e) {
-        // Error fetching customer info
-      }
-    };
+  // useEffect(() => {
+  //   const loadCustomerInfo = async () => {
+  //     try {
+  //       const customerInfo = await Purchases.getCustomerInfo();
+  //       // access latest customerInfo
+  //       console.log("Customer Info:", customerInfo);
+  //     } catch (e) {
+  //       // Error fetching customer info
+  //     }
+  //   };
 
-    loadCustomerInfo();
-  }, []);
+  //   loadCustomerInfo();
+  // }, []);
 
   if (isLoading) {
     return <Splash />;
