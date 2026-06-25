@@ -24,11 +24,7 @@ export default function RecruitmentPostDetailScreen() {
   const [isInterested, setIsInterested] = useState(false);
   const { data: currentUser } = useGetCurrentUser();
 
-  const {
-    data: postData,
-    isPending,
-    error,
-  } = useQuery({
+  const { data: postData, isPending } = useQuery({
     queryKey: ["recruitment-posts", id],
     queryFn: () =>
       recruitmentPostsApi.get(id, {

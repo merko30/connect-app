@@ -29,6 +29,8 @@ export type PlayerProfile = {
   nationality: string | null;
   location?: string | null;
 
+  bio?: string | null;
+
   primaryPosition: PlayerPosition | null;
   secondaryPositions: PlayerPosition[] | null;
   preferredFoot?: PreferredFoot | null;

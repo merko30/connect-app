@@ -167,6 +167,8 @@
       "coachType": "Coach type is required.",
       "licenseLevel": "License level is required.",
       "currentClub": "Current club is required.",
+      "min": "Must contain at least {{min}} characters.",
+      "max": "Must contain at most {{max}} characters.",
       "yearsOfExperience": "Years of experience must be a number.",
       "yearsOfExperienceRequired": "Years of experience is required.",
       "bio": "Bio must be at least 20 characters.",

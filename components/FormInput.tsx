@@ -21,6 +21,7 @@ export type FormInputProps<T extends FieldValues> = {
   style?: StyleProp<TextStyle>;
   containerStyle?: StyleProp<ViewStyle>;
   objectKey?: string;
+  validationTranslationVariables?: Record<string, any>;
 };
 
 export function FormInput<T extends FieldValues>({
@@ -29,6 +30,7 @@ export function FormInput<T extends FieldValues>({
   placeholder,
   style,
   containerStyle,
+  validationTranslationVariables,
   ...props
 }: FormInputProps<T> & TextInputProps) {
   const { t } = useTranslation();
@@ -55,7 +57,10 @@ export function FormInput<T extends FieldValues>({
               />
               {error && (
                 <ThemedText style={styles.error}>
-                  {t(error.message as TranslationKey) ?? error.message}
+                  {t(
+                    error.message as TranslationKey,
+                    validationTranslationVariables,
+                  ) ?? error.message}
                 </ThemedText>
               )}
             </View>

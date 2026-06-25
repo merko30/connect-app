@@ -46,8 +46,15 @@ export const mediaLinkSchema = z.object({
   url: z.url(COMMON_ERRORS.url),
 });
 
+export const MIN_BIO_CHARS = 80;
+export const MAX_BIO_CHARS = 150;
+
 export const playerRegisterSchema = z.object({
   dateOfBirth: z.instanceof(Date).nullable(),
+  bio: z
+    .string()
+    .min(MIN_BIO_CHARS, REGISTER_ERRORS.min)
+    .max(MAX_BIO_CHARS, REGISTER_ERRORS.max),
   heightCm: z
     .string()
     .regex(/^\d+$/, REGISTER_ERRORS.heightNumber)
@@ -112,6 +119,8 @@ export const getPlayerRegisterDefaults = (
   experienceLevel: player?.experienceLevel ?? "",
 
   currentClub: player?.currentClub ?? "",
+
+  bio: player?.bio ?? "",
 
   formerClubs: player?.formerClubs ?? [],
 

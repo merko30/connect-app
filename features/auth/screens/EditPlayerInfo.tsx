@@ -29,6 +29,8 @@ import { TabBar, TabView } from "react-native-tab-view";
 import Toast from "react-native-toast-message";
 import {
   getPlayerRegisterDefaults,
+  MAX_BIO_CHARS,
+  MIN_BIO_CHARS,
   PlayerRegisterForm,
   playerRegisterSchema,
   PRIMARY_POSITIONS,
@@ -118,6 +120,19 @@ export default function EditPlayerInfo() {
               showsVerticalScrollIndicator={false}
               contentContainerStyle={styles.tabContent}
             >
+              <FormInput
+                control={control}
+                multiline
+                numberOfLines={8}
+                name="bio"
+                placeholder={t("register.bio")}
+                containerStyle={{ flex: 1 }}
+                validationTranslationVariables={{
+                  min: MIN_BIO_CHARS,
+                  max: MAX_BIO_CHARS,
+                }}
+              />
+
               <FormDatePicker
                 control={control}
                 name="dateOfBirth"

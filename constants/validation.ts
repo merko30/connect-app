@@ -24,6 +24,8 @@ export const REGISTER_ERRORS = {
   coachType: "register.error.coachType",
   yearsOfExperience: "register.error.yearsOfExperience",
   formerClub: "register.error.formerClub",
+  min: "register.error.min",
+  max: "register.error.max",
 };
 
 // Phone number schema (regex validated contextually in superRefine for clubs)

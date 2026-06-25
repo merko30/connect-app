@@ -167,6 +167,8 @@
       "coachType": "Vrsta trenerja je obvezna.",
       "licenseLevel": "Raven licence je obvezna.",
       "currentClub": "Trenutni klub je obvezen.",
+      "min": "Vsebovati mora vsaj {{min}} znakov.",
+      "max": "Vsebovati mora največ {{max}} znakov.",
       "yearsOfExperience": "Leta izkušenj morajo biti številka.",
       "yearsOfExperienceRequired": "Leta izkušenj so obvezna.",
       "bio": "Opis mora vsebovati vsaj 20 znakov.",
