@@ -1,4 +1,5 @@
 import { playersApi } from "@/api/players";
+import AvatarOrInitials from "@/components/AvatarOrInitials";
 import FormerClubs from "@/components/FormerClubs";
 import { InfoBox } from "@/components/InfoBox";
 import MediaLinkList from "@/components/MediaLinkList";
@@ -24,6 +25,7 @@ export default function PlayerDetailsScreen() {
       playersApi.get(id!, {
         populate: {
           user: { fields: ["phoneNumber", "id"] },
+          profilePhoto: true,
         },
       }),
     enabled: !!id,
@@ -56,6 +58,7 @@ export default function PlayerDetailsScreen() {
     );
   }
 
+  const name = `${player?.firstName} ${player?.lastName}`;
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <ScrollView style={styles.root}>
@@ -70,22 +73,14 @@ export default function PlayerDetailsScreen() {
         </View>
 
         <View style={styles.container}>
-          <View style={styles.avatarWrap}>
-            <View style={styles.avatarPlaceholder}>
-              <IconSymbol
-                name="person"
-                size={40}
-                color={styles.avatarIcon.color}
-              />
-            </View>
-            {/* <View style={styles.starWrap}>
-              <IconSymbol name="star" size={18} color={styles.star.color} />
-            </View> */}
-          </View>
+          <AvatarOrInitials
+            name={name}
+            avatarUrl={player.profilePhoto?.url}
+            size={88}
+            style={styles.avatar}
+          />
 
-          <ThemedText style={styles.name}>
-            {player?.firstName} {player?.lastName}
-          </ThemedText>
+          <ThemedText style={styles.name}>{name}</ThemedText>
           <ThemedText style={styles.team}>{player?.currentClub}</ThemedText>
 
           <View style={styles.positionRow}>
@@ -221,20 +216,8 @@ const stylesheet = createStyle((t) => ({
     paddingBottom: t.spacing.xl,
     alignItems: "center",
   },
-  avatarWrap: {
-    position: "relative",
+  avatar: {
     marginBottom: t.spacing.md,
-  },
-  avatarPlaceholder: {
-    width: 80,
-    height: 80,
-    borderRadius: t.radii.full,
-    backgroundColor: t.colors.gray[200],
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  avatarIcon: {
-    color: t.colors.gray[500],
   },
   starWrap: {
     position: "absolute",
